@@ -19,124 +19,124 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
+🌐 Application Layer & Transport Protocols (TCP/UDP)
 
-## Table of Contents
-- [Telnet](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
+#Definition:
+This document provides a concise overview of the Application Layer in the OSI model and the TCP/UDP transport protocols
 
+# 📦 Application Layer (Layer 7 - OSI Model)
 
-## 🚀 About
+The Application Layer is the top layer of the OSI model. It provides services directly to the user and enables software applications to communicate over a network.
 
-Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
+#✅ Key Responsibilities:
 
-## ✅ Summary Table
+Network services for end-user applications
 
-| Tool/Concept     | Purpose                                             | Example Use             |
-|------------------|-----------------------------------------------------|--------------------------|
-| **IP + Subnet**  | Divide network and host portions                    | `192.168.1.10/24`        |
-| **CIDR**         | Compact subnet representation                       | `/24`, `/16`, `/8`       |
-| **Traceroute**   | Show packet path to destination                     | `traceroute google.uz`   |
-| **Loopback**     | Test local system networking                        | `ping 127.0.0.1`         |
-| **Netstat**      | Show network connections and ports                  | `netstat -an`            |
-| **Route Print**  | View routing table and gateway paths                | `route print` (Windows)  |
+Data formatting and encoding
+
+Dialog control between applications
 
 
-## 🧭 Traceroute (Trace the Path to a Host)
+### 💬 Common Application Layer Protocols
 
-```shell
-traceroute google.uz
-```
-Purpose:
-
-    Shows the path packets take to reach a destination.
-
-    Helps diagnose network delays or routing problems.
-
-### 📌 IP Address Division (with Subnet Mask & CIDR)
-    IP Address is a unique identifier for a device on a network. It’s typically written as four octets (e.g., 192.168.1.10).
-
-    Subnet Mask defines how the IP address is split between the network and host parts. Example:
-
-        255.255.255.0 → Network: 192.168.1, Host: .10
-
-    CIDR (Classless Inter-Domain Routing) is a compact representation of a subnet mask. Example:
-
-        192.168.1.10/24 means the first 24 bits are network bits, equivalent to 255.255.255.0.
-
-### 🔁 Loopback Address (127.0.0.1)
-
-	127.0.0.1 is the loopback address that points to your own machine.
-
-	Used for testing network software without actually sending data over the network.
-
-	Alias: localhost
-	
-### 📡 Netstat (Network Statistics)
-
-	Command: netstat (use netstat -an for detailed output)
-```shell
-	netstat -an
-	netstat -r
-```
-	Purpose:
-
-	Displays active connections, listening ports, routing tables, and network statistics.
-
-	Helps identify open ports and detect suspicious activity.
+| Protocol     | Full Name                        | Description                          | Port(s) |
+|--------------|----------------------------------|--------------------------------------|---------|
+| **HTTP**     | HyperText Transfer Protocol      | Web browsing                         | 80      |
+| **HTTPS**    | HTTP Secure                      | Secure web browsing (SSL/TLS)        | 443     |
+| **FTP**      | File Transfer Protocol           | Transfers files over a network       | 20, 21  |
+| **SFTP**     | SSH File Transfer Protocol       | Secure file transfer                 | 22      |
+| **SMTP**     | Simple Mail Transfer Protocol    | Sends emails                         | 25, 587 |
+| **IMAP**     | Internet Message Access Protocol | Reads emails from a server           | 143, 993|
+| **POP3**     | Post Office Protocol v3          | Downloads emails from a server       | 110, 995|
+| **DNS**      | Domain Name System               | Resolves domain names to IP addresses| 53      |
+| **DHCP**     | Dynamic Host Configuration Prot. | Assigns IP addresses automatically   | 67, 68  |
 
 
-## 📝 How to Build
+#🚚 Transport Layer Protocols (TCP & UDP)
 
-To build the packages, follow these steps:
+The Transport Layer (Layer 4 in the OSI model) is responsible for end-to-end communication, including reliability, flow control, and data integrity.
 
-```shell
-🌀️ Type of Modes
-1. switch> 📡 User EXEC Mode
-2. switch# 📡 Privileged EXEC Mode
-3. switch(configure)# 📡 Global Configuration Mode
-4. switch(configure-if)#  📡 Additional Sub-Modes:
+#🔹 TCP (Transmission Control Protocol)
+TCP is a reliable, connection-oriented protocol.
 
-✅  Changing modes
-switch> - switch#
-switch> enable
+✅ Features:
 
-switch# -> switch(configure)#
-switch# configure terminal
+    Establishes a connection (3-way handshake)
 
-switch(config)#  ->  switch (config-if)# 
-switch(config)# interface FastEthernet0/1
+    Guarantees data delivery and order
 
-📡 Privileged EXEC Mode
-switch# show running-config
-switch# show ip interface brief
-switch# show version
-switch# copy running-config startup-config
-switch# write
-switch# reload
+    Retransmits lost packets
 
-📡 TELNET setting ⬇️
-MySwitch(config)# line vty 0 4
-MySwitch(config-line)# password your_telnet_password
-MySwitch(config-line)# login
-MySwitch(config-line)# transport input telnet
-MySwitch(config-line)# exit
+    Performs error checking and correction
 
-📡Mac and Route table📡
-switch> show mac-address-table
-switch# erase running-config
-switch(config) ip default-gateway 192.168.2.1
+#🔸 UDP (User Datagram Protocol)
+UDP is a connectionless, unreliable, but faster protocol.
 
-📡Static IP route📡
-R1: ip route 192.168.3.0 255.255.255.0  fa 0/1
-R2: ip route 192.168.1.0 255.255.255.0  fa 0/1
-Router#: show ip route
-```
+✅ Features:
+
+    No connection setup
+
+    No guarantee of delivery or order
+
+    Low overhead, minimal latency
+
+### 🔄 TCP vs UDP Comparison
+
+| Feature         | TCP (Transmission Control Protocol)    | UDP (User Datagram Protocol)       |
+|-----------------|----------------------------------------|------------------------------------|
+| **Type**        | Connection-oriented                    | Connectionless                     |
+| **Reliability** | Reliable (acknowledgments, retries)    | Unreliable (no guarantees)         |
+| **Speed**       | Slower (due to overhead)               | Faster (minimal overhead)          |
+| **Ordering**    | Ensures packets arrive in order        | No guarantee of order              |
+| **Error Handling** | Yes (error checking and correction) | Minimal (basic checksum only)      |
+| **Use Cases**   | Web, email, file transfer (HTTP, FTP)  | Streaming, gaming, DNS, VoIP       |
+
+
+## 🌐 Common TCP & UDP Ports
+
+Port numbers are used to **identify specific services** and **direct traffic** to the correct application on a device. They are divided into ranges:
+
+| Range             | Description                           |
+|------------------|---------------------------------------|
+| 0 – 1023         | **Well-known ports** (reserved by IANA for standard services like HTTP, FTP) |
+| 1024 – 49151     | **Registered ports** (used by software applications) |
+| 49152 – 65535    | **Dynamic/private ports** (used temporarily for client-side communication) |
+
+---
+
+### 📥 Well-Known Ports (TCP/UDP)
+
+| Port | Protocol | Transport | Description                           |
+|------|----------|-----------|---------------------------------------|
+| 20   | FTP      | TCP       | File Transfer Protocol (data)         |
+| 21   | FTP      | TCP       | File Transfer Protocol (control)      |
+| 22   | SSH/SFTP | TCP       | Secure Shell / Secure File Transfer   |
+| 23   | Telnet   | TCP       | Remote login (insecure)               |
+| 25   | SMTP     | TCP       | Send email                            |
+| 53   | DNS      | UDP/TCP   | Domain Name System                    |
+| 67   | DHCP     | UDP       | DHCP server to client                 |
+| 68   | DHCP     | UDP       | DHCP client to server                 |
+| 80   | HTTP     | TCP       | Web browsing                          |
+| 110  | POP3     | TCP       | Receive email                         |
+| 123  | NTP      | UDP       | Network Time Protocol                 |
+| 143  | IMAP     | TCP       | Read email                            |
+| 161  | SNMP     | UDP       | Network management protocol           |
+| 194  | IRC      | TCP       | Internet Relay Chat                   |
+| 443  | HTTPS    | TCP       | Secure web browsing                   |
+| 465  | SMTPS    | TCP       | Secure email sending (deprecated)     |
+| 993  | IMAPS    | TCP       | Secure IMAP                          |
+| 995  | POP3S    | TCP       | Secure POP3                          |
+| 3306 | MySQL    | TCP       | MySQL database                        |
+| 3389 | RDP      | TCP       | Remote Desktop Protocol               |
+
+---
+
+### 📌 Notes:
+- **TCP** is used when reliability and order are critical.
+- **UDP** is used when speed is preferred and occasional loss is acceptable.
+- Some protocols (like **DNS**) use both TCP and UDP depending on the situation.
+
+
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
