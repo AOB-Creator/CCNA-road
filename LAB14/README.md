@@ -1,7 +1,7 @@
 <a name="top"></a>
 
 
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB12/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB14/image.png)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
@@ -19,124 +19,41 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
+#🔍 1. Collect MAC Table (on Switches)
+The MAC address table (also called CAM table) maps MAC addresses to switch ports.
 
-## Table of Contents
-- [Telnet](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
+#✅ On Cisco Switch (CLI):
+## 📥 View MAC Address Table (Switch CLI)
 
+To view the MAC address table on a managed switch (e.g., Cisco):
 
-## 🚀 About
-
-Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
-
-## ✅ Summary Table
-
-| Tool/Concept     | Purpose                                             | Example Use             |
-|------------------|-----------------------------------------------------|--------------------------|
-| **IP + Subnet**  | Divide network and host portions                    | `192.168.1.10/24`        |
-| **CIDR**         | Compact subnet representation                       | `/24`, `/16`, `/8`       |
-| **Traceroute**   | Show packet path to destination                     | `traceroute google.uz`   |
-| **Loopback**     | Test local system networking                        | `ping 127.0.0.1`         |
-| **Netstat**      | Show network connections and ports                  | `netstat -an`            |
-| **Route Print**  | View routing table and gateway paths                | `route print` (Windows)  |
-
-
-## 🧭 Traceroute (Trace the Path to a Host)
-
-```shell
-traceroute google.uz
+```bash
+show mac address-table
 ```
-Purpose:
+or 
 
-    Shows the path packets take to reach a destination.
-
-    Helps diagnose network delays or routing problems.
-
-### 📌 IP Address Division (with Subnet Mask & CIDR)
-    IP Address is a unique identifier for a device on a network. It’s typically written as four octets (e.g., 192.168.1.10).
-
-    Subnet Mask defines how the IP address is split between the network and host parts. Example:
-
-        255.255.255.0 → Network: 192.168.1, Host: .10
-
-    CIDR (Classless Inter-Domain Routing) is a compact representation of a subnet mask. Example:
-
-        192.168.1.10/24 means the first 24 bits are network bits, equivalent to 255.255.255.0.
-
-### 🔁 Loopback Address (127.0.0.1)
-
-	127.0.0.1 is the loopback address that points to your own machine.
-
-	Used for testing network software without actually sending data over the network.
-
-	Alias: localhost
-	
-### 📡 Netstat (Network Statistics)
-
-	Command: netstat (use netstat -an for detailed output)
-```shell
-	netstat -an
-	netstat -r
+```bash
+show mac address-table dynamic
 ```
-	Purpose:
 
-	Displays active connections, listening ports, routing tables, and network statistics.
+#🛰 2. View IP & MAC Address of Devices
+✅ On a Local Machine (Windows, macOS, Linux):
 
-	Helps identify open ports and detect suspicious activity.
+To view your machine’s IP and MAC:
+
+### 🔧 Tools to Analyze Packets
+
+| Tool         | Platform        | Purpose                                      |
+|--------------|-----------------|----------------------------------------------|
+| **Wireshark**| Windows/Linux/macOS | GUI-based packet sniffer to inspect MAC, IP, TCP/UDP headers |
+| **tcpdump**  | Linux/macOS     | CLI tool for capturing and filtering packets |
+| **ping**     | All platforms   | Tests IP-level connectivity and latency      |
+| **traceroute** / **tracert** | Linux/macOS / Windows | Shows route and hops to a destination IP       |
+| **arp -a**   | All platforms   | Displays IP-to-MAC address mappings          |
+| **netstat**  | All platforms   | Displays active connections and ports        |
+| **nmap**     | All platforms   | Scans hosts, ports, and services on a network |
 
 
-## 📝 How to Build
-
-To build the packages, follow these steps:
-
-```shell
-🌀️ Type of Modes
-1. switch> 📡 User EXEC Mode
-2. switch# 📡 Privileged EXEC Mode
-3. switch(configure)# 📡 Global Configuration Mode
-4. switch(configure-if)#  📡 Additional Sub-Modes:
-
-✅  Changing modes
-switch> - switch#
-switch> enable
-
-switch# -> switch(configure)#
-switch# configure terminal
-
-switch(config)#  ->  switch (config-if)# 
-switch(config)# interface FastEthernet0/1
-
-📡 Privileged EXEC Mode
-switch# show running-config
-switch# show ip interface brief
-switch# show version
-switch# copy running-config startup-config
-switch# write
-switch# reload
-
-📡 TELNET setting ⬇️
-MySwitch(config)# line vty 0 4
-MySwitch(config-line)# password your_telnet_password
-MySwitch(config-line)# login
-MySwitch(config-line)# transport input telnet
-MySwitch(config-line)# exit
-
-📡Mac and Route table📡
-switch> show mac-address-table
-switch# erase running-config
-switch(config) ip default-gateway 192.168.2.1
-
-📡Static IP route📡
-R1: ip route 192.168.3.0 255.255.255.0  fa 0/1
-R2: ip route 192.168.1.0 255.255.255.0  fa 0/1
-Router#: show ip route
-```
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
