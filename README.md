@@ -1,6 +1,6 @@
 <a name="top"></a>
 
-![Timeline2_shutterstock_668209624](<[https://www.certocean.com/assets/blog/CCNA-Certification_(2).png](https://yandex-images.clstorage.net/x10km0322/f1a4c8W3vl/BYdoh6xSB1xuTmBxkK9fsXmSCNea6KE_74RPPTWblPR-RKYOz82oG9f4-im6GKx6XaDs9bos37Fw6JausFlltEXfJN7pEwRYZ1wpbYLsT7x00QTByKn1MbW_LUQR7q7eGzWEcOSGrUeD_-Rl-lXHFkSt9a7OXpHuJrqAm7gBPsE_k32vkUhPY0tuLGuwiE2Yd_gi34W-oETrpwVGAP6F9gU3oE3YuKBdocvbKd5y6QQKqeeazHmg4Tq9mLOwPTjWI4pItqpwe1h7VDlrsJNjpm7WDMegiaZZyIkzdRjZpesbHahex56parXOyyflS_kPN5H_qtFspc4LjZ6wrTIa7CeQaaGwZmVEWFwLap-scZ9UyTfQnZGNQvSIFVwz3b78Hgy1TNmOgm-t88w7-E_1HTe2x4nKfbftAZu-kJg1GsMJgl6rkml5aUZLKWO0tFeVScwnwKGrjnTstTRdA_mo4Sc7hFXPvKJMgd3mM8Bn_iEwhdeA516F2iGxipS7JhLpKZFZlJFkanpmWipLsI5NpEfLDdm-iqxI4Iw2fBnvlcYDLrF4_5ueeJbg2BPsT-4QPqfKsNparMU-sJSElyIa9j63eaS6cFBbY0o0a7KYd5hy5Qv1na6ESN6GPkMh4KXbOROwX_2dmm-izeUMw3f6KguU-YHwVpDYJbmdkoQDDcIXs1GUslJjWWJcF1-hpW28R-4r3aaTiWvTpjZQBNmY_yY_i33biZZNverLB9l33iEXt_eUw2mz4y28hZyRPSbtNpZOnItsZHNSTCZjma5KhmfIP92ml5F27JI8cSf2mdsmCqVs4o6cU7TZ7j79dfQ6MZb1ruBxrs4ri5--rTIV6DyTSYCzZVFDR1k7Sb-LWptOyQ_UvLeqQs-nBHU_5bLcBAS1etqxuX2v0swM2WjLEC2xx7rFap_hMba_pKsmGPUjtESskmtZZnJPOEqmklGsTeQV1Jaumk_ShxZOEuo)>)
+![Timeline2_shutterstock_668209624](<https://whitestack.com/wp-content/uploads/2023/03/Depositphotos_24812691_XLwebp-1-scaled-1.webp>)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
