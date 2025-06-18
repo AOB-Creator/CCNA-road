@@ -1,6 +1,5 @@
 <a name="top"></a>
 
-
 ![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB19/image.png)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
