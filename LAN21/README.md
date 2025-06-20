@@ -1,13 +1,13 @@
 <a name="top"></a>
 
 
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB21/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAN21/image.png)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
 [![reliability rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=reliability_rating)]()
-[![maintainability rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=sqale_rating)](
+[![maintainability rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=sqale_rating)]()
 [![getting started](https://img.shields.io/badge/getting_started-guide-1D76DB)]()
 [![Free](https://img.shields.io/badge/free_for_non_commercial_use-brightgreen)](#-license)
 
@@ -19,117 +19,92 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🛠️ Multilayer Switch Configuration Guide
+# 🔹 What is a VLAN?
 
-This project outlines the step-by-step configuration of a **Multilayer Switch** for inter-VLAN routing, Layer 3 functionalities, and static/dynamic routing using Cisco IOS.
-
+A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
 ---
 
-## 📌 Project Overview
+## 🔹 Why Use VLANs?
 
 Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
 
-- VLAN creation
-- SVIs (Switch Virtual Interfaces)
-- Static routing between VLANs
-- Routing protocol configuration (optional)
+-Segmentation – Divide a large network into smaller parts.
+-Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
+-Performance – Reduces unnecessary traffic by limiting broadcast domains.
+-Manageability – Easier to manage users and policies.
+-Flexibility – Logical grouping of users regardless of location.
 
 ---
 
-## 🧰 Network Topology Example
+## 🔹 VLAN Types
 
-- Switch Model: Cisco Catalyst 3750
-- VLANs: 101 (Staff), 102 (Admin), 103 (Guest)
-- Ports: Fa0/1–Fa0/24
-- Routed Ports: Gi1/1, Gi1/2
-
----
-
-## 🔧 Configuration Steps
-
-## 1. **Create VLANs**
-
-```bash
-Switch(config)# vlan 101
-Switch(config-vlan)# name Staff
-Switch(config)# vlan 102
-Switch(config-vlan)# name Admin
-Switch(config)# vlan 103
-Switch(config-vlan)# name Guest
-```
-##2. Assign Ports to VLANs
+| VLAN Type         | Description                                                                 |
+|-------------------|-----------------------------------------------------------------------------|
+| **Default VLAN**   | All switch ports belong to this VLAN by default (usually VLAN 1).           |
+| **Data VLAN**      | Used to carry user-generated traffic (excluding voice, management, etc.).   |
+| **Voice VLAN**     | Dedicated VLAN for Voice over IP (VoIP) traffic with high priority.         |
+| **Management VLAN**| Used for managing network devices via protocols like SSH, Telnet, SNMP.     |
+| **Native VLAN**    | Handles untagged traffic on trunk ports (default is VLAN 1).                |
+| **Trunk VLAN**     | VLANs allowed to pass over a trunk link between switches.                   |
+| **Private VLAN**   | Isolates ports within a VLAN to increase security and control.              |
+| **Static VLAN**    | VLAN manually assigned to specific ports by a network admin.                |
+| **Dynamic VLAN**   | VLAN assigned automatically based on device MAC address via VMPS.           |
 
 
-```bash
+##🔹 How VLAN Works (Simplified):
+- A switch port is assigned to a specific VLAN.
+- Devices connected to that port are automatically part of that VLAN.
+- VLAN-tagged traffic uses IEEE 802.1Q standard.
+- A trunk port allows multiple VLANs on a single physical link between switches.
+- Router-on-a-Stick or Layer 3 Switch is used for inter-VLAN routing.
 
-Switch(config)# interface range fa0/1 - 10
-Switch(config-if-range)# switchport mode access
-Switch(config-if-range)# switchport access vlan 101
-
-```
-
-##3. Create SVIs (Switch Virtual Interfaces)
+## 🔹 Key VLAN Commands (Cisco IOS Example):
 
 ```bash
-Switch(config)# interface vlan 101
-Switch(config-if)# ip address 192.168.101.1 255.255.255.0
-Switch(config)# interface vlan 102
-Switch(config-if)# ip address 192.168.102.1 255.255.255.0
-Switch(config)# interface vlan 103
-Switch(config-if)# ip address 192.168.103.1 255.255.255.0
+# Create VLAN
+Switch(config)# vlan 10
+Switch(config-vlan)# name HR
+
+# Assign VLAN to port
+Switch(config)# interface fa0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+
+# Configure trunk port
+Switch(config)# interface fa0/24
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk allowed vlan 10,20,30
 ```
 
-##Enable routing
+## 🔧 VLAN Database and Trunk Port Configuration (Cisco IOS)
 
-```bash 
-Switch(config)# ip routing
-```
-##4. Configure Routed Ports (If used as router ports)
+### 🗂️ VLAN Database Configuration
 
-```bash 
-Switch(config)# interface gi1/1
-Switch(config-if)# no switchport
-Switch(config-if)# ip address 10.0.0.1 255.255.255.0
-Switch(config-if)# no shutdown
-```
-
-# 🌐 Multilayer Switch Network with DNS and HTTPS Servers
-
-This guide includes configuring a Multilayer Switch along with **DNS** and **HTTPS** servers in a Layer 3 environment.
-
----
-
-## 🖥️ Servers in the Network
-
-| Server Type | IP Address       | VLAN | Purpose              |
-|-------------|------------------|------|----------------------|
-| DNS Server  | 192.168.50.10    | 50   | Resolving hostnames  |
-| HTTPS Server| 192.168.60.10    | 60   | Secure web access    |
-
----
-
-## 🔧 Server VLAN & SVI Setup
-
-### 1. **Create VLANs and Assign IPs to SVIs**
+Use these commands to create VLANs and name them:
 
 ```bash
-Switch(config)# vlan 50
-Switch(config-vlan)# name DNS_VLAN
-Switch(config)# vlan 60
-Switch(config-vlan)# name HTTPS_VLAN
+Switch# configure terminal
+Switch(config)# vlan 10
+Switch(config-vlan)# name HR
+Switch(config-vlan)# exit
 
-Switch(config)# interface vlan 50
-Switch(config-if)# ip address 192.168.50.1 255.255.255.0
-Switch(config)# interface vlan 60
-Switch(config-if)# ip address 192.168.60.1 255.255.255.0
-Switch(config)# ip routing
+Switch(config)# vlan 20
+Switch(config-vlan)# name SALES
+Switch(config-vlan)# exit
 ```
 
+### 📋 Verify Configuration
 
+After configuring VLANs and trunk ports, use the following commands to verify everything is working correctly.
 
+#### 🔍 Show VLAN Information
 
-
-
+```bash
+Switch# show vlan brief
+Switch# show interfaces trunk
+Switch# show interfaces switchport
+Switch# show running-config
+```
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
