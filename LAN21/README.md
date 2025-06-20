@@ -28,11 +28,11 @@ A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that a
 
 Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
 
--Segmentation – Divide a large network into smaller parts.
--Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
--Performance – Reduces unnecessary traffic by limiting broadcast domains.
--Manageability – Easier to manage users and policies.
--Flexibility – Logical grouping of users regardless of location.
+- Segmentation – Divide a large network into smaller parts.
+- Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
+- Performance – Reduces unnecessary traffic by limiting broadcast domains.
+- Manageability – Easier to manage users and policies.
+- Flexibility – Logical grouping of users regardless of location.
 
 ---
 
@@ -91,6 +91,12 @@ Switch(config-vlan)# exit
 Switch(config)# vlan 20
 Switch(config-vlan)# name SALES
 Switch(config-vlan)# exit
+
+Switch(config)# interface fa0/24
+Switch(config-if)# switchport trunk allowed vlan add 10
+
+Switch(config-if)# switchport trunk allowed vlan remove 10
+
 ```
 
 ### 📋 Verify Configuration
