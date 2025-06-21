@@ -1,11 +1,7 @@
 <a name="top"></a>
 
 
-<<<<<<< HEAD
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAN21/image.png)
-=======
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB21/image.png)
->>>>>>> 07e75e2 (VLAN Technologies)
+![Timeline2_shutterstoc](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAN22/image.png)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
@@ -26,6 +22,8 @@
 # 🔹 What is a VLAN?
 
 A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
+
+
 ---
 
 ## 🔹 Why Use VLANs?
@@ -37,9 +35,8 @@ Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling effi
 - Performance – Reduces unnecessary traffic by limiting broadcast domains.
 - Manageability – Easier to manage users and policies.
 - Flexibility – Logical grouping of users regardless of location.
-
+  
 ---
-
 ## 🔹 VLAN Types
 
 | VLAN Type         | Description                                                                 |
@@ -54,15 +51,15 @@ Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling effi
 | **Static VLAN**    | VLAN manually assigned to specific ports by a network admin.                |
 | **Dynamic VLAN**   | VLAN assigned automatically based on device MAC address via VMPS.           |
 
-
 ##🔹 How VLAN Works (Simplified):
+
 - A switch port is assigned to a specific VLAN.
 - Devices connected to that port are automatically part of that VLAN.
 - VLAN-tagged traffic uses IEEE 802.1Q standard.
 - A trunk port allows multiple VLANs on a single physical link between switches.
 - Router-on-a-Stick or Layer 3 Switch is used for inter-VLAN routing.
 
-## 🔹 Key VLAN Commands (Cisco IOS Example):
+##🔹 Key VLAN Commands (Cisco IOS Example):
 
 ```bash
 # Create VLAN
@@ -95,12 +92,6 @@ Switch(config-vlan)# exit
 Switch(config)# vlan 20
 Switch(config-vlan)# name SALES
 Switch(config-vlan)# exit
-
-Switch(config)# interface fa0/24
-Switch(config-if)# switchport trunk allowed vlan add 10
-
-Switch(config-if)# switchport trunk allowed vlan remove 10
-
 ```
 
 ### 📋 Verify Configuration
@@ -114,6 +105,7 @@ Switch# show vlan brief
 Switch# show interfaces trunk
 Switch# show interfaces switchport
 Switch# show running-config
+
 ```
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
@@ -126,3 +118,4 @@ Subscribe to our LinkedIn and Twitter:
 We look forward to assisting you and ensuring your experience with our products is successful and enjoyable!
 
 [Back to top](#top)
+
