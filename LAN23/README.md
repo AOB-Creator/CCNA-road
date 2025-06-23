@@ -19,94 +19,66 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🔹 What is a VLAN?
+## 🔷 VTP – VLAN Trunking Protocol
 
-A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
-
+Purpose: VTP is used to manage VLAN configurations centrally across a network of Cisco switches.
 
 ---
 
-## 🔹 Why Use VLANs?
-
-Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
-
-- Segmentation – Divide a large network into smaller parts.
-- Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
-- Performance – Reduces unnecessary traffic by limiting broadcast domains.
-- Manageability – Easier to manage users and policies.
-- Flexibility – Logical grouping of users regardless of location.
-  
+## ✅ Key Features:
+- Centralized VLAN Management: You can create, modify, or delete VLANs on one switch, and the changes are propagated to other switches.
+- Reduces Admin Workload: Simplifies management in large networks.
 ---
-## 🔹 VLAN Types
 
-| VLAN Type         | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| **Default VLAN**   | All switch ports belong to this VLAN by default (usually VLAN 1).           |
-| **Data VLAN**      | Used to carry user-generated traffic (excluding voice, management, etc.).   |
-| **Voice VLAN**     | Dedicated VLAN for Voice over IP (VoIP) traffic with high priority.         |
-| **Management VLAN**| Used for managing network devices via protocols like SSH, Telnet, SNMP.     |
-| **Native VLAN**    | Handles untagged traffic on trunk ports (default is VLAN 1).                |
-| **Trunk VLAN**     | VLANs allowed to pass over a trunk link between switches.                   |
-| **Private VLAN**   | Isolates ports within a VLAN to increase security and control.              |
-| **Static VLAN**    | VLAN manually assigned to specific ports by a network admin.                |
-| **Dynamic VLAN**   | VLAN assigned automatically based on device MAC address via VMPS.           |
+## 🔧 VTP Modes
 
-##🔹 How VLAN Works (Simplified):
+| Mode         | Can Create/Modify VLANs | Receives VLAN Info | Forwards VTP Updates | Stores VLANs in NVRAM | Description |
+|--------------|-------------------------|---------------------|-----------------------|------------------------|-------------|
+| **Server**    | ✅ Yes                  | ✅ Yes              | ✅ Yes                | ✅ Yes                 | Central control point for VLAN configuration. |
+| **Client**    | ❌ No                   | ✅ Yes              | ✅ Yes                | ❌ No                  | Follows the server; can't create or change VLANs. |
+| **Transparent** | ✅ Yes (locally only) | ❌ No               | ✅ Yes (forwards only)| ✅ Yes                 | Doesn’t participate in VTP updates, but forwards them. |
 
-- A switch port is assigned to a specific VLAN.
-- Devices connected to that port are automatically part of that VLAN.
-- VLAN-tagged traffic uses IEEE 802.1Q standard.
-- A trunk port allows multiple VLANs on a single physical link between switches.
-- Router-on-a-Stick or Layer 3 Switch is used for inter-VLAN routing.
 
-##🔹 Key VLAN Commands (Cisco IOS Example):
+
+##📦 VTP Domain & Version:
+
+- All switches must be in the same VTP domain name.
+- Common versions: VTPv1, VTPv2, VTPv3.
+- Uses VTP password for security (optional but recommended).
+
+##📘 Command Example:
 
 ```bash
-# Create VLAN
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
+Switch(config)# vtp domain NetworkLab
+Switch(config)# vtp mode server
+Switch(config)# vtp password MySecret
+```
+##🔧 Multilayer Switch – Trunk Port Configuration
 
-# Assign VLAN to port
-Switch(config)# interface fa0/1
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 10
+✅ Basic Trunk Port Setup
 
-# Configure trunk port
-Switch(config)# interface fa0/24
+```bash
+Switch(config)# interface GigabitEthernet0/1
 Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk encapsulation dot1q   # (if required)
 Switch(config-if)# switchport trunk allowed vlan 10,20,30
-```
+Switch(config-if)# no shutdown
 
-## 🔧 VLAN Database and Trunk Port Configuration (Cisco IOS)
-
-### 🗂️ VLAN Database Configuration
-
-Use these commands to create VLANs and name them:
-
-```bash
-Switch# configure terminal
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-Switch(config-vlan)# exit
-
-Switch(config)# vlan 20
-Switch(config-vlan)# name SALES
-Switch(config-vlan)# exit
-```
-
-### 📋 Verify Configuration
-
-After configuring VLANs and trunk ports, use the following commands to verify everything is working correctly.
-
-#### 🔍 Show VLAN Information
-
-```bash
-Switch# show vlan brief
 Switch# show interfaces trunk
-Switch# show interfaces switchport
-Switch# show running-config
-
 ```
+
+☑️ dot1q is the most common trunking protocol. Some switches (like newer IOS) don’t need the encapsulation command.
+
+
+
+
+
+
+
+
+
+
+
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
