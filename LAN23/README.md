@@ -40,20 +40,20 @@ Purpose: VTP is used to manage VLAN configurations centrally across a network of
 
 
 
-##📦 VTP Domain & Version:
+## 📦 VTP Domain & Version:
 
 - All switches must be in the same VTP domain name.
 - Common versions: VTPv1, VTPv2, VTPv3.
 - Uses VTP password for security (optional but recommended).
 
-##📘 Command Example:
+## 📘 Command Example:
 
 ```bash
 Switch(config)# vtp domain NetworkLab
 Switch(config)# vtp mode server
 Switch(config)# vtp password MySecret
 ```
-##🔧 Multilayer Switch – Trunk Port Configuration
+## 🔧 Multilayer Switch – Trunk Port Configuration
 
 ✅ Basic Trunk Port Setup
 
