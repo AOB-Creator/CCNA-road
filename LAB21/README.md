@@ -1,11 +1,6 @@
 <a name="top"></a>
 
-
-<<<<<<< HEAD
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAN21/image.png)
-=======
 ![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB21/image.png)
->>>>>>> 07e75e2 (VLAN Technologies)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
