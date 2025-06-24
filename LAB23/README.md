@@ -1,7 +1,7 @@
 <a name="top"></a>
 
 
-![Timeline2_shutterstoc](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAN23/image.png)
+![Timeline2_shutterstoc](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB23/image.png)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
