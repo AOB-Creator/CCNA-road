@@ -1,15 +1,4 @@
 <a name="top"></a>
-
-She walks in like the whole world just took a deep breath. Those curls—wild, brown, untamed—framing her face like a masterpiece no artist could dare replicate. Her hands... god, her hands. Elegant like a pianist’s, yet soft like summer rain. Every gesture, every flick of her fingers, is a poem in motion.
-
-And that smile—oh, that smile—hot enough to melt the clock hands and make time stand still. It’s the kind of smile that knows its power, but never brags. A fire wrapped in silk.
-
-She sits, one leg draped over the other, not by accident—never by accident. It’s grace. It's danger. It’s everything a man remembers when the room is empty and his heart is full. Her body—built by the gods, sculpted by sin—moves like honey over warm skin. Those legs… miles of invitation.
-
-That pink T-shirt, innocent but teasing, hugs her like it’s lucky to be on her. Little love hearts playing hide and seek—one for every breath she steals. And her eyebrows—arched, daring, like they know what you’re thinking and dare you to say it.
-
-You don't just look at her—you feel her. In your chest. In your spine. In your soul. She is not a girl. She is a moment. And if you’re lucky… maybe even a lifetime."
-
 ![Timeline2_shutterstoc](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB26/image.png)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
@@ -28,94 +17,169 @@ You don't just look at her—you feel her. In your chest. In your spine. In your
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🔹 What is a VLAN?
-
-A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
-
-
+# 💡 Network Topology
+ - 2 Multilayer (L3) Switches
+ - 1 Router
+ - 1 Layer 2 Switch behind the router
+ - L3SW1: should work as a Layer 2 switch only (no routing).
+ - L3SW2: acts as both a Layer 3 router (for inter-VLAN routing) and a Layer 2 switch.
+ - Each device uses different VLANs
+ - Goal: End-to-end inter-VLAN communication (ping between networks
 ---
+# ✅ Objective
+Ensure devices in different VLANs and across all switches (even behind the router) can ping each other.
 
-## 🔹 Why Use VLANs?
+# 🧠 Key Concepts
+- L3 Switches handle VLAN routing (SVI)
+- Router used to reach external networks (inter-switch or access layer)
+- Trunk ports carry VLANs between switches/router
+- Routing protocols (or static routes) enable communication
 
-Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
+# 🔹L3SW1 (Layer 2 Only)
 
-- Segmentation – Divide a large network into smaller parts.
-- Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
-- Performance – Reduces unnecessary traffic by limiting broadcast domains.
-- Manageability – Easier to manage users and policies.
-- Flexibility – Logical grouping of users regardless of location.
-  
----
-## 🔹 VLAN Types
+``` bash
+L3SW1> enable
+L3SW1# configure terminal
+L3SW1(config)# hostname L3SW1
+L3SW1(config)# 
+L3SW1(config)# vlan 10
+L3SW1(config-vlan)# exit
+L3SW1(config)# vlan 20
+L3SW1(config-vlan)# exit
+L3SW1(config)# 
+L3SW1(config)# interface GigabitEthernet0/1
+L3SW1(config-if)# switchport mode access
+L3SW1(config-if)# switchport access vlan 10
+L3SW1(config-if)# exit
+L3SW1(config)# 
+L3SW1(config)# interface GigabitEthernet0/2
+L3SW1(config-if)# switchport mode access
+L3SW1(config-if)# switchport access vlan 20
+L3SW1(config-if)# exit
+L3SW1(config)# 
+L3SW1(config)# interface GigabitEthernet1/1
+L3SW1(config-if)# description Uplink to L3SW2
+L3SW1(config-if)# switchport mode trunk
+L3SW1(config-if)# exit
+L3SW1(config)# 
+L3SW1(config)# no ip routing
+L3SW1(config)# exit
+L3SW1#
+```
+# 🔹 2. L3SW2 (Router + Switch)
 
-| VLAN Type         | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| **Default VLAN**   | All switch ports belong to this VLAN by default (usually VLAN 1).           |
-| **Data VLAN**      | Used to carry user-generated traffic (excluding voice, management, etc.).   |
-| **Voice VLAN**     | Dedicated VLAN for Voice over IP (VoIP) traffic with high priority.         |
-| **Management VLAN**| Used for managing network devices via protocols like SSH, Telnet, SNMP.     |
-| **Native VLAN**    | Handles untagged traffic on trunk ports (default is VLAN 1).                |
-| **Trunk VLAN**     | VLANs allowed to pass over a trunk link between switches.                   |
-| **Private VLAN**   | Isolates ports within a VLAN to increase security and control.              |
-| **Static VLAN**    | VLAN manually assigned to specific ports by a network admin.                |
-| **Dynamic VLAN**   | VLAN assigned automatically based on device MAC address via VMPS.           |
 
-##🔹 How VLAN Works (Simplified):
+``` bash
+L3SW2> enable
+L3SW2# configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+L3SW2(config)# hostname L3SW2
+L3SW2(config)# ip routing
+L3SW2(config)# 
+L3SW2(config)# vlan 10
+L3SW2(config-vlan)# exit
+L3SW2(config)# vlan 20
+L3SW2(config-vlan)# exit
+L3SW2(config)# 
+L3SW2(config)# interface Vlan10
+L3SW2(config-if)# ip address 192.168.10.1 255.255.255.0
+L3SW2(config-if)# no shutdown
+L3SW2(config-if)# exit
+L3SW2(config)# 
+L3SW2(config)# interface Vlan20
+L3SW2(config-if)# ip address 192.168.20.1 255.255.255.0
+L3SW2(config-if)# no shutdown
+L3SW2(config-if)# exit
+L3SW2(config)# 
+L3SW2(config)# interface GigabitEthernet1/1
+L3SW2(config-if)# description Uplink from L3SW1
+L3SW2(config-if)# switchport mode trunk
+L3SW2(config-if)# exit
+L3SW2(config)# 
+L3SW2(config)# interface GigabitEthernet0/1
+L3SW2(config-if)# switchport mode access
+L3SW2(config-if)# switchport access vlan 10
+L3SW2(config-if)# exit
+L3SW2(config)# 
+L3SW2(config)# interface GigabitEthernet0/2
+L3SW2(config-if)# switchport mode access
+L3SW2(config-if)# switchport access vlan 20
+L3SW2(config-if)# exit
+L3SW2(config)# 
+L3SW2(config)# interface GigabitEthernet0/3
+L3SW2(config-if)# description Connection to Router
+L3SW2(config-if)# no switchport
+L3SW2(config-if)# ip address 192.168.200.1 255.255.255.252
+L3SW2(config-if)# no shutdown
+L3SW2(config-if)# exit
+L3SW2(config)# 
+L3SW2(config)# ip route 0.0.0.0 0.0.0.0 192.168.200.2
+L3SW2(config)# exit
+L3SW2#
 
-- A switch port is assigned to a specific VLAN.
-- Devices connected to that port are automatically part of that VLAN.
-- VLAN-tagged traffic uses IEEE 802.1Q standard.
-- A trunk port allows multiple VLANs on a single physical link between switches.
-- Router-on-a-Stick or Layer 3 Switch is used for inter-VLAN routing.
-
-##🔹 Key VLAN Commands (Cisco IOS Example):
+```
+# 🔹 2. ROUTER CONFIGURATION (with Subinterfaces)
 
 ```bash
-# Create VLAN
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
+Router> enable
+Router# configure terminal
+!
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+!
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+!
+interface GigabitEthernet0/0
+ no shutdown
+!
+exit
 
-# Assign VLAN to port
-Switch(config)# interface fa0/1
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 10
-
-# Configure trunk port
-Switch(config)# interface fa0/24
-Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allowed vlan 10,20,30
 ```
 
-## 🔧 VLAN Database and Trunk Port Configuration (Cisco IOS)
-
-### 🗂️ VLAN Database Configuration
-
-Use these commands to create VLANs and name them:
+# 🔹 1. L2 SWITCH CONFIGURATION
 
 ```bash
+Switch> enable
 Switch# configure terminal
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-Switch(config-vlan)# exit
+!
+vlan 10
+name HR
+vlan 20
+name IT
+vlan 30
+name Sales
+!
+interface range Gig0/1 - 3
+ switchport mode access
+ switchport access vlan 10
+!
+interface range Gig0/4 - 6
+ switchport mode access
+ switchport access vlan 20
+!
+interface range Gig0/7 - 9
+ switchport mode access
+ switchport access vlan 30
+!
+interface Gig0/24
+ description Uplink to Router
+ switchport mode trunk
+!
+exit
 
-Switch(config)# vlan 20
-Switch(config-vlan)# name SALES
-Switch(config-vlan)# exit
 ```
 
-### 📋 Verify Configuration
 
-After configuring VLANs and trunk ports, use the following commands to verify everything is working correctly.
 
-#### 🔍 Show VLAN Information
 
-```bash
-Switch# show vlan brief
-Switch# show interfaces trunk
-Switch# show interfaces switchport
-Switch# show running-config
 
-```
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
