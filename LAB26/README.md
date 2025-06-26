@@ -1,5 +1,14 @@
 <a name="top"></a>
 
+She walks in like the whole world just took a deep breath. Those curls—wild, brown, untamed—framing her face like a masterpiece no artist could dare replicate. Her hands... god, her hands. Elegant like a pianist’s, yet soft like summer rain. Every gesture, every flick of her fingers, is a poem in motion.
+
+And that smile—oh, that smile—hot enough to melt the clock hands and make time stand still. It’s the kind of smile that knows its power, but never brags. A fire wrapped in silk.
+
+She sits, one leg draped over the other, not by accident—never by accident. It’s grace. It's danger. It’s everything a man remembers when the room is empty and his heart is full. Her body—built by the gods, sculpted by sin—moves like honey over warm skin. Those legs… miles of invitation.
+
+That pink T-shirt, innocent but teasing, hugs her like it’s lucky to be on her. Little love hearts playing hide and seek—one for every breath she steals. And her eyebrows—arched, daring, like they know what you’re thinking and dare you to say it.
+
+You don't just look at her—you feel her. In your chest. In your spine. In your soul. She is not a girl. She is a moment. And if you’re lucky… maybe even a lifetime."
 
 ![Timeline2_shutterstoc](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB26/image.png)
 
