@@ -19,94 +19,98 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🔹 What is a VLAN?
+# 🔹 Enabling Static Routing
 
-A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
-
+At this point, we know what the routing function is all about. Routers will maintain intelligence of the network topology and forward packets based on destinations, selecting the best path across that topology. That intelligence of the topology and changes in the topology are maintained statically or dynamically.
 
 ---
 
-## 🔹 Why Use VLANs?
+## 🔹 Identifying Static and Dynamic Routes
 
-Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
-
-- Segmentation – Divide a large network into smaller parts.
-- Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
-- Performance – Reduces unnecessary traffic by limiting broadcast domains.
-- Manageability – Easier to manage users and policies.
-- Flexibility – Logical grouping of users regardless of location.
+Static routes do not add overhead in the form of routing protocols, advertisements, and extra intelligence on the routers. They are fairly simple to configure and if you remain within a certain limit in terms of the number of static routes, then they are very flexible. However, they are static and so the router will not adjust to network changes, if you use static routing.
   
 ---
-## 🔹 VLAN Types
+## 🔹 Static Routes
+It is on those scenarios of stub networks like the one in the figure with a single link into the rest of the network, that static routing is a suitable answer.
 
-| VLAN Type         | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| **Default VLAN**   | All switch ports belong to this VLAN by default (usually VLAN 1).           |
-| **Data VLAN**      | Used to carry user-generated traffic (excluding voice, management, etc.).   |
-| **Voice VLAN**     | Dedicated VLAN for Voice over IP (VoIP) traffic with high priority.         |
-| **Management VLAN**| Used for managing network devices via protocols like SSH, Telnet, SNMP.     |
-| **Native VLAN**    | Handles untagged traffic on trunk ports (default is VLAN 1).                |
-| **Trunk VLAN**     | VLANs allowed to pass over a trunk link between switches.                   |
-| **Private VLAN**   | Isolates ports within a VLAN to increase security and control.              |
-| **Static VLAN**    | VLAN manually assigned to specific ports by a network admin.                |
-| **Dynamic VLAN**   | VLAN assigned automatically based on device MAC address via VMPS.           |
+![Timeline2_shutterstoc](https://www.learncisco.net/wp-content/themes/learncisco/assets/images/icnd1/90-static-routing.jpg)
 
-##🔹 How VLAN Works (Simplified):
+## 🔹 1. Standard Static Route
 
-- A switch port is assigned to a specific VLAN.
-- Devices connected to that port are automatically part of that VLAN.
-- VLAN-tagged traffic uses IEEE 802.1Q standard.
-- A trunk port allows multiple VLANs on a single physical link between switches.
-- Router-on-a-Stick or Layer 3 Switch is used for inter-VLAN routing.
+ - Description: A manually configured route that defines a specific destination network and next-hop IP address or exit interface.
+ - Use case: Used for basic routing between networks.
+ - Command example:
 
-##🔹 Key VLAN Commands (Cisco IOS Example):
 
 ```bash
-# Create VLAN
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-
-# Assign VLAN to port
-Switch(config)# interface fa0/1
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 10
-
-# Configure trunk port
-Switch(config)# interface fa0/24
-Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allowed vlan 10,20,30
+  ip route 192.168.2.0 255.255.255.0 192.168.1.2
 ```
+## 🔹 2. Default Static Route
 
-## 🔧 VLAN Database and Trunk Port Configuration (Cisco IOS)
-
-### 🗂️ VLAN Database Configuration
-
-Use these commands to create VLANs and name them:
+ - Description: A catch-all route used when no other specific route matches the destination IP address.
+ - Use case: Typically used to route traffic to the internet or a next-hop router when the destination is unknown.
 
 ```bash
-Switch# configure terminal
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-Switch(config-vlan)# exit
-
-Switch(config)# vlan 20
-Switch(config-vlan)# name SALES
-Switch(config-vlan)# exit
+  ip route 192.168.2.0 255.255.255.0 192.168.1.2 100
 ```
+## 🔹 3. Floating Static Route
 
-### 📋 Verify Configuration
+- Description: A backup route with a higher administrative distance than the primary route.
+- Use case: Used for redundancy or failover in case the primary route becomes unavailable.
 
-After configuring VLANs and trunk ports, use the following commands to verify everything is working correctly.
-
-#### 🔍 Show VLAN Information
 
 ```bash
-Switch# show vlan brief
-Switch# show interfaces trunk
-Switch# show interfaces switchport
-Switch# show running-config
-
+  ip route 192.168.2.0 255.255.255.0 192.168.1.2
 ```
+
+## 🔹 (Bonus) Summary Static Route
+
+- Description: A single static route that summarizes multiple networks into one.
+- Use case: Reduces the size of routing tables.
+
+
+```bash
+  ip route 192.168.0.0 255.255.252.0 192.168.1.1
+```
+
+To calculate a summary static route, you need to find a single route that can represent multiple contiguous subnets. Here's a step-by-step guide to calculate it manually:
+
+### ✅ Steps to Calculate a Summary Static Route
+
+▶️ Example Subnets:
+
+Let’s say you want to summarize these four routes:
+
+  -   192.168.4.0/24
+  -   192.168.5.0/24
+  -   192.168.6.0/24
+  -   192.168.7.0/24
+
+## ① Convert IPs to Binary
+
+### ① Convert IPs to Binary
+
+| Subnet         | Binary Representation                                |
+|----------------|-------------------------------------------------------|
+| 192.168.4.0    | 11000000.10101000.00000100.00000000                  |
+| 192.168.5.0    | 11000000.10101000.00000101.00000000                  |
+| 192.168.6.0    | 11000000.10101000.00000110.00000000                  |
+| 192.168.7.0    | 11000000.10101000.00000111.00000000                  |
+
+
+##  Find Matching Bits (Leftmost Common Prefix)
+
+```bash
+192.168.4.0  -> 00000100
+192.168.5.0  -> 00000101
+192.168.6.0  -> 00000110
+192.168.7.0  -> 00000111
+```
+## Determine the Summary Mask
+
+    192.168.4.0 = 11000000.10101000.00000100.00000000
+    Common bits: 22 → So the summary subnet mask is /22.
+
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
