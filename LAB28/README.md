@@ -19,94 +19,62 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🔹 What is a VLAN?
+Summary routing (also called route summarization or supernetting) is the process of combining multiple IP routes into a single summarized (aggregate) route. It's used in large networks to simplify routing tables and improve efficiency.
 
-A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
+## ✅ Why use Summary Routing?
 
+   - Reduces size of routing tables
+   - Speeds up routing lookups
+   - Minimizes bandwidth usage for routing updates
+   - Provides better route stability
 
----
-
-## 🔹 Why Use VLANs?
-
-Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
-
-- Segmentation – Divide a large network into smaller parts.
-- Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
-- Performance – Reduces unnecessary traffic by limiting broadcast domains.
-- Manageability – Easier to manage users and policies.
-- Flexibility – Logical grouping of users regardless of location.
-  
----
-## 🔹 VLAN Types
-
-| VLAN Type         | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| **Default VLAN**   | All switch ports belong to this VLAN by default (usually VLAN 1).           |
-| **Data VLAN**      | Used to carry user-generated traffic (excluding voice, management, etc.).   |
-| **Voice VLAN**     | Dedicated VLAN for Voice over IP (VoIP) traffic with high priority.         |
-| **Management VLAN**| Used for managing network devices via protocols like SSH, Telnet, SNMP.     |
-| **Native VLAN**    | Handles untagged traffic on trunk ports (default is VLAN 1).                |
-| **Trunk VLAN**     | VLANs allowed to pass over a trunk link between switches.                   |
-| **Private VLAN**   | Isolates ports within a VLAN to increase security and control.              |
-| **Static VLAN**    | VLAN manually assigned to specific ports by a network admin.                |
-| **Dynamic VLAN**   | VLAN assigned automatically based on device MAC address via VMPS.           |
-
-##🔹 How VLAN Works (Simplified):
-
-- A switch port is assigned to a specific VLAN.
-- Devices connected to that port are automatically part of that VLAN.
-- VLAN-tagged traffic uses IEEE 802.1Q standard.
-- A trunk port allows multiple VLANs on a single physical link between switches.
-- Router-on-a-Stick or Layer 3 Switch is used for inter-VLAN routing.
-
-##🔹 Key VLAN Commands (Cisco IOS Example):
-
-```bash
-# Create VLAN
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-
-# Assign VLAN to port
-Switch(config)# interface fa0/1
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 10
-
-# Configure trunk port
-Switch(config)# interface fa0/24
-Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allowed vlan 10,20,30
+## 🧠 How It Works
+Summary routing creates one route that represents multiple subnets. For example:
+You have these subnets:
+``` bash
+192.168.1.0/24
+192.168.2.0/24
+192.168.3.0/24
+192.168.4.0/24
 ```
 
-## 🔧 VLAN Database and Trunk Port Configuration (Cisco IOS)
+These can be summarized into:
 
-### 🗂️ VLAN Database Configuration
+``` bash
+192.168.0.0/22
+``` 
 
-Use these commands to create VLANs and name them:
+## 🧮 How to Calculate Summary Route
+
+  1. Convert all IP addresses to binary.
+  2. Find the common prefix among them.
+  3. Count the number of common bits → that's your subnet mask.
+
+For example:
+
+    192.168.1.0 → 11000000.10101000.00000001.00000000
+
+    192.168.2.0 → 11000000.10101000.00000010.00000000
+    Common bits = first 22 → summary = 192.168.0.0/22
+
+## 📍Where Summary Routing is Used
+
+    On border routers (between autonomous systems)
+    In OSPF areas (e.g., summarizing routes from area 1 into area 0)
+    In EIGRP with auto-summarization or manual summarization
+    
+🛠️ Example: Manual Summary Route in Cisco (EIGRP)
 
 ```bash
-Switch# configure terminal
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-Switch(config-vlan)# exit
-
-Switch(config)# vlan 20
-Switch(config-vlan)# name SALES
-Switch(config-vlan)# exit
+router eigrp 100
+ network 192.168.0.0 0.0.3.255
+!
+interface FastEthernet0/0
+ ip summary-address eigrp 100 192.168.0.0 255.255.252.0
 ```
 
-### 📋 Verify Configuration
 
-After configuring VLANs and trunk ports, use the following commands to verify everything is working correctly.
 
-#### 🔍 Show VLAN Information
-
-```bash
-Switch# show vlan brief
-Switch# show interfaces trunk
-Switch# show interfaces switchport
-Switch# show running-config
-
-```
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
