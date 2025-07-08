@@ -1,5 +1,4 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB02/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -23,8 +22,8 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 
 | Lab No. | Lab Name | Description | Folder Link |
 |--------:|----------|-------------|--------------|
-| 1  | Lab 01 | *Add description here* | [Lab01](./Lab01) |
-| 2  | Lab 02 | *Add description here* | [Lab02](./Lab02) |
+| 1  | Lab 01 | *References for all Labs* | [Lab01](./Lab01) |
+| 2  | Lab 02 | *Basic Switch Configuration* | [Lab02](./Lab02) |
 | 3  | Lab 03 | *Add description here* | [Lab03](./Lab03) |
 | 4  | Lab 04 | *Add description here* | [Lab04](./Lab04) |
 | 5  | Lab 05 | *Add description here* | [Lab05](./Lab05) |
