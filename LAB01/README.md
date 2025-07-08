@@ -28,31 +28,31 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 4  | Lab 04 | *Basic Switch Configuration and TELNET* | [LAB04](../LAB04) |
 | 5  | Lab 05 | *Router, Telnet, ARP TABLE* | [LAB05](../LAB05) |
 | 6  | Lab 06 | *Several Routers, Ip router* | [LAB06](../LAB06) |
-| 7  | Lab 07 | *router circuit connection, IP routes, ip route 192.168.3.0 255.255.255.0  fa 0/1, switch(config) ip default-gateway 192.168.2.1* | [LAB07](./LAB07) |
+| 7  | Lab 07 | *router circuit connection, IP routes, ip route 192.168.3.0 255.255.255.0  fa 0/1, switch(config) ip default-gateway 192.168.2.1* | [LAB07](../LAB07) |
 | 8  | Lab 08 | *Add description here* | [LAB08](../LAB08) |
 | 9  | Lab 09 | *Add description here* | [LAB09](../LAB09) |
 | 10 | Lab 10 | *Add description here* | [LAB10](../LAB10) |
-| 11 | Lab 11 | *Add description here* | [LAB11](./LAB11) |
-| 12 | Lab 12 | *Add description here* | [LAB12](./LAB12) |
-| 13 | Lab 13 | *Add description here* | [LAB13](./LAB13) |
-| 14 | Lab 14 | *Add description here* | [LAB14](./LAB14) |
-| 15 | Lab 15 | *Add description here* | [LAB15](./LAB15) |
-| 16 | Lab 16 | *Add description here* | [LAB16](./LAB16) |
-| 17 | Lab 17 | *Add description here* | [LAB17](./LAB17) |
-| 18 | Lab 18 | *Add description here* | [LAB18](./LAB18) |
-| 19 | Lab 19 | *Add description here* | [LAB19](./LAB19) |
-| 20 | Lab 20 | *Add description here* | [LAB20](./LAB20) |
-| 21 | Lab 21 | *Add description here* | [LAB21](./LAB21) |
-| 22 | Lab 22 | *Add description here* | [LAB22](./LAB22) |
-| 23 | Lab 23 | *Add description here* | [LAB23](./LAB23) |
-| 24 | Lab 24 | *Add description here* | [LAB24](./LAB24) |
-| 25 | Lab 25 | *Add description here* | [LAB25](./LAB25) |
-| 26 | Lab 26 | *Add description here* | [LAB26](./LAB26) |
-| 27 | Lab 27 | *Add description here* | [LAB27](./LAB27) |
-| 28 | Lab 28 | *Add description here* | [LAB28](./LAB28) |
-| 29 | Lab 29 | *Add description here* | [LAB29](./LAB29) |
-| 30 | Lab 30 | *Add description here* | [LAB30](./LAB30) |
-| 31 | Lab 31 | *Add description here* | [LAB31](./LAB31) |
+| 11 | Lab 11 | *Add description here* | [LAB11](../LAB11) |
+| 12 | Lab 12 | *Add description here* | [LAB12](../LAB12) |
+| 13 | Lab 13 | *Add description here* | [LAB13](../LAB13) |
+| 14 | Lab 14 | *Add description here* | [LAB14](../LAB14) |
+| 15 | Lab 15 | *Add description here* | [LAB15](../LAB15) |
+| 16 | Lab 16 | *Add description here* | [LAB16](../LAB16) |
+| 17 | Lab 17 | *Add description here* | [LAB17](../LAB17) |
+| 18 | Lab 18 | *Add description here* | [LAB18](../LAB18) |
+| 19 | Lab 19 | *Add description here* | [LAB19](../LAB19) |
+| 20 | Lab 20 | *Add description here* | [LAB20](../LAB20) |
+| 21 | Lab 21 | *Add description here* | [LAB21](../LAB21) |
+| 22 | Lab 22 | *Add description here* | [LAB22](../LAB22) |
+| 23 | Lab 23 | *Add description here* | [LAB23](../LAB23) |
+| 24 | Lab 24 | *Add description here* | [LAB24](../LAB24) |
+| 25 | Lab 25 | *Add description here* | [LAB25](../LAB25) |
+| 26 | Lab 26 | *Add description here* | [LAB26](../LAB26) |
+| 27 | Lab 27 | *Add description here* | [LAB27](../LAB27) |
+| 28 | Lab 28 | *Add description here* | [LAB28](../LAB28) |
+| 29 | Lab 29 | *Add description here* | [LAB29](../LAB29) |
+| 30 | Lab 30 | *Add description here* | [LAB30](../LAB30) |
+| 31 | Lab 31 | *Add description here* | [LAB31](../LAB31) |
 
 ---
 
