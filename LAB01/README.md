@@ -22,7 +22,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 
 | Lab No. | Lab Name | Description | Folder Link |
 |--------:|----------|-------------|--------------|
-| 1  | Lab 01 | *References for all Labs* | [Lab01](../LAB01) |
+| 1  | Lab 01 | *References for all Labs* | [☠️☠️](../LAB01) |
 | 2  | Lab 02 | *Basic Switch Configuration* | [Lab02](../LAB02) |
 | 3  | Lab 03 | *TELNET: transport input telnet* | [Lab03](../LAB03) |
 | 4  | Lab 04 | *Basic Switch Configuration and TELNET* | [Lab04](../LAB04) |
