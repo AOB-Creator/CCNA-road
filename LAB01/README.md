@@ -16,99 +16,61 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
 
-## Table of Contents
-- [About](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
+# 🧪 Lab Repository
+
+This repository contains 31 hands-on labs. Each lab focuses on a different concept, tool, or technology. Below is a quick reference table with links to each lab folder.
+
+| Lab No. | Lab Name | Description | Folder Link |
+|--------:|----------|-------------|--------------|
+| 1  | Lab 01 | *Add description here* | [Lab01](./Lab01) |
+| 2  | Lab 02 | *Add description here* | [Lab02](./Lab02) |
+| 3  | Lab 03 | *Add description here* | [Lab03](./Lab03) |
+| 4  | Lab 04 | *Add description here* | [Lab04](./Lab04) |
+| 5  | Lab 05 | *Add description here* | [Lab05](./Lab05) |
+| 6  | Lab 06 | *Add description here* | [Lab06](./Lab06) |
+| 7  | Lab 07 | *Add description here* | [Lab07](./Lab07) |
+| 8  | Lab 08 | *Add description here* | [Lab08](./Lab08) |
+| 9  | Lab 09 | *Add description here* | [Lab09](./Lab09) |
+| 10 | Lab 10 | *Add description here* | [Lab10](./Lab10) |
+| 11 | Lab 11 | *Add description here* | [Lab11](./Lab11) |
+| 12 | Lab 12 | *Add description here* | [Lab12](./Lab12) |
+| 13 | Lab 13 | *Add description here* | [Lab13](./Lab13) |
+| 14 | Lab 14 | *Add description here* | [Lab14](./Lab14) |
+| 15 | Lab 15 | *Add description here* | [Lab15](./Lab15) |
+| 16 | Lab 16 | *Add description here* | [Lab16](./Lab16) |
+| 17 | Lab 17 | *Add description here* | [Lab17](./Lab17) |
+| 18 | Lab 18 | *Add description here* | [Lab18](./Lab18) |
+| 19 | Lab 19 | *Add description here* | [Lab19](./Lab19) |
+| 20 | Lab 20 | *Add description here* | [Lab20](./Lab20) |
+| 21 | Lab 21 | *Add description here* | [Lab21](./Lab21) |
+| 22 | Lab 22 | *Add description here* | [Lab22](./Lab22) |
+| 23 | Lab 23 | *Add description here* | [Lab23](./Lab23) |
+| 24 | Lab 24 | *Add description here* | [Lab24](./Lab24) |
+| 25 | Lab 25 | *Add description here* | [Lab25](./Lab25) |
+| 26 | Lab 26 | *Add description here* | [Lab26](./Lab26) |
+| 27 | Lab 27 | *Add description here* | [Lab27](./Lab27) |
+| 28 | Lab 28 | *Add description here* | [Lab28](./Lab28) |
+| 29 | Lab 29 | *Add description here* | [Lab29](./Lab29) |
+| 30 | Lab 30 | *Add description here* | [Lab30](./Lab30) |
+| 31 | Lab 31 | *Add description here* | [Lab31](./Lab31) |
+
+---
+
+## 📂 Usage
+
+Each lab is self-contained in its folder. Open any lab directory to explore code, instructions, and documentation.
+
+## 🛠️ Requirements
+
+- Install [Node.js](https://nodejs.org/) / [Python](https://python.org/) / etc.
+- Clone this repository:  
+  ```bash
+  git clone https://github.com/your-username/your-repo-name.git
 
 
-## 🚀 About
-
-Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
-
-- **User EXEC Mode**: > Limited access; basic monitoring.
-- **Privileged EXEC Mode**: # Full access to show/debug commands.
-- **Global Configuration Mode**: (config)# Used to make global changes.
-- **Interface Configuration Mode**: (config-if)# Used to configure interfaces.
-- **VLAN Configuration Mode**: (config-vlan)# VLAN creation and settings.
-
-Switch> enable
-Switch# configure terminal
-Switch(config)# interface FastEthernet0/1
-Switch(config-if)#
-
-## 🎓 Console Modes
-
-Network security is the practice of protecting the integrity, confidentiality, and availability of computer networks and data using both hardware and software technologies. It involves implementing policies, controls, and configurations to prevent unauthorized access, misuse, modification, or denial of network resources.
-
-### Basic Switch Configuration
-|🔧 Basic Switch Configuration | Configuration Commands |
-|:-|:-|:-|
-| enable | .....|
-| configure terminal | ..... |
-| hostname SW1 | ..... |
-| no ip domain-lookup | ..... |
-| enable secret cisco123 | ..... |
-| line console 0 | ..... |
-| password console123 | ..... |
-| login | ..... |
-| exit | ..... |
-| write memory | ..... |
-| copy running-config startup-config | ..... |
-
-### Saving Configurations
 
 
-## 📝 How to Build
-
-To build the packages, follow these steps:
-
-```shell
-🌀️ Type of Modes
-1. switch> 📡 User EXEC Mode
-2. switch# 📡 Privileged EXEC Mode
-3. switch(configure)# 📡 Global Configuration Mode
-4. switch(configure-if)#  📡 Additional Sub-Modes:
-
-✅  Changing modes
-switch> - switch#
-switch> enable
-
-switch# -> switch(configure)#
-switch# configure terminal
-
-switch(config)#  ->  switch (config-if)# 
-switch(config)# interface FastEthernet0/1
-
-📡 Privileged EXEC Mode
-switch# show running-config
-switch# show ip interface brief
-switch# show version
-switch# copy running-config startup-config
-switch# write
-switch# reload
-
-📡 Global Configuration Mode ⬇️
-switch(config)# hostname 1cisco_floor
-1cisco_floor(config)# nohostname
-switch(config)# enable password cisco
-switch(config)# enable secret password cisco
-switch(config)# no enable password
-switch(config)# no enable secret
-switch(config)# line console 0
-switch(config)# service password-encryption
-switch(config)# banner motd #Unauthorized access is prohibited#
-switch(config)# interface vlan 1
-switch(config)# no shutdown
-switch(config)# ip address 192.168.1.100 255.255.255.0
-
-```
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
