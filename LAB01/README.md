@@ -24,11 +24,11 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 |--------:|----------|-------------|--------------|
 | 1  | Lab 01 | *References for all Labs* | [Lab01](./Lab01) |
 | 2  | Lab 02 | *Basic Switch Configuration* | [Lab02](./Lab02) |
-| 3  | Lab 03 | *Add description here* | [Lab03](./Lab03) |
-| 4  | Lab 04 | *Add description here* | [Lab04](./Lab04) |
-| 5  | Lab 05 | *Add description here* | [Lab05](./Lab05) |
-| 6  | Lab 06 | *Add description here* | [Lab06](./Lab06) |
-| 7  | Lab 07 | *Add description here* | [Lab07](./Lab07) |
+| 3  | Lab 03 | *TELNET: transport input telnet* | [Lab03](./Lab03) |
+| 4  | Lab 04 | *Basic Switch Configuration and TELNET* | [Lab04](./Lab04) |
+| 5  | Lab 05 | *Router, Telnet, ARP TABLE* | [Lab05](./Lab05) |
+| 6  | Lab 06 | *Several Routers, Ip router* | [Lab06](./Lab06) |
+| 7  | Lab 07 | *router circuit connection, IP routes* | [Lab07](./Lab07) |
 | 8  | Lab 08 | *Add description here* | [Lab08](./Lab08) |
 | 9  | Lab 09 | *Add description here* | [Lab09](./Lab09) |
 | 10 | Lab 10 | *Add description here* | [Lab10](./Lab10) |
