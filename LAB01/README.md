@@ -28,7 +28,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 4  | Lab 04 | *Basic Switch Configuration and TELNET* | [Lab04](./Lab04) |
 | 5  | Lab 05 | *Router, Telnet, ARP TABLE* | [Lab05](./Lab05) |
 | 6  | Lab 06 | *Several Routers, Ip router* | [Lab06](./Lab06) |
-| 7  | Lab 07 | *router circuit connection, IP routes, ip route 192.168.3.0 255.255.255.0  fa 0/1* | [Lab07](./Lab07) |
+| 7  | Lab 07 | *router circuit connection, IP routes, ip route 192.168.3.0 255.255.255.0  fa 0/1, switch(config) ip default-gateway 192.168.2.1* | [Lab07](./Lab07) |
 | 8  | Lab 08 | *Add description here* | [Lab08](./Lab08) |
 | 9  | Lab 09 | *Add description here* | [Lab09](./Lab09) |
 | 10 | Lab 10 | *Add description here* | [Lab10](./Lab10) |
