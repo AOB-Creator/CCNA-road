@@ -19,97 +19,90 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🔹 Enabling Static Routing
+## 🌐 RIP (Routing Information Protocol) – Overview
 
-At this point, we know what the routing function is all about. Routers will maintain intelligence of the network topology and forward packets based on destinations, selecting the best path across that topology. That intelligence of the topology and changes in the topology are maintained statically or dynamically.
+RIP is one of the oldest dynamic distance-vector routing protocols used to help routers exchange routing information within an IP network.
 
 ---
 
-## 🔹 Identifying Static and Dynamic Routes
+## 📌 Key Features of RIP
 
-Static routes do not add overhead in the form of routing protocols, advertisements, and extra intelligence on the routers. They are fairly simple to configure and if you remain within a certain limit in terms of the number of static routes, then they are very flexible. However, they are static and so the router will not adjust to network changes, if you use static routing.
-  
----
-## 🔹 Static Routes
-It is on those scenarios of stub networks like the one in the figure with a single link into the rest of the network, that static routing is a suitable answer.
+| Feature                   | Description                                                                 |
+|---------------------------|-----------------------------------------------------------------------------|
+| **Protocol Type**         | Distance-vector                                                             |
+| **Routing Algorithm**     | Bellman-Ford                                                                |
+| **Metric Used**           | Hop Count                                                                   |
+| **Maximum Hop Count**     | 15 (16 is considered unreachable)                                           |
+| **Routing Updates**       | Sent every 30 seconds                                                       |
+| **Convergence**           | Slow (compared to modern protocols)                                         |
+| **Administrative Distance** | 120                                                                       |
+| **Protocol Versions**     | RIPv1 (classful), RIPv2 (classless)                                         |
+| **Transport Protocol**    | UDP                                                                         |
+| **UDP Port Number**       | 520                                                                         |
+| **Update Method**         | RIPv1: Broadcast (255.255.255.255), RIPv2: Multicast (224.0.0.9)            |
+| **Authentication**        | Supported in RIPv2 (Plaintext or MD5)                                       |
+| **VLSM Support**          | Not supported in RIPv1, supported in RIPv2                                  |
+| **Auto Summarization**    | Enabled by default; can be disabled with `no auto-summary` (in RIPv2)      |
+| **Suitable for**          | Small to medium-sized networks                                              |
 
-![Timeline2_shutterstoc](https://www.learncisco.net/wp-content/themes/learncisco/assets/images/icnd1/90-static-routing.jpg)
-
-## 🔹 1. Standard Static Route
-
- - Description: A manually configured route that defines a specific destination network and next-hop IP address or exit interface.
- - Use case: Used for basic routing between networks.
- - Command example:
 
 
+## 🔁 How RIP Works
+
+- Router Initialization: Routers send their routing tables to directly connected neighbors.
+- Routing Update: Every 30 seconds, routers broadcast their full routing tables.
+- Routing Table Update: If a route with a better metric (fewer hops) is received, the table is updated.
+- Invalid Timer: If no updates are received for 180 seconds, the route is marked invalid.
+- Hold-down & Flush Timers: These manage route invalidation and removal.
+
+## 🧠 RIP Versions
+
+| Feature                   | RIPv1                                | RIPv2                                  |
+|---------------------------|--------------------------------------|----------------------------------------|
+| **Routing Type**          | Classful                             | Classless                              |
+| **Subnet Mask Support**   | ❌ No                                | ✅ Yes                                 |
+| **VLSM Support**          | ❌ No                                | ✅ Yes                                 |
+| **Update Method**         | Broadcast (255.255.255.255)          | Multicast (224.0.0.9)                  |
+| **Authentication**        | ❌ Not supported                     | ✅ Supported (Plaintext or MD5)        |
+| **Route Tagging**         | ❌ No                                | ✅ Yes                                 |
+| **Backward Compatibility**| ✅ Compatible with older systems     | ✅ Compatible with RIPv1                |
+| **Introduced In**         | 1988                                 | 1994                                   |
+
+
+## 🧰 RIP Configuration (Cisco IOS Example)
+
+### 🏗️ Basic RIP Configuration
 ```bash
-  ip route 192.168.2.0 255.255.255.0 192.168.1.2
-```
-## 🔹 2. Default Static Route
+Router> enable
+Router# configure terminal
+Router(config)# router rip
+Router(config-router)# version 2
+Router(config-router)# no auto-summary
+Router(config-router)# network 192.168.1.0
+Router(config-router)# network 10.0.0.0
 
- - Description: A catch-all route used when no other specific route matches the destination IP address.
- - Use case: Typically used to route traffic to the internet or a next-hop router when the destination is unknown.
 
+## 🔎 Verify RIP Configuration
 ```bash
-  ip route 192.168.2.0 255.255.255.0 192.168.1.2 100
+Router# show ip protocols
+Router# show ip route rip
+Router# debug ip rip
 ```
-## 🔹 3. Floating Static Route
+## ✅ RIP Configuration Summary
 
-- Description: A backup route with a higher administrative distance than the primary route.
-- Use case: Used for redundancy or failover in case the primary route becomes unavailable.
-
-
-```bash
-  ip route 192.168.2.0 255.255.255.0 192.168.1.2
-```
-
-## 🔹 (Bonus) Summary Static Route
-
-- Description: A single static route that summarizes multiple networks into one.
-- Use case: Reduces the size of routing tables.
-
-
-```bash
-  ip route 192.168.0.0 255.255.252.0 192.168.1.1
-```
-
-To calculate a summary static route, you need to find a single route that can represent multiple contiguous subnets. Here's a step-by-step guide to calculate it manually:
-
-### ✅ Steps to Calculate a Summary Static Route
-
-▶️ Example Subnets:
-
-Let’s say you want to summarize these four routes:
-
-  -   192.168.4.0/24
-  -   192.168.5.0/24
-  -   192.168.6.0/24
-  -   192.168.7.0/24
-
-## ① Convert IPs to Binary
-
-### ① Convert IPs to Binary
-
-| Subnet         | Binary Representation                                |
-|----------------|-------------------------------------------------------|
-| 192.168.4.0    | 11000000.10101000.00000100.00000000                  |
-| 192.168.5.0    | 11000000.10101000.00000101.00000000                  |
-| 192.168.6.0    | 11000000.10101000.00000110.00000000                  |
-| 192.168.7.0    | 11000000.10101000.00000111.00000000                  |
-
-
-##  Find Matching Bits (Leftmost Common Prefix)
-
-```bash
-192.168.4.0  -> 00000100
-192.168.5.0  -> 00000101
-192.168.6.0  -> 00000110
-192.168.7.0  -> 00000111
-```
-## Determine the Summary Mask
-
-    192.168.4.0 = 11000000.10101000.00000100.00000000
-    Common bits: 22 → So the summary subnet mask is /22.
+| Command                       | Description                                                         |
+|------------------------------|---------------------------------------------------------------------|
+| `router rip`                 | Enter RIP routing configuration mode                                |
+| `version 2`                  | Enable RIP version 2                                                |
+| `no auto-summary`            | Disable automatic classful summarization                            |
+| `network [network-address]` | Advertise a network in RIP                                          |
+| `interface loopback0`        | Create a virtual loopback interface                                 |
+| `ip address [ip] [mask]`     | Assign IP address to interface                                      |
+| `show ip protocols`          | Display routing protocol information                                |
+| `show ip route rip`          | Show routes learned via RIP                                         |
+| `debug ip rip`               | Enable RIP packet-level debugging                                   |
+| `passive-interface [if]`     | Prevent sending RIP updates out of the specified interface          |
+| `clear ip route *`           | Clear the IP routing table                                          |
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
