@@ -53,6 +53,8 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 29 | Lab 29 | *Add description here* | [LAB29](../LAB29) |
 | 30 | Lab 30 | *Add description here* | [LAB30](../LAB30) |
 | 31 | Lab 31 | *Add description here* | [LAB31](../LAB31) |
+| 32 | Lab 32 | *Add description here* | [LAB32](../LAB32) |
+| 33 | Lab 33 | 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide | [LAB33](../LAB33) |
 
 ---
 
