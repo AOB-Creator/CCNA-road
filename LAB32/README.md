@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB02/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB32/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,99 +16,52 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
+## 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide
 
-## Table of Contents
-- [About](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
+### 📌 What is OSPF?
+OSPF is a link-state dynamic routing protocol used within an autonomous system (AS). It is commonly used in medium to large enterprise networks. OSPF quickly adapts to changes in network topology using Dijkstra's Shortest Path First (SPF) algorithm.
 
+### 🔄 OSPF Basic Operation
 
-## 🚀 About
+| Step | Process              | Description                                                                 |
+|------|----------------------|-----------------------------------------------------------------------------|
+| 1️⃣   | **Neighbor Discovery** | Routers send **Hello packets** via multicast `224.0.0.5` to discover neighbors. |
+| 2️⃣   | **Exchange LSAs**      | Routers exchange **Link-State Advertisements** to share link information.    |
+| 3️⃣   | **SPF Calculation**    | Each router runs **Dijkstra’s algorithm** to build a complete topology map.  |
+| 4️⃣   | **Routing Table Update** | The best paths are added to the **routing table**.                           |
 
-Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
+## 🛠️ Basic OSPF Configuration (Cisco CLI)
 
-- **User EXEC Mode**: > Limited access; basic monitoring.
-- **Privileged EXEC Mode**: # Full access to show/debug commands.
-- **Global Configuration Mode**: (config)# Used to make global changes.
-- **Interface Configuration Mode**: (config-if)# Used to configure interfaces.
-- **VLAN Configuration Mode**: (config-vlan)# VLAN creation and settings.
+Example Topology:
+- Router1: 192.168.1.1/24
+- Router2: 192.168.2.1/24
+- Network between them: 10.0.0.0/30
 
-Switch> enable
-Switch# configure terminal
-Switch(config)# interface FastEthernet0/1
-Switch(config-if)#
+```bash
+# Enable OSPF process with ID 1
+Router(config)# router ospf 1
 
-## 🎓 Console Modes
-
-Network security is the practice of protecting the integrity, confidentiality, and availability of computer networks and data using both hardware and software technologies. It involves implementing policies, controls, and configurations to prevent unauthorized access, misuse, modification, or denial of network resources.
-
-### Basic Switch Configuration
-|🔧 Basic Switch Configuration | Configuration Commands |
-|:-|:-|:-|
-| enable | .....|
-| configure terminal | ..... |
-| hostname SW1 | ..... |
-| no ip domain-lookup | ..... |
-| enable secret cisco123 | ..... |
-| line console 0 | ..... |
-| password console123 | ..... |
-| login | ..... |
-| exit | ..... |
-| write memory | ..... |
-| copy running-config startup-config | ..... |
-
-### Saving Configurations
-
-
-## 📝 How to Build
-
-To build the packages, follow these steps:
-
-```shell
-🌀️ Type of Modes
-1. switch> 📡 User EXEC Mode
-2. switch# 📡 Privileged EXEC Mode
-3. switch(configure)# 📡 Global Configuration Mode
-4. switch(configure-if)#  📡 Additional Sub-Modes:
-
-✅  Changing modes
-switch> - switch#
-switch> enable
-
-switch# -> switch(configure)#
-switch# configure terminal
-
-switch(config)#  ->  switch (config-if)# 
-switch(config)# interface FastEthernet0/1
-
-📡 Privileged EXEC Mode
-switch# show running-config
-switch# show ip interface brief
-switch# show version
-switch# copy running-config startup-config
-switch# write
-switch# reload
-
-📡 Global Configuration Mode ⬇️
-switch(config)# hostname 1cisco_floor
-1cisco_floor(config)# nohostname
-switch(config)# enable password cisco
-switch(config)# enable secret password cisco
-switch(config)# no enable password
-switch(config)# no enable secret
-switch(config)# line console 0
-switch(config)# service password-encryption
-switch(config)# banner motd #Unauthorized access is prohibited#
-switch(config)# interface vlan 1
-switch(config)# no shutdown
-switch(config)# ip address 192.168.1.100 255.255.255.0
-
+# Assign networks to OSPF area 0
+Router(config-router)# router-id 1.1.1.1
+Router(config-router)# network 192.168.1.0 0.0.0.255 area 0
+Router(config-router)# network 10.0.0.0 0.0.0.3 area 0
+Router(config-router)# passive-interface fastEthernet 0/0
 ```
+
+
+## 🧪 Useful Show Commands
+
+```bash
+show ip ospf                    # General OSPF information
+show ip ospf neighbor           # View neighbor relationships
+show ip ospf interface          # Interface OSPF status
+show ip route ospf              # OSPF-learned routes
+debug ip ospf events            # Troubleshoot OSPF
+```
+
+
+
+
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
