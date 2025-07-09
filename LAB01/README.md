@@ -35,11 +35,11 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 11 | Lab 11 | *Add description here* | [LAB11](../LAB11) |
 | 12 | Lab 12 | *Add description here* | [LAB12](../LAB12) |
 | 13 | Lab 13 | *Add description here* | [LAB13](../LAB13) |
-| 14 | Lab 14 | *Add description here* | [LAB14](../LAB14) |
-| 15 | Lab 15 | *Add description here* | [LAB15](../LAB15) |
-| 16 | Lab 16 | *Add description here* | [LAB16](../LAB16) |
-| 17 | Lab 17 | *Add description here* | [LAB17](../LAB17) |
-| 18 | Lab 18 | *Add description here* | [LAB18](../LAB18) |
+| 14 | Lab 14 | 📥 View MAC Address Table (Switch CLI, netstat, Wireshark, traceroute) | [LAB14](../LAB14) |
+| 15 | Lab 15 | 🔐 Telnet vs SSH – In-Depth Overview | [LAB15](../LAB15) |
+| 16 | Lab 16 | 🔐 Telnet vs SSH – In-Depth Overview | [LAB16](../LAB16) |
+| 17 | Lab 17 | 🔐 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB17](../LAB17) |
+| 18 | Lab 18 | 🔐 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB18](../LAB18) |
 | 19 | Lab 19 | 🛠️ Multilayer Switch Configuration Guide and VLAN | [LAB19](../LAB19) |
 | 20 | Lab 20 | *Add description here* | [LAB20](../LAB20) |
 | 21 | Lab 21 | *Add description here* | [LAB21](../LAB21) |
