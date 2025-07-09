@@ -52,7 +52,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 28 | Lab 28 | *Add description here* | [LAB28](../LAB28) |
 | 29 | Lab 29 | *Add description here* | [LAB29](../LAB29) |
 | 30 | Lab 30 | *Add description here* | [LAB30](../LAB30) |
-| 31 | Lab 31 | *Add description here* | [LAB31](../LAB31) |
+| 31 | Lab 31 | 🌐 RIP (Routing Information Protocol) – Overview | [LAB31](../LAB31) |
 | 32 | Lab 32 | 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide | [LAB32](../LAB32) |
 | 33 | Lab 33 |  | [LAB33](../LAB33) |
 
