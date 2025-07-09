@@ -40,7 +40,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 16 | Lab 16 | *Add description here* | [LAB16](../LAB16) |
 | 17 | Lab 17 | *Add description here* | [LAB17](../LAB17) |
 | 18 | Lab 18 | *Add description here* | [LAB18](../LAB18) |
-| 19 | Lab 19 | *Add description here* | [LAB19](../LAB19) |
+| 19 | Lab 19 | 🛠️ Multilayer Switch Configuration Guide and VLAN | [LAB19](../LAB19) |
 | 20 | Lab 20 | *Add description here* | [LAB20](../LAB20) |
 | 21 | Lab 21 | *Add description here* | [LAB21](../LAB21) |
 | 22 | Lab 22 | 🔷 VTP – VLAN Trunking Protocol | [LAB22](../LAB22) |
