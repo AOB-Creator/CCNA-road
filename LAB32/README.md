@@ -59,7 +59,16 @@ show ip route ospf              # OSPF-learned routes
 debug ip ospf events            # Troubleshoot OSPF
 ```
 
-
+```mermaid
+sequenceDiagram
+  participant R1
+  participant R2
+  R1->>R2: Hello Packet
+  R2-->>R1: Hello Packet
+  R1->>R2: Exchange DBD
+  R2-->>R1: LS Request
+  R1-->>R2: LS Update
+```
 
 
 
