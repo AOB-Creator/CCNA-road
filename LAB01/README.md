@@ -22,10 +22,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 
 | Lab No. | Lab Name | Description | Folder Link |
 |--------:|----------|-------------|--------------|
-| 1  | Lab 01 | *References for all Labs* | [<a href="https://your-link.com" target="_blank">
-  <img src="https://img.shields.io/badge/Click%20Here-Visit-blue?style=for-the-badge" alt="Visit Link">
-</a>
-](../LAB01) |
+| 1  | Lab 01 | *References for all Labs* | [LAB01](../LAB01) |
 | 2  | Lab 02 | *Basic Switch Configuration* | [LAB02](../LAB02) |
 | 3  | Lab 03 | *TELNET: transport input telnet* | [LAB03](../LAB03) |
 | 4  | Lab 04 | *Basic Switch Configuration and TELNET* | [LAB04](../LAB04) |
