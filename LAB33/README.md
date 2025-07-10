@@ -16,7 +16,7 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🛰️ OSPF Advanced Concepts 
+## 🛰️ Mastering OSPF: ABR, ASBR, LSDB, SPF, and More
 
 ## 📍 Key OSPF Components
 
@@ -47,9 +47,72 @@ graph TD
     B -->|Type 3 Summary LSAs| C[Area 0 - Backbone]
     C --> D[ABR in Area 2]
     D -->|Type 3 Summary LSAs| E[Router in Area 2]
+```
 
+## 🔧 Area Range Example
 
+```bash
+area 1 range 10.10.10.0 255.255.255.0
+```
 
+## 🧠 What This Command Does
+This OSPF command is applied on the ABR (Area Border Router) to summarize multiple subnets in Area 1 into a single route when advertising into Area 0 (Backbone).
+
+For example, if Area 1 has the following networks:
+
+10.10.10.0/24
+
+10.10.10.64/26
+
+10.10.10.128/25
+
+The ABR can summarize them into a single prefix:
+👉 10.10.10.0 255.255.255.0
+
+This summarized route is advertised into the backbone, replacing individual Type 3 LSAs.
+
+## 🧭 Using a Layer 3 Switch in OSPF Area 0
+
+### 💡 What is an L3 Switch?
+
+A **Layer 3 switch** is a network switch with routing capabilities. It can perform **OSPF routing**, VLAN inter-routing, and behave like a router in most Layer 3 functions.
+
+---
+
+### 🧩 L3 Switch in Area 0 (Backbone)
+
+When a Layer 3 switch is configured as part of **OSPF Area 0**, it plays the same role as a router and participates in dynamic routing by:
+
+- Exchanging LSAs with other OSPF routers.
+- Running the SPF (Shortest Path First) algorithm.
+- Forwarding inter-area and intra-area traffic.
+
+---
+
+### ✅ Common Use Cases
+
+| Scenario | Description |
+|----------|-------------|
+| **Core Layer** | L3 switches are often used as **core routers** in enterprise networks and are assigned to Area 0. |
+| **Inter-VLAN Routing** | The L3 switch performs inter-VLAN routing and advertises those VLAN subnets via OSPF. |
+| **ABR Function** | If connected to another OSPF area (e.g., Area 1), the L3 switch acts as an **ABR**. |
+| **DR/BDR** | In multi-access segments, it may also become a **DR or BDR**. |
+
+---
+
+### 🔧 Example OSPF Configuration on an L3 Switch
+
+```bash
+interface vlan 10
+ ip address 10.10.10.1 255.255.255.0
+ ip ospf 1 area 0
+
+interface vlan 20
+ ip address 10.10.20.1 255.255.255.0
+ ip ospf 1 area 1
+
+router ospf 1
+ router-id 1.1.1.1
 
 
 
