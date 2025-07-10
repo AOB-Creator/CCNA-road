@@ -16,48 +16,39 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide
+## 🛰️ OSPF Advanced Concepts 
 
-### 📌 What is OSPF?
-OSPF is a link-state dynamic routing protocol used within an autonomous system (AS). It is commonly used in medium to large enterprise networks. OSPF quickly adapts to changes in network topology using Dijkstra's Shortest Path First (SPF) algorithm.
+## 📍 Key OSPF Components
 
-### 🔄 OSPF Basic Operation
+| Component | Description |
+|----------|-------------|
+| **ABR (Area Border Router)** | A router that connects one or more OSPF areas to the backbone (Area 0). Maintains a separate LSDB for each area it connects to. |
+| **ASBR (Autonomous System Boundary Router)** | A router that connects the OSPF domain to an external routing domain (e.g., BGP or another OSPF process). Generates Type 5 LSAs. |
+| **LSDB (Link-State Database)** | A database that stores all received LSAs for a given area. All routers in an area have identical LSDBs. |
+| **SPF (Shortest Path First)** | Dijkstra algorithm used by OSPF to calculate the shortest path to each destination in the LSDB and populate the routing table. |
+| **DR (Designated Router)** | Elected router in broadcast and NBMA networks to reduce LSA flooding. Acts as a central point for OSPF updates. |
+| **BDR (Backup Designated Router)** | Monitors the DR and takes over its role if the DR fails. Also receives all LSAs but does not forward them. |
+| **Transit Area** | An OSPF area that can carry traffic between other OSPF areas (typically Area 0). Allows inter-area communication. |
+| **Non-Transit Area** | An area that does not forward traffic between other areas. Examples include stub, totally stubby, and NSSA. |
 
-| Step | Process              | Description                                                                 |
-|------|----------------------|-----------------------------------------------------------------------------|
-| 1️⃣   | **Neighbor Discovery** | Routers send **Hello packets** via multicast `224.0.0.5` to discover neighbors. |
-| 2️⃣   | **Exchange LSAs**      | Routers exchange **Link-State Advertisements** to share link information.    |
-| 3️⃣   | **SPF Calculation**    | Each router runs **Dijkstra’s algorithm** to build a complete topology map.  |
-| 4️⃣   | **Routing Table Update** | The best paths are added to the **routing table**.                           |
+## 🌐 Transit vs. Non-Transit Areas
 
-## 🛠️ Basic OSPF Configuration (Cisco CLI)
-
-Example Topology:
-- Router1: 192.168.1.1/24
-- Router2: 192.168.2.1/24
-- Network between them: 10.0.0.0/30
-
-```bash
-# Enable OSPF process with ID 1
-Router(config)# router ospf 1
-
-# Assign networks to OSPF area 0
-Router(config-router)# router-id 1.1.1.1
-Router(config-router)# network 192.168.1.0 0.0.0.255 area 0
-Router(config-router)# network 10.0.0.0 0.0.0.3 area 0
-Router(config-router)# passive-interface fastEthernet 0/0
-```
+| Type                | Description |
+|---------------------|-------------|
+| **Transit Area**     | A standard OSPF area (usually Area 0) that allows traffic to pass between other OSPF areas. It acts as a central backbone where ABRs exchange inter-area routing information. |
+| **Non-Transit Area** | An OSPF area that does not allow traffic to pass between other areas. Used to simplify routing and reduce LSA processing. Includes **Stub**, **Totally Stubby**, and **NSSA (Not-So-Stubby Area)** types. These areas block certain LSA types to limit routing overhead. |
 
 
-## 🧪 Useful Show Commands
+## 🔁 OSPF Routing Flow Example
 
-```bash
-show ip ospf                    # General OSPF information
-show ip ospf neighbor           # View neighbor relationships
-show ip ospf interface          # Interface OSPF status
-show ip route ospf              # OSPF-learned routes
-debug ip ospf events            # Troubleshoot OSPF
-```
+```mermaid
+graph TD
+    A[Router in Area 1] -->|Intra-Area LSAs| B[ABR]
+    B -->|Type 3 Summary LSAs| C[Area 0 - Backbone]
+    C --> D[ABR in Area 2]
+    D -->|Type 3 Summary LSAs| E[Router in Area 2]
+
+
 
 
 
