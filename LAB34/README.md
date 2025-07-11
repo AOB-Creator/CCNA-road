@@ -16,28 +16,68 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🌐 OSPF with VLANs and L2 Switch
-
+## 🧠 L2 Switch + VLANs + OSPF: Conceptual Clarity
 When combining OSPF with VLANs, each VLAN can be treated as a separate subnet, and a Layer 3 device (L3 Switch or Router) routes traffic between them.
 
-+-----------+           +-------------+           +-----------+
-| PC (VLAN 10)|---+     |             |     +---| PC (VLAN 20)|
-| 192.168.10.2|   |     |  L2 Switch  |     |   | 192.168.20.2|
-+-----------+   |-----| [Access Ports] |-----|   +-----------+
-                |     |             |     |
-                |     +-------------+     |
-                |                        |
-         +-------------------------------+
-         |
-+--------------------+
-|  L3 Switch or Router|
-|  - SVI for VLAN 10  |
-|  - SVI for VLAN 20  |
-|  - OSPF Enabled     |
-+--------------------+
+## 🔹 Router-on-a-Stick (if using a router)
+The router uses sub-interfaces for each VLAN:
+
+```bash
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+```
+Then, enable OSPF for these subnets:
 
 
+```bash
+router ospf 1
+ network 192.168.10.0 0.0.0.255 area 0
+ network 192.168.20.0 0.0.0.255 area 0
+```
 
+## 🔧 L2 Switch Configuration Example (Cisco-style)
+ Create VLANs
+
+```bash
+Switch> enable
+Switch# configure terminal
+Switch(config)# vlan 10
+Switch(config-vlan)# name SALES
+Switch(config)# vlan 20
+Switch(config-vlan)# name HR
+Switch(config)# exit
+```
+Assign Access Ports
+```bash
+Switch(config)# interface FastEthernet0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+
+Switch(config)# interface FastEthernet0/2
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 20
+```
+Set Up Trunk to Router or L3 Switch
+```bash
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# switchport trunk encapsulation dot1q
+Switch(config-if)# switchport mode trunk
+```
+## ✅ What You Can Use an L2 Switch For in an OSPF Network
+
+| ✅ Use Case                         | Explanation                                                                 |
+|------------------------------------|-----------------------------------------------------------------------------|
+| Connect OSPF-speaking routers      | Acts as a Layer 2 bridge between routers or L3 switches                     |
+| VLAN segmentation                  | Segments broadcast domains to isolate traffic for different departments     |
+| Inter-VLAN routing via L3 device   | Forwards VLAN-tagged frames to a router or L3 switch for OSPF routing       |
+| Trunk uplinks to L3 devices        | Allows multiple VLANs to pass to routers for sub-interface or SVI handling  |
+| End device connectivity            | Provides network access to PCs and hosts participating in OSPF-routed VLANs |
+| Centralized management             | Simplifies VLAN distribution via trunk links in larger OSPF topologies      |
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
