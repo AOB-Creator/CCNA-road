@@ -19,90 +19,57 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
+## 📘 Point-to-Point Interconnection with Subnetting for Host-Specific LANs
 
-## Table of Contents
-- [Telnet](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
+The subnet mask determines how many bits are allocated for the network and how many for the hosts.
+- A subnet mask is typically represented as /n (CIDR notation), where n is the number of network bits (e.g., /24).
+- The remaining bits (32 - n) are used for hosts.
 
-
-## 🚀 About
-
-Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
-
-- **User EXEC Mode**: > Limited access; basic monitoring.
-- **Privileged EXEC Mode**: # Full access to show/debug commands.
-- **Global Configuration Mode**: (config)# Used to make global changes.
-- **Interface Configuration Mode**: (config-if)# Used to configure interfaces.
-- **VLAN Configuration Mode**: (config-vlan)# VLAN creation and settings.
-
-## 🎓 Console Modes
-
-Network security is the practice of protecting the integrity, confidentiality, and availability of computer networks and data using both hardware and software technologies. It involves implementing policies, controls, and configurations to prevent unauthorized access, misuse, modification, or denial of network resources.
-
-### Basic Switch Configuration
-|🔧 Basic Switch Configuration | Configuration Commands |
-|:-|:-|:-|
-| MySwitch(config)# line vty 0 4 | .....|
-| MySwitch(config-line)# password your_telnet_password | ..... |
-| MySwitch(config-line)# login| ..... |
-| MySwitch(config-line)# transport input telnet | ..... |
-| MySwitch(config-line)# exit | ..... |
-
-### Saving Configurations
-
-
-## 📝 How to Build
-
-To build the packages, follow these steps:
+### 📗 2. Number of Hosts per Subnet
+🧮 Formula:
 
 ```shell
-🌀️ Type of Modes
-1. switch> 📡 User EXEC Mode
-2. switch# 📡 Privileged EXEC Mode
-3. switch(configure)# 📡 Global Configuration Mode
-4. switch(configure-if)#  📡 Additional Sub-Modes:
-
-✅  Changing modes
-switch> - switch#
-switch> enable
-
-switch# -> switch(configure)#
-switch# configure terminal
-
-switch(config)#  ->  switch (config-if)# 
-switch(config)# interface FastEthernet0/1
-
-📡 Privileged EXEC Mode
-switch# show running-config
-switch# show ip interface brief
-switch# show version
-switch# copy running-config startup-config
-switch# write
-switch# reload
-
-📡 TELNET setting ⬇️
-MySwitch(config)# line vty 0 4
-MySwitch(config-line)# password your_telnet_password
-MySwitch(config-line)# login
-MySwitch(config-line)# transport input telnet
-MySwitch(config-line)# exit
-
-📡Mac and Route table📡
-switch> show mac-address-table
-switch# erase running-config
-switch(config) ip default-gateway 192.168.2.1
-
-📡Static IP route📡
-R1: ip route 192.168.3.0 255.255.255.0  fa 0/1
-R2: ip route 192.168.1.0 255.255.255.0  fa 0/1
-Router#: show ip route
+Number of Hosts = 2^(32 - n) - 2
 ```
+## 📙 3. Number of Subnets
+If you're subnetting a larger network (like turning a /16 into multiple /24s):
+
+🧮 Formula:
+```shell
+Number of Subnets = 2^(n - original_mask)
+```
+From a /16 to /24:
+```shell
+Number of Subnets = 2^(24 - 16) = 2^8 = 256 subnets
+```
+
+## 📕 4. Block Size (Increment) per Subnet
+The block size tells you how many IPs each subnet covers.
+🧮 Formula:
+
+```shell
+Block Size = 256 - last_octet_of_subnet_mask
+```
+
+
+## 🧾 Subnet Summary Table
+
+| CIDR | Subnet Mask       | Hosts (Usable) | Block Size | Network Bits | Host Bits |
+|------|-------------------|----------------|------------|---------------|------------|
+| /30  | 255.255.255.252   | 2              | 4          | 30            | 2          |
+| /29  | 255.255.255.248   | 6              | 8          | 29            | 3          |
+| /28  | 255.255.255.240   | 14             | 16         | 28            | 4          |
+| /27  | 255.255.255.224   | 30             | 32         | 27            | 5          |
+| /26  | 255.255.255.192   | 62             | 64         | 26            | 6          |
+| /25  | 255.255.255.128   | 126            | 128        | 25            | 7          |
+| /24  | 255.255.255.0     | 254            | 256        | 24            | 8          |
+| /23  | 255.255.254.0     | 510            | 512        | 23            | 9          |
+| /22  | 255.255.252.0     | 1022           | 1024       | 22            | 10         |
+| /21  | 255.255.248.0     | 2046           | 2048       | 21            | 11         |
+| /20  | 255.255.240.0     | 4094           | 4096       | 20            | 12         |
+
+
+
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
