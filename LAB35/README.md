@@ -16,11 +16,11 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 📡 Advanced Routing and Switching: Multi-Area OSPF with Inter-VLAN Communication
+# 📡 Advanced Routing and Switching: Multi-Area OSPF with Inter-VLAN Communication
 
 Multi-area OSPF setup with multiple VLANs across three major areas (10, 20, 30) being routed through Area 0 (VLAN 77). Below is a breakdown of your configuration and how to ensure it works:
 
-# 🌐 Multi-Area OSPF Routing with VLAN Segmentation
+## 🌐 Multi-Area OSPF Routing with VLAN Segmentation
 
 This project demonstrates a scalable enterprise network using **Multi-Area OSPF (Open Shortest Path First)** routing with **multiple VLANs** across different areas. All inter-area routing is handled through **VLAN 77 (Area 0)** acting as the backbone.
 
