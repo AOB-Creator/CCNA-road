@@ -1,6 +1,4 @@
 <a name="top"></a>
-
-
 ![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB07/image.png)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
@@ -19,19 +17,7 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
-
-## Table of Contents
-- [Telnet](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
-
-
-## 🚀 About
+## 🛣️ Asymmetric Static Routing Lab with Dual LANs and 3 Routers
 
 Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
 
@@ -46,19 +32,6 @@ Welcome to the Cisco Networking Configuration Guide — a comprehensive resource
 Network security is the practice of protecting the integrity, confidentiality, and availability of computer networks and data using both hardware and software technologies. It involves implementing policies, controls, and configurations to prevent unauthorized access, misuse, modification, or denial of network resources.
 
 ### Basic Switch Configuration
-|🔧 Basic Switch Configuration | Configuration Commands |
-|:-|:-|:-|
-| MySwitch(config)# line vty 0 4 | .....|
-| MySwitch(config-line)# password your_telnet_password | ..... |
-| MySwitch(config-line)# login| ..... |
-| MySwitch(config-line)# transport input telnet | ..... |
-| MySwitch(config-line)# exit | ..... |
-
-### Saving Configurations
-
-
-## 📝 How to Build
-
 To build the packages, follow these steps:
 
 ```shell
