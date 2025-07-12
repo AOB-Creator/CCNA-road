@@ -28,7 +28,7 @@
 - [Contacts](#%EF%B8%8F-contacts)
 
 
-## 🚀 About
+## 🧰 Foundational Switch Configuration Lab (Hostname, Passwords, VLAN Interface)
 
 Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
 
