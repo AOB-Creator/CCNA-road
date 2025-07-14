@@ -19,94 +19,135 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🔹 What is a VLAN?
+## 📡 Interconnected VLANs over Bus Topology with VTP and Multilayer Switches
 
-A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
+This lab demonstrates a network topology with a bus architecture, utilizing four multilayer switches (LS2, LS3, LS4, LS5), each integrating internal Layer 2 switches. The network is segmented into multiple VLANs to support different departments and roles, connected via a central VTP (VLAN Trunking Protocol) server and VTP transparent switch.
 
+## Topology
+- **Multilayer Switches**:
+  - **LS2**: Connected to VTP Server via Fa0/23 and Switch2 via Fa0/24.
+  - **LS3**: Connected to VTP Server via Fa0/23 and Switch3 via Fa0/24.
+  - **LS4**: Connected to VTP Transparent via Fa0/23 and Switch4 via Fa0/24.
+  - **LS5**: Connected to VTP Transparent via Fa0/23 and Switch5 via Fa0/24.
+- **Central Devices**:
+  - **VTP Server**: Manages VLAN configurations, connected to LS2, LS3, LS4, and LS5 via Gig0/1.
+  - **VTP Transparent**: Facilitates VLAN propagation, connected to LS4 and LS5 via Gig0/2.
+- **Bus Topology**: Switches are interconnected in a linear bus configuration using trunk links.
+
+## VLAN Configuration
+- **VLAN 10 - Sales (Green)**: 192.168.10.0/24
+- **VLAN 20 - CEO (Blue)**: 192.168.20.0/24
+- **VLAN 30 - R&D (Orange)**: 192.168.30.0/24
+- **VLAN 40 - NASA (Black)**: 192.168.40.0/24
+- **VLAN 50 - NATO (Purple)**: 192.168.50.0/24
+
+## Subnet and IP Details
+- **VLAN 10 (Sales)**:
+  - LS2: 192.168.10.2
+  - PCs: PC7 (192.168.10.3), PC13 (192.168.10.5)
+- **VLAN 20 (CEO)**:
+  - LS3: 192.168.20.4
+  - PCs: PC0 (192.168.20.5), PC1 (192.168.20.2)
+- **VLAN 30 (R&D)**:
+  - LS4: 192.168.30.2
+  - PCs: PC2 (192.168.30.3), PC3 (192.168.30.4)
+- **VLAN 40 (NASA)**:
+  - LS5: 192.168.40.5
+  - PCs: PC4 (192.168.40.2), PC5 (192.168.40.3)
+- **VLAN 50 (NATO)**:
+  - LS5: 192.168.50.4
+  - PCs: PC6 (192.168.50.2), PC11 (192.168.50.3)
+
+## Protocols
+- **Ethernet**: Layer 2 communication over FastEthernet and GigabitEthernet.
+- **IEEE 802.1Q**: VLAN tagging for trunk links.
+- **VTP (VLAN Trunking Protocol)**: Centralized VLAN management.
+- **ARP**: Resolves IP to MAC addresses.
+- **ICMP**: Ping for testing connectivity.
+- **IP (IPv4)**: Subnetting with /24 masks.
+- **STP**: Loop prevention in bus topology.
+
+## Technologies
+- **Multilayer Switching**: Switching and routing on LS2–LS5.
+- **VLANs**: Isolated broadcast domains for departments.
+- **Trunking**: Inter-switch VLAN communication.
+- **Bus Topology**: Centralized and efficient design.
+
+## Configuration
+
+### VTP Server
+```bash
+vtp mode server
+vtp domain LAB
+vlan 10
+ name Sales
+vlan 20
+ name CEO
+vlan 30
+ name R&D
+vlan 40
+ name NASA
+vlan 50
+ name NATO
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,40,50
+```
+## L2 Switches
+```bash
+vtp mode client
+vtp domain LAB
+interface FastEthernet0/23
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+interface Vlan10
+ ip address 192.168.10.2 255.255.255.0
+ no shutdown
+ip default-gateway 192.168.10.1
+```
+## ✅ Verification Commands
+
+### 🔧 On VTP Server and Transparent Switch
+- `show vtp status`  
+  _Displays the current VTP mode, domain name, configuration revision number, and VLANs learned or created._
+- `show vlan brief`  
+  _Lists all VLANs and the ports assigned to each VLAN._
+- `show interfaces trunk`  
+  _Shows trunk interfaces and which VLANs are allowed or active._
+
+### 🖧 On Multilayer Switches (LS2, LS3, LS4, LS5)
+- `show ip interface brief`  
+  _Displays the status and IP addresses of all interfaces._
+- `show vlan brief`  
+  _Confirms correct VLAN-to-port assignments._
+- `show interfaces trunk`  
+  _Verifies trunk links and allowed VLANs on Fa0/23 and Fa0/24._
+- `ping [IP Address]`  
+  _Used to test connectivity to other devices within or across VLANs._
+- `show spanning-tree`  
+  _Checks if Spanning Tree Protocol is running and which ports are blocked or forwarding._
+
+### 🖥️ On PCs
+- `ping [gateway IP]`  
+  _Verifies basic connectivity to the default gateway (multilayer switch)._
+- `ping [other PC IP]`  
+  _Tests intra-VLAN or inter-VLAN communication._
+- `ipconfig` (on Windows) / `ifconfig` (on Linux)  
+  _Displays IP configuration of the PC for troubleshooting._
 
 ---
 
-## 🔹 Why Use VLANs?
+📝 **Note**: If inter-VLAN routing is not working, verify:
+- VLAN interfaces are up (`no shutdown`)
+- IPs are correctly assigned
+- Trunk links are passing the correct VLANs
+- Devices are using the correct gateways
 
-Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
 
-- Segmentation – Divide a large network into smaller parts.
-- Security – Restrict broadcast domains and isolate sensitive departments (e.g., HR from IT).
-- Performance – Reduces unnecessary traffic by limiting broadcast domains.
-- Manageability – Easier to manage users and policies.
-- Flexibility – Logical grouping of users regardless of location.
-  
----
-## 🔹 VLAN Types
 
-| VLAN Type         | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| **Default VLAN**   | All switch ports belong to this VLAN by default (usually VLAN 1).           |
-| **Data VLAN**      | Used to carry user-generated traffic (excluding voice, management, etc.).   |
-| **Voice VLAN**     | Dedicated VLAN for Voice over IP (VoIP) traffic with high priority.         |
-| **Management VLAN**| Used for managing network devices via protocols like SSH, Telnet, SNMP.     |
-| **Native VLAN**    | Handles untagged traffic on trunk ports (default is VLAN 1).                |
-| **Trunk VLAN**     | VLANs allowed to pass over a trunk link between switches.                   |
-| **Private VLAN**   | Isolates ports within a VLAN to increase security and control.              |
-| **Static VLAN**    | VLAN manually assigned to specific ports by a network admin.                |
-| **Dynamic VLAN**   | VLAN assigned automatically based on device MAC address via VMPS.           |
-
-##🔹 How VLAN Works (Simplified):
-
-- A switch port is assigned to a specific VLAN.
-- Devices connected to that port are automatically part of that VLAN.
-- VLAN-tagged traffic uses IEEE 802.1Q standard.
-- A trunk port allows multiple VLANs on a single physical link between switches.
-- Router-on-a-Stick or Layer 3 Switch is used for inter-VLAN routing.
-
-##🔹 Key VLAN Commands (Cisco IOS Example):
-
-```bash
-# Create VLAN
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-
-# Assign VLAN to port
-Switch(config)# interface fa0/1
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 10
-
-# Configure trunk port
-Switch(config)# interface fa0/24
-Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allowed vlan 10,20,30
-```
-
-## 🔧 VLAN Database and Trunk Port Configuration (Cisco IOS)
-
-### 🗂️ VLAN Database Configuration
-
-Use these commands to create VLANs and name them:
-
-```bash
-Switch# configure terminal
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-Switch(config-vlan)# exit
-
-Switch(config)# vlan 20
-Switch(config-vlan)# name SALES
-Switch(config-vlan)# exit
-```
-
-### 📋 Verify Configuration
-
-After configuring VLANs and trunk ports, use the following commands to verify everything is working correctly.
-
-#### 🔍 Show VLAN Information
-
-```bash
-Switch# show vlan brief
-Switch# show interfaces trunk
-Switch# show interfaces switchport
-Switch# show running-config
-
-```
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
