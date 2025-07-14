@@ -60,8 +60,8 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 8  | Lab 08 | 📦 Point-to-Point Interconnection with Static Forward & Return Routing | [LAB08](./LAB08) |
 | 9  | Lab 09 | 🌐 L3 Switch-Based Routing Topology with Redundant Router Paths | [LAB09](./LAB09) |
 | 10 | Lab 10 | 🛠️ Advanced Routing Infrastructure: Layer 3 Switch as Core Gateway | [LAB10](./LAB10) |
-| 11 | Lab 11 | *Add description here* | [LAB11](./LAB11) |
-| 12 | Lab 12 | *Add description here* | [LAB12](./LAB12) |
+| 11 | Lab 11 | 🧪 Static Routing Between Two Routers with Subnetting Based on Host Requirements | [LAB11](./LAB11) |
+| 12 | Lab 12 | 🚌 Static Routing Lab with 7 Routers in a Bus Topology | [LAB12](./LAB12) |
 | 13 | Lab 13 | 📦 Application Layer (Layer 7 - OSI Model) | [LAB13](./LAB13) |
 | 14 | Lab 14 | 📥 View MAC Address Table (Switch CLI, netstat, Wireshark, traceroute) | [LAB14](./LAB14) |
 | 15 | Lab 15 | 🔐 Telnet vs SSH – In-Depth Overview | [LAB15](./LAB15) |
