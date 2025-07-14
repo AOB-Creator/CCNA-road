@@ -69,10 +69,10 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 17 | Lab 17 | 🔌 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB17](./LAB17) |
 | 18 | Lab 18 | 🔌 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB18](./LAB18) |
 | 19 | Lab 19 | 🛠️ Multilayer Switch Configuration Guide and VLAN | [LAB19](./LAB19) |
-| 20 | Lab 20 | *Add description here* | [LAB20](./LAB20) |
-| 21 | Lab 21 | *Add description here* | [LAB21](./LAB21) |
+| 20 | Lab 20 | 📡 VLAN Configuration and Trunking Using a Cisco Layer 2 Switch | [LAB20](./LAB20) |
+| 21 | Lab 21 | 🌐 VLANs Explained: Logical Grouping Beyond Physical Boundaries | [LAB21](./LAB21) |
 | 22 | Lab 22 | 🔷 VTP – VLAN Trunking Protocol | [LAB22](./LAB22) |
-| 23 | Lab 23 | *Add description here* | [LAB23](./LAB23) |
+| 23 | Lab 23 | 📡 Interconnected VLANs over Bus Topology with VTP and Multilayer Switches | [LAB23](./LAB23) |
 | 24 | Lab 24 | 🧪 VLAN Routing Lab – Cisco Packet Tracer (3 Methods) | [LAB24](./LAB24) |
 | 25 | Lab 25 | *Add description here* | [LAB25](./LAB25) |
 | 26 | Lab 26 | *Add description here* | [LAB26](./LAB26) |
