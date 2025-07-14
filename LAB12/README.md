@@ -145,7 +145,7 @@ Each router is connected in a linear chain via `Fa0/1` ↔ `Fa0/1` interfaces fo
 
 ```text
 [PCs]--[Switch0]--Router0--Router1--Router2--Router3--Router4--Router5--Router6--[Switch6]--[PCs]
-
+```
 
 ## Topology
 - **Routers**: Connected in a linear chain (Router0 to Router6) via Fa0/0 interfaces.
