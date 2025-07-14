@@ -19,114 +19,121 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🛠️ Multilayer Switch Configuration Guide
+## 📡 VLAN Configuration and Trunking Using a Cisco Layer 2 Switch
 
-This project outlines the step-by-step configuration of a **Multilayer Switch** for inter-VLAN routing, Layer 3 functionalities, and static/dynamic routing using Cisco IOS.
+This lab illustrates a network topology featuring a **central Layer 2 switch (Switch1)** connecting two routers (Router2 and Router3), each linked to multiple PCs organized into **VLANs**. The setup leverages VLANs for logical network segmentation, with appropriate protocols to ensure reliable and efficient communication.
 
----
+## 🗺️ Topology Description
 
-## 📌 Project Overview
+- **🔌 Switch1**: Cisco 2960-24TT Layer 2 Switch  
+  - Connected to Router2 via **Fa0/23**
+  - Connected to Router3 via **Fa0/24**
 
-Multilayer switches combine Layer 2 switching and Layer 3 routing, enabling efficient inter-VLAN routing and high-speed packet forwarding. This guide includes:
+- **🛠 Routers**
+  - **Router2**: Interface Fa0/23, IP `192.168.1.3`
+  - **Router3**: Interface Fa0/24, IP `192.168.3.3`
 
-- VLAN creation
-- SVIs (Switch Virtual Interfaces)
-- Static routing between VLANs
-- Routing protocol configuration (optional)
-
----
-
-## 🧰 Network Topology Example
-
-- Switch Model: Cisco Catalyst 3750
-- VLANs: 101 (Staff), 102 (Admin), 103 (Guest)
-- Ports: Fa0/1–Fa0/24
-- Routed Ports: Gi1/1, Gi1/2
+- **🌈 VLAN Assignments**
+  - **VLAN 10 (Red)** – PCs & Router2
+  - **VLAN 20 (Green)** – Subset of PCs under Router2
+  - **VLAN 30 (Orange)** – PCs & Router3
 
 ---
 
-## 🔧 Configuration Steps
+## 📊 Subnet and IP Details
 
-## 1. **Create VLANs**
+### 🔴 VLAN 10 – `192.168.1.0/24`
+| Device | IP Address     |
+|--------|----------------|
+| Router2 | 192.168.1.3    |
+| PC0     | 192.168.1.2    |
+| PC1     | 192.168.1.1    |
 
-```bash
-Switch(config)# vlan 101
-Switch(config-vlan)# name Staff
-Switch(config)# vlan 102
-Switch(config-vlan)# name Admin
-Switch(config)# vlan 103
-Switch(config-vlan)# name Guest
-```
-##2. Assign Ports to VLANs
-
-
-```bash
-
-Switch(config)# interface range fa0/1 - 10
-Switch(config-if-range)# switchport mode access
-Switch(config-if-range)# switchport access vlan 101
-
-```
-
-##3. Create SVIs (Switch Virtual Interfaces)
-
-```bash
-Switch(config)# interface vlan 101
-Switch(config-if)# ip address 192.168.101.1 255.255.255.0
-Switch(config)# interface vlan 102
-Switch(config-if)# ip address 192.168.102.1 255.255.255.0
-Switch(config)# interface vlan 103
-Switch(config-if)# ip address 192.168.103.1 255.255.255.0
-```
-
-##Enable routing
-
-```bash 
-Switch(config)# ip routing
-```
-##4. Configure Routed Ports (If used as router ports)
-
-```bash 
-Switch(config)# interface gi1/1
-Switch(config-if)# no switchport
-Switch(config-if)# ip address 10.0.0.1 255.255.255.0
-Switch(config-if)# no shutdown
-```
-
-# 🌐 Multilayer Switch Network with DNS and HTTPS Servers
-
-This guide includes configuring a Multilayer Switch along with **DNS** and **HTTPS** servers in a Layer 3 environment.
+- **Range**: 192.168.1.0 – 192.168.1.255  
+- **Broadcast**: 192.168.1.255
 
 ---
 
-## 🖥️ Servers in the Network
+### 🟢 VLAN 20 – `192.168.2.0/24`
+| Device | IP Address     |
+|--------|----------------|
+| PC2     | 192.168.2.2    |
+| PC3     | 192.168.2.3    |
 
-| Server Type | IP Address       | VLAN | Purpose              |
-|-------------|------------------|------|----------------------|
-| DNS Server  | 192.168.50.10    | 50   | Resolving hostnames  |
-| HTTPS Server| 192.168.60.10    | 60   | Secure web access    |
+- **Range**: 192.168.2.0 – 192.168.2.255  
+- **Broadcast**: 192.168.2.255
 
 ---
 
-## 🔧 Server VLAN & SVI Setup
+### 🟠 VLAN 30 – `192.168.3.0/24`
+| Device | IP Address     |
+|--------|----------------|
+| Router3 | 192.168.3.3    |
+| PC4     | 192.168.3.2    |
+| PC5     | 192.168.3.3    |
 
-### 1. **Create VLANs and Assign IPs to SVIs**
+- **Range**: 192.168.3.0 – 192.168.3.255  
+- **Broadcast**: 192.168.3.255
 
-```bash
-Switch(config)# vlan 50
-Switch(config-vlan)# name DNS_VLAN
-Switch(config)# vlan 60
-Switch(config-vlan)# name HTTPS_VLAN
+---
 
-Switch(config)# interface vlan 50
-Switch(config-if)# ip address 192.168.50.1 255.255.255.0
-Switch(config)# interface vlan 60
-Switch(config-if)# ip address 192.168.60.1 255.255.255.0
-Switch(config)# ip routing
+## 📡 Protocols Used
+
+| Protocol | Purpose |
+|---------|---------|
+| **Ethernet** | Layer 2 data transmission between switch and devices |
+| **IEEE 802.1Q** | VLAN tagging on trunk links |
+| **ARP** | Resolves IP-to-MAC within VLAN |
+| **ICMP** | Network diagnostics (e.g., ping) |
+| **IPv4** | Addressing with /24 subnet masks |
+| **Static Routing / OSPF (optional)** | Inter-VLAN communication on Router2/3 |
+
+---
+
+## 🧰 Technologies
+
+- **VLANs**: Logical segmentation of traffic to reduce broadcast domains
+- **Trunking**: Fa0/23 & Fa0/24 carry tagged traffic between routers and switch
+- **Access Ports**: Assigned to individual PCs, mapped to specific VLANs
+- **Layer 2 Switching**: Operates based on MAC addresses
+
+---
+
+## 🧾 Configuration Examples
+
+### 🔧 Switch1 Configuration
+
+```shell
+# Create VLANs
+vlan 10
+ name RED
+vlan 20
+ name GREEN
+vlan 30
+ name ORANGE
+
+# Trunk ports
+interface FastEthernet0/23
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan 30
+
+# Access ports
+interface range FastEthernet0/1-4
+ switchport mode access
+ switchport access vlan 10
+
+interface range FastEthernet0/5-6
+ switchport mode access
+ switchport access vlan 20
+
+interface range FastEthernet0/7-10
+ switchport mode access
+ switchport access vlan 30
 ```
-
-
-
 
 
 
