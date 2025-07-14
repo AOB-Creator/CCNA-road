@@ -19,124 +19,144 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
+## 🚌 Static Routing Lab with 7 Routers in a Bus Topology
 
-## Table of Contents
-- [Telnet](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
+This lab represents a network topology with multiple routers, switches, and PCs configured across different subnets. The setup includes a **linear (bus) arrangement** of 7 routers connected via `Fa0/0` and `Fa0/1` interfaces, each branching out to a switch with multiple PCs. Static routing is manually configured between each router to ensure end-to-end communication.
+
+---
+
+## 🧩 Subnet Tables
+
+### 🌐 Subnet 1: 192.168.1.0/27
+
+| Device     | Interface | IP Address     |
+|------------|-----------|----------------|
+| Router0    | Fa0/0     | 192.168.1.1    |
+| PC1        | Fa0       | 192.168.1.2    |
+| PC2        | Fa0       | 192.168.1.3    |
+| PC3        | Fa0       | 192.168.1.4    |
+| PC4        | Fa0       | 192.168.1.5    |
+| PC5        | Fa0       | 192.168.1.6    |
+| PC6        | Fa0       | 192.168.1.7    |
+
+> 🗂 Range: 192.168.1.0 - 192.168.1.31 | Broadcast: 192.168.1.31
+
+---
+
+### 🌐 Subnet 2: 192.168.2.0/27
+
+| Device     | Interface | IP Address     |
+|------------|-----------|----------------|
+| Router1    | Fa0/0     | 192.168.2.1    |
+| PC1        | Fa0       | 192.168.2.2    |
+| PC2        | Fa0       | 192.168.2.3    |
+| PC3        | Fa0       | 192.168.2.4    |
+| PC4        | Fa0       | 192.168.2.5    |
+| PC5        | Fa0       | 192.168.2.6    |
+| PC6        | Fa0       | 192.168.2.7    |
+
+> 🗂 Range: 192.168.2.0 - 192.168.2.31 | Broadcast: 192.168.2.31
+
+---
+
+### 🌐 Subnet 3: 192.168.3.0/27
+
+| Device     | Interface | IP Address     |
+|------------|-----------|----------------|
+| Router2    | Fa0/0     | 192.168.3.1    |
+| PC1        | Fa0       | 192.168.3.2    |
+| PC2        | Fa0       | 192.168.3.3    |
+| PC3        | Fa0       | 192.168.3.4    |
+| PC4        | Fa0       | 192.168.3.5    |
+| PC5        | Fa0       | 192.168.3.6    |
+| PC6        | Fa0       | 192.168.3.7    |
+
+> 🗂 Range: 192.168.3.0 - 192.168.3.31 | Broadcast: 192.168.3.31
+
+---
+
+### 🌐 Subnet 4: 192.168.4.0/27
+
+| Device     | Interface | IP Address     |
+|------------|-----------|----------------|
+| Router3    | Fa0/0     | 192.168.4.1    |
+| PC1        | Fa0       | 192.168.4.2    |
+| PC2        | Fa0       | 192.168.4.3    |
+| PC3        | Fa0       | 192.168.4.4    |
+| PC4        | Fa0       | 192.168.4.5    |
+| PC5        | Fa0       | 192.168.4.6    |
+| PC6        | Fa0       | 192.168.4.7    |
+
+> 🗂 Range: 192.168.4.0 - 192.168.4.31 | Broadcast: 192.168.4.31
+
+---
+
+### 🌐 Subnet 5: 192.168.5.0/27
+
+| Device     | Interface | IP Address     |
+|------------|-----------|----------------|
+| Router4    | Fa0/0     | 192.168.5.1    |
+| PC1        | Fa0       | 192.168.5.2    |
+| PC2        | Fa0       | 192.168.5.3    |
+| PC3        | Fa0       | 192.168.5.4    |
+| PC4        | Fa0       | 192.168.5.5    |
+| PC5        | Fa0       | 192.168.5.6    |
+| PC6        | Fa0       | 192.168.5.7    |
+
+> 🗂 Range: 192.168.5.0 - 192.168.5.31 | Broadcast: 192.168.5.31
+
+---
+
+### 🌐 Subnet 6: 192.168.6.0/27
+
+| Device     | Interface | IP Address     |
+|------------|-----------|----------------|
+| Router5    | Fa0/0     | 192.168.6.1    |
+| PC1        | Fa0       | 192.168.6.2    |
+| PC2        | Fa0       | 192.168.6.3    |
+| PC3        | Fa0       | 192.168.6.4    |
+| PC4        | Fa0       | 192.168.6.5    |
+| PC5        | Fa0       | 192.168.6.6    |
+| PC6        | Fa0       | 192.168.6.7    |
+
+> 🗂 Range: 192.168.6.0 - 192.168.6.31 | Broadcast: 192.168.6.31
+
+---
+
+### 🌐 Subnet 7: 192.168.7.0/27
+
+| Device     | Interface | IP Address     |
+|------------|-----------|----------------|
+| Router6    | Fa0/0     | 192.168.7.1    |
+| PC1        | Fa0       | 192.168.7.2    |
+| PC2        | Fa0       | 192.168.7.3    |
+| PC3        | Fa0       | 192.168.7.4    |
+| PC4        | Fa0       | 192.168.7.5    |
+| PC5        | Fa0       | 192.168.7.6    |
+| PC6        | Fa0       | 192.168.7.7    |
+
+> 🗂 Range: 192.168.7.0 - 192.168.7.31 | Broadcast: 192.168.7.31
+
+---
+
+## 🗺️ Topology Summary
+
+Each router is connected in a linear chain via `Fa0/1` ↔ `Fa0/1` interfaces for inter-router connections. Local devices are connected through switches via `Fa0/0`.
+
+```text
+[PCs]--[Switch0]--Router0--Router1--Router2--Router3--Router4--Router5--Router6--[Switch6]--[PCs]
 
 
-## 🚀 About
+## Topology
+- **Routers**: Connected in a linear chain (Router0 to Router6) via Fa0/0 interfaces.
+- **Switches**: Each router connects to a switch (Switch0 to Switch6) via GigabitEthernet (Gig0/1) interfaces.
+- **PCs**: Six PCs per switch, connected via Fa0/1 to Fa0/6 interfaces.
+- **IP Addressing**: Each subnet uses a /27 mask, providing 32 IP addresses per subnet (30 usable host addresses).
 
-Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
-
-## ✅ Summary Table
-
-| Tool/Concept     | Purpose                                             | Example Use             |
-|------------------|-----------------------------------------------------|--------------------------|
-| **IP + Subnet**  | Divide network and host portions                    | `192.168.1.10/24`        |
-| **CIDR**         | Compact subnet representation                       | `/24`, `/16`, `/8`       |
-| **Traceroute**   | Show packet path to destination                     | `traceroute google.uz`   |
-| **Loopback**     | Test local system networking                        | `ping 127.0.0.1`         |
-| **Netstat**      | Show network connections and ports                  | `netstat -an`            |
-| **Route Print**  | View routing table and gateway paths                | `route print` (Windows)  |
-
-
-## 🧭 Traceroute (Trace the Path to a Host)
-
-```shell
-traceroute google.uz
-```
-Purpose:
-
-    Shows the path packets take to reach a destination.
-
-    Helps diagnose network delays or routing problems.
-
-### 📌 IP Address Division (with Subnet Mask & CIDR)
-    IP Address is a unique identifier for a device on a network. It’s typically written as four octets (e.g., 192.168.1.10).
-
-    Subnet Mask defines how the IP address is split between the network and host parts. Example:
-
-        255.255.255.0 → Network: 192.168.1, Host: .10
-
-    CIDR (Classless Inter-Domain Routing) is a compact representation of a subnet mask. Example:
-
-        192.168.1.10/24 means the first 24 bits are network bits, equivalent to 255.255.255.0.
-
-### 🔁 Loopback Address (127.0.0.1)
-
-	127.0.0.1 is the loopback address that points to your own machine.
-
-	Used for testing network software without actually sending data over the network.
-
-	Alias: localhost
-	
-### 📡 Netstat (Network Statistics)
-
-	Command: netstat (use netstat -an for detailed output)
-```shell
-	netstat -an
-	netstat -r
-```
-	Purpose:
-
-	Displays active connections, listening ports, routing tables, and network statistics.
-
-	Helps identify open ports and detect suspicious activity.
-
-
-## 📝 How to Build
-
-To build the packages, follow these steps:
-
-```shell
-🌀️ Type of Modes
-1. switch> 📡 User EXEC Mode
-2. switch# 📡 Privileged EXEC Mode
-3. switch(configure)# 📡 Global Configuration Mode
-4. switch(configure-if)#  📡 Additional Sub-Modes:
-
-✅  Changing modes
-switch> - switch#
-switch> enable
-
-switch# -> switch(configure)#
-switch# configure terminal
-
-switch(config)#  ->  switch (config-if)# 
-switch(config)# interface FastEthernet0/1
-
-📡 Privileged EXEC Mode
-switch# show running-config
-switch# show ip interface brief
-switch# show version
-switch# copy running-config startup-config
-switch# write
-switch# reload
-
-📡 TELNET setting ⬇️
-MySwitch(config)# line vty 0 4
-MySwitch(config-line)# password your_telnet_password
-MySwitch(config-line)# login
-MySwitch(config-line)# transport input telnet
-MySwitch(config-line)# exit
-
-📡Mac and Route table📡
-switch> show mac-address-table
-switch# erase running-config
-switch(config) ip default-gateway 192.168.2.1
-
-📡Static IP route📡
-R1: ip route 192.168.3.0 255.255.255.0  fa 0/1
-R2: ip route 192.168.1.0 255.255.255.0  fa 0/1
-Router#: show ip route
-```
+## Notes
+- Ensure proper routing configuration (e.g., static routes or a routing protocol) between routers for inter-subnet communication.
+- Verify switch VLAN configurations to match the subnet assignments.
+- All IP addresses are assigned based on the diagram provided.
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
