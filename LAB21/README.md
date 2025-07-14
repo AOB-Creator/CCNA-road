@@ -19,9 +19,7 @@
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
 ## 🌐 VLANs Explained: Logical Grouping Beyond Physical Boundaries
-
 A VLAN is a virtual subgroup of devices within a LAN (Local Area Network) that are grouped together based on function, department, or application, not on physical location. Devices in the same VLAN can communicate as if they were on the same physical network, even if they are physically far apart.
----
 
 ## 🔹 Why Use VLANs?
 
