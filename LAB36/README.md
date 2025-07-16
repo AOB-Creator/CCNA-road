@@ -50,6 +50,9 @@ In broadcast or multi-access networks (e.g., Ethernet), OSPF elects a Designated
 interface fa0/0
  ip ospf priority 100
 ```
+
+![Timeline2_shutterstock_668209624](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fccna-200-301.online%2Fwp-content%2Fuploads%2F2020%2F08%2FDemo-Flooding-LSAs.gif&f=1&nofb=1&ipt=f937724a2f19c61c52e9a7ceb864da55618d098224b1fb12d4a3b78cfdcf0898)
+
 ### 4. ⚙️ OSPF Priority
 Used to influence DR/BDR election.
 
