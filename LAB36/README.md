@@ -16,7 +16,7 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🧱 Structured OSPF Network with FastEthernet Links and Metrics
+## 🧱 OSPF Configuration Lab: DR/BDR, Hello/Dead Intervals, MD5 Authentication, and Interface Costs
 
 ### 1. 🔁 OSPF (Open Shortest Path First)
 OSPF is a link-state routing protocol used to find the best path for IP packets based on a shortest-path-first (SPF) algorithm (Dijkstra's algorithm). It's widely used in enterprise networks due to its fast convergence, scalability, and support for hierarchical routing.
