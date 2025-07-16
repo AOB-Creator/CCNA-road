@@ -85,7 +85,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 33 | Lab 33 | 🛰️ Mastering OSPF: ABR, ASBR, LSDB, SPF, and More | [LAB33](./LAB33) |
 | 34 | Lab 34 | 🧠 L2 Switch + VLANs + OSPF: Conceptual Clarity | [LAB34](./LAB34) |
 | 35 | Lab 35 | 📡 Advanced Routing and Switching: Multi-Area OSPF with Inter-VLAN Communication | [LAB35](./LAB35) |
-| 36 | Lab 36 | 🧱 Structured OSPF Network with FastEthernet Links and Metrics, DR, BDR, MD5 | [LAB36](./LAB36) |
+| 36 | Lab 36 | 🧱 OSPF Configuration Lab: DR/BDR, Hello/Dead Intervals, MD5 Authentication, and Interface Costs | [LAB36](./LAB36) |
 
 ---
 
