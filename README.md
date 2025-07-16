@@ -50,40 +50,41 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 
 | Lab No. | Lab Name | Description | Folder Link |
 |--------:|----------|-------------|--------------|
-| 1  | Lab 01 | *References for all Labs* | [LAB01](../LAB01) |
-| 2  | Lab 02 | *Basic Switch Configuration* | [LAB02](../LAB02) |
-| 3  | Lab 03 | *TELNET: transport input telnet* | [LAB03](../LAB03) |
-| 4  | Lab 04 | *Basic Switch Configuration and TELNET* | [LAB04](../LAB04) |
-| 5  | Lab 05 | *Router, Telnet, ARP TABLE* | [LAB05](../LAB05) |
-| 6  | Lab 06 | *Several Routers, Ip router* | [LAB06](../LAB06) |
-| 7  | Lab 07 | *router circuit connection, IP routes, ip route 192.168.3.0 255.255.255.0  fa 0/1, switch(config) ip default-gateway 192.168.2.1* | [LAB07](../LAB07) |
-| 8  | Lab 08 | *Add description here* | [LAB08](../LAB08) |
-| 9  | Lab 09 | *Add description here* | [LAB09](../LAB09) |
-| 10 | Lab 10 | *Add description here* | [LAB10](../LAB10) |
-| 11 | Lab 11 | *Add description here* | [LAB11](../LAB11) |
-| 12 | Lab 12 | *Add description here* | [LAB12](../LAB12) |
-| 13 | Lab 13 | *Add description here* | [LAB13](../LAB13) |
-| 14 | Lab 14 | 📥 View MAC Address Table (Switch CLI, netstat, Wireshark, traceroute) | [LAB14](../LAB14) |
-| 15 | Lab 15 | 🔐 Telnet vs SSH – In-Depth Overview | [LAB15](../LAB15) |
-| 16 | Lab 16 | 🔐 Telnet vs SSH – In-Depth Overview | [LAB16](../LAB16) |
-| 17 | Lab 17 | 🔐 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB17](../LAB17) |
-| 18 | Lab 18 | 🔐 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB18](../LAB18) |
-| 19 | Lab 19 | 🛠️ Multilayer Switch Configuration Guide and VLAN | [LAB19](../LAB19) |
-| 20 | Lab 20 | *Add description here* | [LAB20](../LAB20) |
-| 21 | Lab 21 | *Add description here* | [LAB21](../LAB21) |
-| 22 | Lab 22 | 🔷 VTP – VLAN Trunking Protocol | [LAB22](../LAB22) |
-| 23 | Lab 23 | *Add description here* | [LAB23](../LAB23) |
-| 24 | Lab 24 | 🧪 VLAN Routing Lab – Cisco Packet Tracer (3 Methods) | [LAB24](../LAB24) |
-| 25 | Lab 25 | *Add description here* | [LAB25](../LAB25) |
-| 26 | Lab 26 | *Add description here* | [LAB26](../LAB26) |
-| 27 | Lab 27 | *Add description here* | [LAB27](../LAB27) |
-| 28 | Lab 28 | *Add description here* | [LAB28](../LAB28) |
-| 29 | Lab 29 | *Add description here* | [LAB29](../LAB29) |
-| 30 | Lab 30 | *Add description here* | [LAB30](../LAB30) |
-| 31 | Lab 31 | 🌐 RIP (Routing Information Protocol) – Overview | [LAB31](../LAB31) |
-| 32 | Lab 32 | 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide | [LAB32](../LAB32) |
-| 33 | Lab 33 | 🛰️ Mastering OSPF: ABR, ASBR, LSDB, SPF, and More | [LAB33](../LAB33) |
-| 33 | Lab 34 | 🧠 L2 Switch + VLANs + OSPF: Conceptual Clarity | [LAB34](../LAB34) |
+| 1  | Lab 01 | *References for all Labs* | [LAB01](./LAB01) |
+| 2  | Lab 02 | 🧰 Foundational Switch Configuration Lab (Hostname, Passwords, VLAN Interface) | [LAB02](./LAB02) |
+| 3  | Lab 03 | 🔌 Layer 2 Networking Lab: Switches, Hubs & Hosts Configuration and TELNET | [LAB03](./LAB03) |
+| 4  | Lab 04 | 🧠 MAC Learning & ARP Resolution in a Multi-Switch Ethernet Lab | [LAB04](./LAB04) |
+| 5  | Lab 05 | 🔀 Basic Network Segmentation with Static Routes and Switches | [LAB05](./LAB05) |
+| 6  | Lab 06 | 🔁 Three-Router Interconnection with Independent LANs | [LAB06](./LAB06) |
+| 7  | Lab 07 | 🛣️ Asymmetric Static Routing Lab with Dual LANs and 3 Routers | [LAB07](./LAB07) |
+| 8  | Lab 08 | 📦 Point-to-Point Interconnection with Static Forward & Return Routing | [LAB08](./LAB08) |
+| 9  | Lab 09 | 🌐 L3 Switch-Based Routing Topology with Redundant Router Paths | [LAB09](./LAB09) |
+| 10 | Lab 10 | 🛠️ Advanced Routing Infrastructure: Layer 3 Switch as Core Gateway | [LAB10](./LAB10) |
+| 11 | Lab 11 | 🧪 Static Routing Between Two Routers with Subnetting Based on Host Requirements | [LAB11](./LAB11) |
+| 12 | Lab 12 | 🚌 Static Routing Lab with 7 Routers in a Bus Topology | [LAB12](./LAB12) |
+| 13 | Lab 13 | 📦 Application Layer (Layer 7 - OSI Model) | [LAB13](./LAB13) |
+| 14 | Lab 14 | 📥 View MAC Address Table (Switch CLI, netstat, Wireshark, traceroute) | [LAB14](./LAB14) |
+| 15 | Lab 15 | 🔐 Telnet vs SSH – In-Depth Overview | [LAB15](./LAB15) |
+| 16 | Lab 16 | 🔐 Telnet vs SSH – In-Depth Overview | [LAB16](./LAB16) |
+| 17 | Lab 17 | 🔌 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB17](./LAB17) |
+| 18 | Lab 18 | 🔌 Port Security on Switch Ports (Static, Dynamic, Sticky + Violations) | [LAB18](./LAB18) |
+| 19 | Lab 19 | 🛠️ Multilayer Switch Configuration Guide and VLAN | [LAB19](./LAB19) |
+| 20 | Lab 20 | 📡 VLAN Configuration and Trunking Using a Cisco Layer 2 Switch | [LAB20](./LAB20) |
+| 21 | Lab 21 | 🌐 VLANs Explained: Logical Grouping Beyond Physical Boundaries | [LAB21](./LAB21) |
+| 22 | Lab 22 | 🔷 VTP – VLAN Trunking Protocol | [LAB22](./LAB22) |
+| 23 | Lab 23 | 📡 Interconnected VLANs over Bus Topology with VTP and Multilayer Switches | [LAB23](./LAB23) |
+| 24 | Lab 24 | 🧪 VLAN Routing Lab – Cisco Packet Tracer (3 Methods) | [LAB24](./LAB24) |
+| 25 | Lab 25 | *Add description here* | [LAB25](./LAB25) |
+| 26 | Lab 26 | *Add description here* | [LAB26](./LAB26) |
+| 27 | Lab 27 | *Add description here* | [LAB27](./LAB27) |
+| 28 | Lab 28 | *Add description here* | [LAB28](./LAB28) |
+| 29 | Lab 29 | *Add description here* | [LAB29](./LAB29) |
+| 30 | Lab 30 | *Add description here* | [LAB30](./LAB30) |
+| 31 | Lab 31 | 🌐 RIP (Routing Information Protocol) – Overview | [LAB31](./LAB31) |
+| 32 | Lab 32 | 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide | [LAB32](./LAB32) |
+| 33 | Lab 33 | 🛰️ Mastering OSPF: ABR, ASBR, LSDB, SPF, and More | [LAB33](./LAB33) |
+| 34 | Lab 34 | 🧠 L2 Switch + VLANs + OSPF: Conceptual Clarity | [LAB34](./LAB34) |
+| 35 | Lab 35 | 📡 Advanced Routing and Switching: Multi-Area OSPF with Inter-VLAN Communication | [LAB35](./LAB35) |
 
 ---
 

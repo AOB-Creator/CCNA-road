@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB34/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB35/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,48 +16,216 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide
+## 📡 Advanced Routing and Switching: Multi-Area OSPF with Inter-VLAN Communication
 
-### 📌 What is OSPF?
-OSPF is a link-state dynamic routing protocol used within an autonomous system (AS). It is commonly used in medium to large enterprise networks. OSPF quickly adapts to changes in network topology using Dijkstra's Shortest Path First (SPF) algorithm.
+Multi-area OSPF setup with multiple VLANs across three major areas (10, 20, 30) being routed through Area 0 (VLAN 77). Below is a breakdown of your configuration and how to ensure it works:
 
-### 🔄 OSPF Basic Operation
+## 🌐 Multi-Area OSPF Routing with VLAN Segmentation
 
-| Step | Process              | Description                                                                 |
-|------|----------------------|-----------------------------------------------------------------------------|
-| 1️⃣   | **Neighbor Discovery** | Routers send **Hello packets** via multicast `224.0.0.5` to discover neighbors. |
-| 2️⃣   | **Exchange LSAs**      | Routers exchange **Link-State Advertisements** to share link information.    |
-| 3️⃣   | **SPF Calculation**    | Each router runs **Dijkstra’s algorithm** to build a complete topology map.  |
-| 4️⃣   | **Routing Table Update** | The best paths are added to the **routing table**.                           |
+This project demonstrates a scalable enterprise network using **Multi-Area OSPF (Open Shortest Path First)** routing with **multiple VLANs** across different areas. All inter-area routing is handled through **VLAN 77 (Area 0)** acting as the backbone.
 
-## 🛠️ Basic OSPF Configuration (Cisco CLI)
+---
 
-Example Topology:
-- Router1: 192.168.1.1/24
-- Router2: 192.168.2.1/24
-- Network between them: 10.0.0.0/30
+## 🗺️ Network Overview
+
+- 🔁 **OSPF Dynamic Routing Protocol**
+- 🧩 **VLAN Segmentation** for traffic isolation
+- 🔄 **Multi-Area OSPF Topology**
+- 🌉 VLAN 77 serves as the **Backbone Area (Area 0)**
+- 🧪 Simulated in **Cisco Packet Tracer**
+
+---
+
+## 🔁 OSPF Areas Table
+
+| **Area ID** | **Connected VLANs**                   | **Routers Involved**       | **Purpose / Role**                       |
+|-------------|----------------------------------------|-----------------------------|-------------------------------------------|
+| `Area 0`    | VLAN 77 (Backbone)                    | R1, R2, R4                  | Backbone area, interconnects all other areas |
+| `Area 10`   | VLAN 50, 60, 70, 80                   | R0, R1                      | End-user access network, routed through R1 |
+| `Area 20`   | VLAN 10, 20, 70, 80                   | R2, R3                      | Separate user segment routed via R2        |
+| `Area 30`   | VLAN 10, 20, 70                       | R4, R5                      | Access area, traffic routed through R4     |
+
+---
+
+## 🧱 VLAN Configuration
+
+| **VLAN ID** | **IP Subnet**       | **Devices**              |
+|------------|----------------------|---------------------------|
+| VLAN 10    | `192.168.10.0/24`   | PC4, PC11                |
+| VLAN 20    | `192.168.20.0/24`   | PC5, PC10                |
+| VLAN 50    | `192.168.50.0/24`   | PC0, PC1, PC8            |
+| VLAN 60    | `192.168.60.0/24`   | PC2                      |
+| VLAN 70    | `192.168.70.0/24`   | PC3, PC6, PC9, PC10, PC11 |
+| VLAN 80    | `192.168.80.0/24`   | PC0, PC7                 |
+| VLAN 77    | `10.10.10.0/29`     | Transit (Backbone)       |
+
+---
+
+## ⚙️ Routing Setup Summary
+
+- **OSPF Process ID**: `1` on all routers
+- **ABRs (Area Border Routers)**:
+  - R1: Area 10 ↔ Area 0
+  - R2: Area 20 ↔ Area 0
+  - R4: Area 30 ↔ Area 0
+- **Inter-area communication** happens through **VLAN 77 (Backbone)**
+
+---
+
+## 🧪 Testing & Verification
+
+- 🔁 `ping` between hosts in different areas
+- 📶 `show ip ospf neighbor` on routers to verify adjacencies
+- 🧾 `show ip route` to view OSPF-learned routes
+
+---
+
+## 🛠️ Tools Used
+
+- 🧪 Cisco Packet Tracer 8.x
+- 📡 Cisco 2811 Routers
+- 🔀 Cisco 2960 Switches
+- 💬 CLI Configuration
+
+## 🛠️ OSPF Configuration Plan
+We’ll configure each router with:
+
+- Loopback as Router ID
+- Interfaces in their respective OSPF areas
+- Backbone (Area 0) as required for inter-area communication
 
 ```bash
-# Enable OSPF process with ID 1
-Router(config)# router ospf 1
+# 🔧 Router 0 (R0) - Area 10
+hostname R0
+interface Gig0/0
+ ip address 192.168.50.1 255.255.255.0
+interface Gig0/1
+ ip address 192.168.60.1 255.255.255.0
+interface Gig0/2
+ ip address 192.168.70.1 255.255.255.0
+interface Gig0/3
+ ip address 192.168.80.1 255.255.255.0
+router ospf 1
+ router-id 1.1.1.1
+ network 192.168.50.0 0.0.0.255 area 10
+ network 192.168.60.0 0.0.0.255 area 10
+ network 192.168.70.0 0.0.0.255 area 10
+ network 192.168.80.0 0.0.0.255 area 10
 
-# Assign networks to OSPF area 0
-Router(config-router)# router-id 1.1.1.1
-Router(config-router)# network 192.168.1.0 0.0.0.255 area 0
-Router(config-router)# network 10.0.0.0 0.0.0.3 area 0
-Router(config-router)# passive-interface fastEthernet 0/0
+# 🔧 Router 1 (R1) - ABR Area 10 <-> 0
+hostname R1
+interface Gig0/0
+ ip address 192.168.70.2 255.255.255.0
+interface Gig0/1
+ ip address 10.10.10.1 255.255.255.248
+router ospf 1
+ router-id 2.2.2.2
+ network 192.168.70.0 0.0.0.255 area 10
+ network 10.10.10.0 0.0.0.7 area 0
+
+# 🔧 Router 2 (R2) - ABR Area 20 <-> 0
+hostname R2
+interface Gig0/0
+ ip address 192.168.10.1 255.255.255.0
+interface Gig0/1
+ ip address 192.168.20.1 255.255.255.0
+interface Gig0/2
+ ip address 10.10.10.2 255.255.255.248
+router ospf 1
+ router-id 5.5.5.5
+ network 192.168.10.0 0.0.0.255 area 20
+ network 192.168.20.0 0.0.0.255 area 20
+ network 10.10.10.0 0.0.0.7 area 0
+
+# 🔧 Router 3 (R3) - Area 20
+hostname R3
+interface Gig0/0
+ ip address 192.168.20.2 255.255.255.0
+interface Gig0/1
+ ip address 192.168.80.2 255.255.255.0
+router ospf 1
+ router-id 6.6.6.6
+ network 192.168.20.0 0.0.0.255 area 20
+ network 192.168.80.0 0.0.0.255 area 20
+
+# 🔧 Router 4 (R4) - ABR Area 30 <-> 0
+hostname R4
+interface Gig0/0
+ ip address 192.168.10.2 255.255.255.0
+interface Gig0/1
+ ip address 192.168.70.3 255.255.255.0
+interface Gig0/2
+ ip address 10.10.10.3 255.255.255.248
+router ospf 1
+ router-id 3.3.3.3
+ network 192.168.10.0 0.0.0.255 area 30
+ network 192.168.70.0 0.0.0.255 area 30
+ network 10.10.10.0 0.0.0.7 area 0
+
+# 🔧 Router 5 (R5) - Area 30
+hostname R5
+interface Gig0/0
+ ip address 192.168.10.3 255.255.255.0
+interface Gig0/1
+ ip address 192.168.20.3 255.255.255.0
+interface Gig0/2
+ ip address 192.168.70.4 255.255.255.0
+router ospf 1
+ router-id 4.4.4.4
+ network 192.168.10.0 0.0.0.255 area 30
+ network 192.168.20.0 0.0.0.255 area 30
+ network 192.168.70.0 0.0.0.255 area 30
+
+# 🔧 Switches
+# You can configure VLANs and trunk ports as needed
+# Example:
+vlan 10
+vlan 20
+vlan 50
+vlan 60
+vlan 70
+vlan 77
+vlan 80
+
+interface range fa0/1 - 24
+ switchport mode access
+ switchport access vlan [X]  # Replace X with correct VLAN
+
+interface Gig0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+
 ```
 
 
-## 🧪 Useful Show Commands
 
-```bash
-show ip ospf                    # General OSPF information
-show ip ospf neighbor           # View neighbor relationships
-show ip ospf interface          # Interface OSPF status
-show ip route ospf              # OSPF-learned routes
-debug ip ospf events            # Troubleshoot OSPF
-```
+---
+
+## 📌 Author
+
+🧑‍💻 **Alpamis Omirbekov**  
+💼 Multi-area OSPF Network Design – Lab Exercise  
+📍 Nukus, Uzbekistan  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

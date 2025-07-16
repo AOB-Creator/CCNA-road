@@ -19,91 +19,101 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-🔥 🚀 Cisco Networking: Switch Configurations & Console Modes📑
-
-## Table of Contents
-- [Telnet](#-about)
-- [Console Modes](#-consolemodes)
-- [Basic Switch Configuration](#-basicswitchconfig)
-- [Saving Configurations](#-saveconfig)
-- [Feedback and Contributions](#-feedback-and-contributions)
-- [License](#-license)
-- [Contacts](#%EF%B8%8F-contacts)
 
 
-## 🚀 About
+## 🧪 Static Routing Between Two Routers with Subnetting Based on Host Requirements
+This lab demonstrates static routing between two routers. The network includes subnetting based on the number of hosts in each segment, point-to-point links, and full end-to-end communication using manually configured static routes.
 
-Welcome to the Cisco Networking Configuration Guide — a comprehensive resource to help you understand and implement essential Cisco switch configurations and master console modes for managing your network efficiently.
+---
 
-- **User EXEC Mode**: > Limited access; basic monitoring.
-- **Privileged EXEC Mode**: # Full access to show/debug commands.
-- **Global Configuration Mode**: (config)# Used to make global changes.
-- **Interface Configuration Mode**: (config-if)# Used to configure interfaces.
-- **VLAN Configuration Mode**: (config-vlan)# VLAN creation and settings.
+## 🧩 Subnet Planning
 
-## 🎓 Console Modes
+| Subnet | Description            | Required Hosts | Subnet Mask     | CIDR  | IP Range                 |
+|--------|------------------------|----------------|------------------|-------|---------------------------|
+| A      | Router1 LAN Network    | 30             | 255.255.255.224  | /27   | 192.168.1.0 – 192.168.1.31 |
+| B      | Router1 ↔ Router2 Link | 2              | 255.255.255.252  | /30   | 192.168.2.0 – 192.168.2.3  |
+| C      | Router2 LAN Network    | 14             | 255.255.255.240  | /28   | 192.168.3.0 – 192.168.3.15 |
 
-Network security is the practice of protecting the integrity, confidentiality, and availability of computer networks and data using both hardware and software technologies. It involves implementing policies, controls, and configurations to prevent unauthorized access, misuse, modification, or denial of network resources.
+> 🧠 Subnet masks are selected to optimize IP usage based on host requirements.
 
-### Basic Switch Configuration
-|🔧 Basic Switch Configuration | Configuration Commands |
-|:-|:-|:-|
-| MySwitch(config)# line vty 0 4 | .....|
-| MySwitch(config-line)# password your_telnet_password | ..... |
-| MySwitch(config-line)# login| ..... |
-| MySwitch(config-line)# transport input telnet | ..... |
-| MySwitch(config-line)# exit | ..... |
+---
 
-### Saving Configurations
+## ⚙️ IP Address Assignment
 
+| Device      | Interface | IP Address      | Subnet |
+|-------------|-----------|------------------|--------|
+| PC1         | NIC       | 192.168.1.10     | A      |
+| Router1     | G0/0      | 192.168.1.1      | A      |
+| Router1     | G0/1      | 192.168.2.1      | B      |
+| Router2     | G0/0      | 192.168.2.2      | B      |
+| Router2     | G0/1      | 192.168.3.1      | C      |
+| PC2         | NIC       | 192.168.3.10     | C      |
 
-## 📝 How to Build
+---
 
-To build the packages, follow these steps:
+## 📜 Static Routing Configuration
 
-```shell
-🌀️ Type of Modes
-1. switch> 📡 User EXEC Mode
-2. switch# 📡 Privileged EXEC Mode
-3. switch(configure)# 📡 Global Configuration Mode
-4. switch(configure-if)#  📡 Additional Sub-Modes:
+### ▶️ Router 1
 
-✅  Changing modes
-switch> - switch#
-switch> enable
+```bash
+interface G0/0
+ ip address 192.168.1.1 255.255.255.224
+ no shutdown
 
-switch# -> switch(configure)#
-switch# configure terminal
+interface G0/1
+ ip address 192.168.2.1 255.255.255.252
+ no shutdown
 
-switch(config)#  ->  switch (config-if)# 
-switch(config)# interface FastEthernet0/1
-
-📡 Privileged EXEC Mode
-switch# show running-config
-switch# show ip interface brief
-switch# show version
-switch# copy running-config startup-config
-switch# write
-switch# reload
-
-📡 TELNET setting ⬇️
-MySwitch(config)# line vty 0 4
-MySwitch(config-line)# password your_telnet_password
-MySwitch(config-line)# login
-MySwitch(config-line)# transport input telnet
-MySwitch(config-line)# exit
-
-📡Mac and Route table📡
-switch> show mac-address-table
-switch# erase running-config
-switch(config) ip default-gateway 192.168.2.1
-
-📡Static IP route📡
-R1: ip route 192.168.3.0 255.255.255.0  fa 0/1
-R2: ip route 192.168.1.0 255.255.255.0  fa 0/1
-Router#: show ip route
+ip route 192.168.3.0 255.255.255.240 192.168.2.2
 ```
 
+## ▶️ Router 2
+```bash
+interface G0/0
+ ip address 192.168.2.2 255.255.255.252
+ no shutdown
+
+interface G0/1
+ ip address 192.168.3.1 255.255.255.240
+ no shutdown
+
+ip route 192.168.1.0 255.255.255.224 192.168.2.1
+
+```
+## ✅ Verification Commands
+
+### 📡 PC Commands
+```bash
+# Check IP configuration
+ipconfig        # Windows
+ifconfig        # Linux/macOS
+
+# Test connectivity
+ping [destination IP]
+tracert [destination IP]     # Windows
+traceroute [destination IP]  # Linux/macOS
+```
+### 🛠️ Router Commands (Cisco IOS)
+```bash
+# View routing table
+show ip route
+
+# View interface status and IPs
+show ip interface brief
+
+# Ping another device from the router
+ping [destination IP]
+
+# Trace the route to another device
+traceroute [destination IP]
+
+# Check static routes specifically
+show running-config | include ip route
+
+# Check if interfaces are up
+show interfaces status
+
+```
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
