@@ -16,53 +16,110 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide
+## 🧱 Structured OSPF Network with FastEthernet Links and Metrics
 
-### 📌 What is OSPF?
-OSPF is a link-state dynamic routing protocol used within an autonomous system (AS). It is commonly used in medium to large enterprise networks. OSPF quickly adapts to changes in network topology using Dijkstra's Shortest Path First (SPF) algorithm.
+### 1. 🔁 OSPF (Open Shortest Path First)
+OSPF is a link-state routing protocol used to find the best path for IP packets based on a shortest-path-first (SPF) algorithm (Dijkstra's algorithm). It's widely used in enterprise networks due to its fast convergence, scalability, and support for hierarchical routing.
 
-### 🔄 OSPF Basic Operation
-
-| Step | Process              | Description                                                                 |
-|------|----------------------|-----------------------------------------------------------------------------|
-| 1️⃣   | **Neighbor Discovery** | Routers send **Hello packets** via multicast `224.0.0.5` to discover neighbors. |
-| 2️⃣   | **Exchange LSAs**      | Routers exchange **Link-State Advertisements** to share link information.    |
-| 3️⃣   | **SPF Calculation**    | Each router runs **Dijkstra’s algorithm** to build a complete topology map.  |
-| 4️⃣   | **Routing Table Update** | The best paths are added to the **routing table**.                           |
-
-## 🛠️ Basic OSPF Configuration (Cisco CLI)
-
-Example Topology:
-- Router1: 192.168.1.1/24
-- Router2: 192.168.2.1/24
-- Network between them: 10.0.0.0/30
+- Protocol Type: IGP (Interior Gateway Protocol)
+- Metric: Cost (based on bandwidth)
+- Routing Type: Link-state
+- Convergence Time: Fast
 
 ```bash
-# Enable OSPF process with ID 1
-Router(config)# router ospf 1
-
-# Assign networks to OSPF area 0
-Router(config-router)# router-id 1.1.1.1
-Router(config-router)# network 192.168.1.0 0.0.0.255 area 0
-Router(config-router)# network 10.0.0.0 0.0.0.3 area 0
-Router(config-router)# passive-interface fastEthernet 0/0
+router ospf 1
+ network 172.168.1.0 0.0.0.255 area 0
 ```
+### 2. 🗺️ OSPF Areas
+OSPF supports hierarchical design using areas to optimize route processing and improve scalability.
 
+- Area 0: Backbone area – all other areas must connect to this.
+- Area 1, 20, 30, 40, etc.: Regular or non-backbone areas.
+- ABR (Area Border Router): Connects one or more areas to Area 0.
+```shell
+interface fa0/0
+ ip ospf 1 area 30
+```
+### 3. 👑 DR and BDR Election
+In broadcast or multi-access networks (e.g., Ethernet), OSPF elects a Designated Router (DR) and Backup Designated Router (BDR) to reduce LSA flooding.
 
-## 🧪 Useful Show Commands
+- DR: Main router to generate and distribute LSAs.
+- BDR: Backup in case the DR fails.
+- Election Criteria: Highest OSPF priority or Router ID.
+```shell
+interface fa0/0
+ ip ospf priority 100
+```
+### 4. ⚙️ OSPF Priority
+Used to influence DR/BDR election.
 
+- Range: 0–255 (0 = never DR/BDR)
+- Default: 1
+- Higher priority wins election
+
+```shell
+interface fa0/0
+ ip ospf priority 200
+``` 
+### 6. 💾 Bandwidth Configuration
+Bandwidth affects OSPF cost (lower cost = more preferred path).
+
+- Default Cost Formula: Cost = 100,000,000 / Bandwidth (bps)
+- Manual Cost Override:
+  
 ```bash
-show ip ospf                    # General OSPF information
-show ip ospf neighbor           # View neighbor relationships
-show ip ospf interface          # Interface OSPF status
-show ip route ospf              # OSPF-learned routes
-debug ip ospf events            # Troubleshoot OSPF
+interface fa0/1
+ bandwidth 100000
+ ip ospf cost 10
 ```
+### 7. 🔐 OSPF Authentication (MD5)
+OSPF can use authentication to verify routing updates between neighbors.
 
+- Types: None, Simple Password, or MD5 (recommended)
+- MD5 Configuration Example:
 
+```shell
+interface fa0/0
+ ip ospf message-digest-key 1 md5 Cisco123
+ ip ospf authentication message-digest
+```
+### 8. ⏱️ Hello and Dead Intervals
+OSPF routers send Hello packets to discover and maintain neighbor relationships.
 
+- Hello Interval: Time between Hello packets
+- Dead Interval: Time before a router is declared down
+  
+```bash
+interface fa0/0
+ ip ospf hello-interval 10
+ ip ospf dead-interval 40
+```
+### 9. 🧠 Router ID
+A unique 32-bit identifier used to identify the router in OSPF.
 
+- Automatically chosen: Highest IP on loopback, else highest active IP
+- Manually configured:
 
+```shell
+router ospf 1
+ router-id 1.1.1.1
+```
+### 🔧 Configuration Commands Per Router
+
+```shell
+hostname R1
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+
+interface FastEthernet0/0
+ ip address 172.168.1.1 255.255.255.0
+ ip ospf priority 100
+ ip ospf message-digest-key 1 md5 Cisco123
+ ip ospf authentication message-digest
+ ip ospf hello-interval 10
+ ip ospf dead-interval 40
+ no shutdown
+```
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
