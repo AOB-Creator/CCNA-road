@@ -27,6 +27,57 @@ This guide provides a complete overview and step-by-step configuration of core C
 
 Perfect for students, engineers, and network admins working on Cisco Packet Tracer or real Cisco gear.
 
+## 🔐 VLAN ACL Rules – Access Matrix
+
+This table defines the extended ACL rules applied in a multi-VLAN network environment to enforce role-based traffic control.
+
+## 📊 Access Control List (ACL) Table
+
+| VLAN | Source IP Range             | Destination IP       | Protocol | Port(s)     | Action | Description                            |
+|------|-----------------------------|----------------------|----------|-------------|--------|----------------------------------------|
+| 10   | 192.168.10.1 - 192.168.10.30  | 192.168.100.2        | TCP      | 80, 443     | ✅ Permit | Admins access Web Server 1 (HTTP/HTTPS) |
+| 10   | 192.168.10.96 - 192.168.10.126 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Admins access Web Server 2 (HTTP/HTTPS) |
+| 20   | 192.168.20.0 - 192.168.20.7   | 192.168.100.5        | TCP      | 21          | ✅ Permit | Developers access FTP Server            |
+| 20   | 192.168.20.0 - 192.168.20.7   | 192.168.100.3        | TCP      | 80, 443     | ❌ Deny  | Dev subnet blocked from Web Server 2    |
+| 20   | 192.168.20.0 - 192.168.20.127 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Remaining Devs access Web Server 2      |
+| 30   | 192.168.30.0 - 192.168.30.3   | 192.168.100.6        | TCP      | 25, 110     | ✅ Permit | Email Dept access SMTP & POP3 Server    |
+| 30   | 192.168.30.64 - 192.168.30.95 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Email Dept access Web Server 2          |
+| 77   | 192.168.77.0 - 192.168.77.15  | 192.168.100.2        | TCP      | 80, 443     | ✅ Permit | Guests access Web Server 1              |
+| All  | Any                          | 192.168.100.4        | UDP      | 53 (DNS)    | ✅ Permit | All VLANs can resolve DNS               |
+| All  | Any                          | Any                  | ICMP     | —           | ✅ Permit | ICMP (Ping) allowed between all VLANs   |
+
+---
+
+## 💡 Notes
+
+- **VLAN 100** is the Server Farm (DMZ zone)
+- Apply these rules using **Extended ACLs** near the source interface (recommended)
+- Use **wildcard masks** in Cisco configuration to match IP ranges
+- ACL name suggestion: `SECURITY-ACL`
+## Commands
+
+```bash
+permit tcp 192.168.10.1 0.0.0.30 host 192.168.100.2 eq www
+ permit tcp 192.168.10.1 0.0.0.30 host 192.168.100.2 eq 443
+ permit udp any host 192.168.100.4 eq domain
+ permit tcp 192.168.10.96 0.0.0.30 host 192.168.100.3 eq 443
+ permit tcp 192.168.10.96 0.0.0.30 host 192.168.100.3 eq www
+ permit tcp 192.168.20.0 0.0.0.7 host 192.168.100.5 eq ftp
+ deny tcp 192.168.20.0 0.0.0.7 host 192.168.100.3 eq www
+ deny tcp 192.168.20.0 0.0.0.7 host 192.168.100.3 eq 443
+ permit tcp 192.168.20.0 0.0.0.127 host 192.168.100.3 eq 443
+ permit tcp 192.168.20.0 0.0.0.127 host 192.168.100.3 eq www
+ permit tcp 192.168.30.0 0.0.0.3 host 192.168.100.6 eq smtp
+ permit tcp 192.168.30.0 0.0.0.3 host 192.168.100.6 eq pop3
+ permit tcp 192.168.30.64 0.0.0.31 host 192.168.100.3 eq www
+ permit tcp 192.168.30.64 0.0.0.31 host 192.168.100.3 eq 443
+ permit icmp any any
+ permit tcp 192.168.77.0 0.0.0.15 host 192.168.100.2 eq www
+ permit tcp 192.168.77.0 0.0.0.15 host 192.168.100.2 eq 443
+```
+
+
+
 ## ✅ Step-by-Step: Inter-VLAN Routing on L3 Switch
 📌 1. Configure VLANs on the L3 Switch
 ```bash
