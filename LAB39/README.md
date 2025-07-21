@@ -16,144 +16,153 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🔁 Limiting Network Access to Trusted Subnets with Standard ACLs
+## ⚙️ Full Cisco Configuration Guide: VLAN Setup, Layer 3 Routing, VTP Modes, and Extended ACLs
 
-### 🧱 WHAT IS AN ACL?
-An Access Control List (ACL) is a set of rules applied to router interfaces that filters network traffic based on:
-- Source/destination IP addresses
-- Protocols (TCP/UDP)
-- Ports (for extended ACLs)
-ACLs allow or deny traffic based on criteria you define.
+This guide provides a complete overview and step-by-step configuration of core Cisco switching and security topics:
 
-## 🧩 Types of Access Control Lists (ACLs) in Cisco
+- 🔸 VLANs (Virtual LANs) for network segmentation  
+- 🔹 Inter-VLAN Routing using Layer 3 (Multilayer) Switches  
+- 🔄 VTP (VLAN Trunking Protocol) Server and Client Roles  
+- 🔐 Extended Access Control Lists for fine-grained traffic filtering  
 
-| ACL Type        | Number Range           | Filters By                            | Best Use Case                                    |
-|-----------------|------------------------|----------------------------------------|--------------------------------------------------|
-| **Standard ACL**| 1–99 <br>1300–1999     | ✅ Source IP only                      | Basic filtering (e.g., allow/deny a subnet)      |
-| **Extended ACL**| 100–199 <br>2000–2699  | ✅ Source IP <br>✅ Destination IP <br>✅ Protocol <br>✅ Ports | Granular control (e.g., block HTTP, allow SSH)   |
-| **Named ACL**   | Custom Name            | ✅ Same as Standard/Extended (named)   | Easier management and editing                    |
-| **Dynamic ACL** | Named + timeouts       | ✅ User access via authentication      | Temporary access (e.g., guest Wi-Fi)             |
-| **Reflexive ACL**| Extended (named)       | ✅ Session-aware (return traffic)      | Stateful-like filtering for outbound sessions    |
-| **Time-Based ACL**| Used with any ACL     | ✅ Enables ACLs on schedule            | Restrict access during specific hours (e.g., 9–5)|
+Perfect for students, engineers, and network admins working on Cisco Packet Tracer or real Cisco gear.
 
-### 🧷 STATIC ACL (Manual Configuration)
-A static ACL is manually defined and applied to an interface.
-No automatic learning, no dynamic session creation — you configure what to permit or deny.
+## ✅ Step-by-Step: Inter-VLAN Routing on L3 Switch
+📌 1. Configure VLANs on the L3 Switch
+```bash
+Switch(config)# vlan 10
+Switch(config-vlan)# name HR
+Switch(config-vlan)# exit
 
-## 🧠 ACL RULE ORDER
-- ACLs are processed top-down — the first matching rule is applied.
-- There's an implicit deny all at the end of every ACL.
-- ACLs can be applied inbound or outbound on router interfaces.
-
-## ✅ STANDARD ACL (STATIC)
-🎯 Filters by source IP address only
-
-```shell
-access-list <number> permit|deny <source IP> <wildcard>
+Switch(config)# vlan 20
+Switch(config-vlan)# name SALES
+Switch(config-vlan)# exit
 ```
-Examples
-```shell
-access-list 10 permit 192.168.1.0 0.0.0.255
-access-list 10 deny host 192.168.2.100
-access-list 10 permit any
+📌 2. Assign VLANs to Access Ports
+```bash
+Switch(config)# interface FastEthernet0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+Switch(config-if)# exit
+
+Switch(config)# interface FastEthernet0/2
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 20
+Switch(config-if)# exit
 ```
-Apply to an interface:
-
-```shell
-interface FastEthernet0/0
- ip access-group 10 in
+📌 3. Enable Routing on the L3 Switch
+```bash
+Switch(config)# ip routing
 ```
-## ✅ EXTENDED ACL (STATIC)
-🎯 Filters by:
-- Source and destination IP
-- Protocol (TCP, UDP, ICMP, etc.)
-- Port number (e.g., 80 for HTTP, 23 for Telnet)
+📌 4. Create SVIs (Switch Virtual Interfaces)
+```bash
+Switch(config)# interface vlan 10
+Switch(config-if)# ip address 192.168.10.1 255.255.255.0
+Switch(config-if)# no shutdown
+Switch(config-if)# exit
 
-```shell
-access-list 110 permit tcp 192.168.1.0 0.0.0.255 any eq 80
-access-list 110 deny ip any any
+Switch(config)# interface vlan 20
+Switch(config-if)# ip address 192.168.20.1 255.255.255.0
+Switch(config-if)# no shutdown
+Switch(config-if)# exit
 ```
-Apply to an interface:
-```shell
-interface Serial0/0
- ip access-group 110 out
+📌 6. (Optional) Trunk Link to Other Switches
+```bash
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk allowed vlan 10,20
+Switch(config-if)# exit
 ```
-## 🔁 Direction: `in` vs `out`
+## 🔄 What is VTP?
+VTP (VLAN Trunking Protocol) is a Cisco-proprietary Layer 2 protocol that manages VLANs across a switched network.
+- It propagates VLAN definitions (IDs, names, etc.) to switches in the same VTP domain.
+- Helps centralize VLAN management — create VLANs once on a VTP server, and all clients learn it automatically.
 
-| Direction | Applied On         | Filters Traffic That...                                      | Typical Use Case                                   |
-|-----------|--------------------|---------------------------------------------------------------|----------------------------------------------------|
-| `in`      | Interface receiving packets | ✅ **Enters** the router via this interface          | Block or allow traffic **coming into** the router  |
-| `out`     | Interface sending packets   | ✅ **Exits** the router via this interface           | Block or allow traffic **leaving** the router      |
-
-> 💡 ACLs only filter **transit traffic**, not traffic generated by the router itself.
-
-
-## 🔍 Wildcard Masking in Cisco ACLs
-
-| Wildcard Mask     | Matches                     | Meaning                                   | Example Usage                              |
-|-------------------|-----------------------------|-------------------------------------------|--------------------------------------------|
-| `0.0.0.0`         | Exact IP                    | Match all bits (host IP match)            | `host 192.168.1.1` = `192.168.1.1 0.0.0.0` |
-| `0.0.0.255`       | Last octet varies           | Match a /24 network                       | `192.168.1.0 0.0.0.255` = /24 subnet       |
-| `0.0.255.255`     | Last two octets vary        | Match a /16 network                       | `192.168.0.0 0.0.255.255` = /16 subnet     |
-| `0.255.255.255`   | Last three octets vary      | Match a /8 network                        | `10.0.0.0 0.255.255.255` = /8 subnet       |
-| `255.255.255.255` | All bits vary (any IP)      | Match any host                            | Same as using `any`                        |
-
-> ✅ Wildcard mask logic:  
-> **0 = must match**  
-> **1 = can vary**
-
-## 🧪 Examples: ACL Configuration
-
-### 🔹 1. Deny One Host, Allow All Others (Standard ACL)
+### 🔹 On VTP Server (e.g., Switch-1):
+```bash
+Switch1(config)# vtp mode server
+Switch1(config)# vtp domain MYDOMAIN
+Switch1(config)# vtp password cisco
+Switch1(config)# vlan 10
+Switch1(config-vlan)# name HR
+Switch1(config-vlan)# exit
+```
+### 🔹 On VTP Client (e.g., Switch-2, Switch-3):
 
 ```bash
-access-list 10 deny host 192.168.1.100
-access-list 10 permit any
-
-interface FastEthernet0/0
- ip access-group 10 in
+Switch2(config)# vtp mode client
+Switch2(config)# vtp domain MYDOMAIN
+Switch2(config)# vtp password cisco
 ```
 
-### 🔹 2. Permit Only One Subnet to Access Network
+### 🔹 Set Trunk Ports Between Switches
 
 ```bash
-access-list 15 permit 10.0.0.0 0.0.0.255
-
-interface FastEthernet0/1
- ip access-group 15 in
+SwitchX(config)# interface FastEthernet0/1
+SwitchX(config-if)# switchport mode trunk
+SwitchX(config-if)# switchport trunk allowed vlan all
 ```
-### 🔹 3. Extended ACL: Allow HTTP, Block All Else
+
+## 🔐 Extended Access Control Lists (Extended ACLs) - Cisco
+
+Extended Access Control Lists (ACLs) in Cisco are used to filter traffic based on **source/destination IP**, **protocols**, and **port numbers**. This makes them ideal for fine-grained traffic control on enterprise networks.
+
+---
+
+## 🧠 What is an Extended ACL?
+
+An **Extended ACL** allows you to:
+
+- Filter traffic by:
+  - Source and Destination IP addresses
+  - Protocol types (TCP, UDP, ICMP, etc.)
+  - Port numbers (e.g., 80 for HTTP, 443 for HTTPS)
+- Permit or deny specific services or hosts
+
+| Criteria         | Example                     |
+|------------------|-----------------------------|
+| Source IP        | `192.168.1.1`               |
+| Destination IP   | `10.0.0.1`                  |
+| Protocol         | `tcp`, `udp`, `icmp`        |
+| Destination Port | `eq 80`, `eq 443`, etc.     |
+
+---
+
+## 🧠 Placement of Extended ACLs
+
+> 🔺 **Rule of Thumb:**  
+> Place Extended ACLs **close to the source** of the traffic you want to **deny**.
+
+| ACL Type     | Placement Recommendation |
+|--------------|---------------------------|
+| Extended ACL | Close to source           |
+| Standard ACL | Close to destination      |
+
+**Why?**  
+Placing Extended ACLs near the source prevents unnecessary traffic from traveling across the network.
+
+---
+
+## 🔧 Step-by-Step Configuration
+
+### 🎯 Example Goal:
+> Deny HTTP (port 80) from `192.168.1.0/24` to server `10.0.0.5`  
+> Allow everything else
+
+### 🧩 1. Define the ACL
+```bash
+access-list 100 deny tcp 192.168.1.0 0.0.0.255 host 10.0.0.5 eq 80
+access-list 100 permit ip any any
+```
+
+### 🌐 Block Social Media Access (Simplified)
+To block social media sites like Facebook and Instagram by their IP addresses:
 
 ```bash
-access-list 100 permit tcp any any eq 80
-access-list 100 deny ip any any
-
-interface Serial0/0
- ip access-group 100 in
+access-list 130 deny tcp any host 157.240.229.35 eq 443   ! facebook.com
+access-list 130 deny tcp any host 157.240.201.35 eq 443   ! instagram.com
+access-list 130 permit ip any any
 ```
-
-### 🔹 4. Allow Ping (ICMP) Only from One Host
-```bash
-access-list 101 permit icmp host 192.168.5.5 any
-access-list 101 deny ip any any
-
-interface GigabitEthernet0/1
- ip access-group 101 in
-```
-
-### 🔹 5. Block Telnet (Port 23) from Any Source
-
-```bash
-access-list 110 deny tcp any any eq 23
-access-list 110 permit ip any any
-
-interface Serial0/1
- ip access-group 110 in
-```
-
-
-
-
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
