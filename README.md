@@ -87,6 +87,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 35 | Lab 35 | 📡 Advanced Routing and Switching: Multi-Area OSPF with Inter-VLAN Communication | [LAB35](./LAB35) |
 | 36 | Lab 36 | 🧱 OSPF Configuration Lab: DR/BDR, Hello/Dead Intervals, MD5 Authentication, and Interface Costs | [LAB36](./LAB36) |
 | 37 | Lab 37 | 🔁 Limiting Network Access to Trusted Subnets with Standard ACLs | [LAB37](./LAB37) |
+| 38 | Lab 38 | 🔐 Extended Access Control Lists (ACLs) - Step-by-Step Guide | [LAB38](./LAB38) |
 
 ---
 

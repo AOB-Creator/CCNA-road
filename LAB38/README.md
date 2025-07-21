@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB37/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB38/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,144 +16,101 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🔁 Limiting Network Access to Trusted Subnets with Standard ACLs
+## 🔐 Extended Access Control Lists (ACLs) - Step-by-Step Guide
 
-### 🧱 WHAT IS AN ACL?
-An Access Control List (ACL) is a set of rules applied to router interfaces that filters network traffic based on:
-- Source/destination IP addresses
-- Protocols (TCP/UDP)
-- Ports (for extended ACLs)
-ACLs allow or deny traffic based on criteria you define.
-
-## 🧩 Types of Access Control Lists (ACLs) in Cisco
-
-| ACL Type        | Number Range           | Filters By                            | Best Use Case                                    |
-|-----------------|------------------------|----------------------------------------|--------------------------------------------------|
-| **Standard ACL**| 1–99 <br>1300–1999     | ✅ Source IP only                      | Basic filtering (e.g., allow/deny a subnet)      |
-| **Extended ACL**| 100–199 <br>2000–2699  | ✅ Source IP <br>✅ Destination IP <br>✅ Protocol <br>✅ Ports | Granular control (e.g., block HTTP, allow SSH)   |
-| **Named ACL**   | Custom Name            | ✅ Same as Standard/Extended (named)   | Easier management and editing                    |
-| **Dynamic ACL** | Named + timeouts       | ✅ User access via authentication      | Temporary access (e.g., guest Wi-Fi)             |
-| **Reflexive ACL**| Extended (named)       | ✅ Session-aware (return traffic)      | Stateful-like filtering for outbound sessions    |
-| **Time-Based ACL**| Used with any ACL     | ✅ Enables ACLs on schedule            | Restrict access during specific hours (e.g., 9–5)|
-
-### 🧷 STATIC ACL (Manual Configuration)
-A static ACL is manually defined and applied to an interface.
-No automatic learning, no dynamic session creation — you configure what to permit or deny.
-
-## 🧠 ACL RULE ORDER
-- ACLs are processed top-down — the first matching rule is applied.
-- There's an implicit deny all at the end of every ACL.
-- ACLs can be applied inbound or outbound on router interfaces.
-
-## ✅ STANDARD ACL (STATIC)
-🎯 Filters by source IP address only
-
-```shell
-access-list <number> permit|deny <source IP> <wildcard>
-```
-Examples
-```shell
-access-list 10 permit 192.168.1.0 0.0.0.255
-access-list 10 deny host 192.168.2.100
-access-list 10 permit any
-```
-Apply to an interface:
-
-```shell
-interface FastEthernet0/0
- ip access-group 10 in
-```
-## ✅ EXTENDED ACL (STATIC)
-🎯 Filters by:
-- Source and destination IP
+### 📘 Overview
+Extended Access Control Lists (ACLs) provide granular traffic filtering by examining:
+- Source & Destination IP addresses
 - Protocol (TCP, UDP, ICMP, etc.)
-- Port number (e.g., 80 for HTTP, 23 for Telnet)
+- Source & Destination Ports
+- Packet-level details
 
-```shell
+They are typically applied close to the source to prevent unnecessary traffic on the network.
+
+## ⚙️ Configuration Steps
+### 1. Define the Access List
+
+```bash
+Router(config)# access-list 110 permit tcp 192.168.10.0 0.0.0.255 any eq 80
+Router(config)# access-list 110 deny ip any any
+```
+
+### 2. Apply the Access List to an Interface
+```bash
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip access-group 110 in
+```
+
+## 🧪 Examples
+### Allow HTTP from LAN to Internet, block everything else
+```bash
 access-list 110 permit tcp 192.168.1.0 0.0.0.255 any eq 80
 access-list 110 deny ip any any
+interface g0/0
+ip access-group 110 in
 ```
-Apply to an interface:
-```shell
-interface Serial0/0
- ip access-group 110 out
-```
-## 🔁 Direction: `in` vs `out`
-
-| Direction | Applied On         | Filters Traffic That...                                      | Typical Use Case                                   |
-|-----------|--------------------|---------------------------------------------------------------|----------------------------------------------------|
-| `in`      | Interface receiving packets | ✅ **Enters** the router via this interface          | Block or allow traffic **coming into** the router  |
-| `out`     | Interface sending packets   | ✅ **Exits** the router via this interface           | Block or allow traffic **leaving** the router      |
-
-> 💡 ACLs only filter **transit traffic**, not traffic generated by the router itself.
-
-
-## 🔍 Wildcard Masking in Cisco ACLs
-
-| Wildcard Mask     | Matches                     | Meaning                                   | Example Usage                              |
-|-------------------|-----------------------------|-------------------------------------------|--------------------------------------------|
-| `0.0.0.0`         | Exact IP                    | Match all bits (host IP match)            | `host 192.168.1.1` = `192.168.1.1 0.0.0.0` |
-| `0.0.0.255`       | Last octet varies           | Match a /24 network                       | `192.168.1.0 0.0.0.255` = /24 subnet       |
-| `0.0.255.255`     | Last two octets vary        | Match a /16 network                       | `192.168.0.0 0.0.255.255` = /16 subnet     |
-| `0.255.255.255`   | Last three octets vary      | Match a /8 network                        | `10.0.0.0 0.255.255.255` = /8 subnet       |
-| `255.255.255.255` | All bits vary (any IP)      | Match any host                            | Same as using `any`                        |
-
-> ✅ Wildcard mask logic:  
-> **0 = must match**  
-> **1 = can vary**
-
-## 🧪 Examples: ACL Configuration
-
-### 🔹 1. Deny One Host, Allow All Others (Standard ACL)
-
+### Allow only SSH to a server (192.168.1.100)
 ```bash
-access-list 10 deny host 192.168.1.100
-access-list 10 permit any
-
-interface FastEthernet0/0
- ip access-group 10 in
+access-list 111 permit tcp any host 192.168.1.100 eq 22
+access-list 111 deny ip any any
+interface g0/1
+ip access-group 111 in
 ```
-
-### 🔹 2. Permit Only One Subnet to Access Network
-
+### Block access to social media (e.g. Facebook - IP example)
 ```bash
-access-list 15 permit 10.0.0.0 0.0.0.255
-
-interface FastEthernet0/1
- ip access-group 15 in
+access-list 112 deny tcp any host 157.240.22.35 eq 443
+access-list 112 permit ip any any
+interface g0/0
+ip access-group 112 out
 ```
-### 🔹 3. Extended ACL: Allow HTTP, Block All Else
 
+## 🔍 Verification Commands
 ```bash
-access-list 100 permit tcp any any eq 80
-access-list 100 deny ip any any
+# Show all ACLs
+show access-lists
 
-interface Serial0/0
- ip access-group 100 in
+# Show ACL applied to interface
+show running-config interface g0/0
+
+# Debug packet filtering (use carefully)
+debug ip packet
 ```
 
-### 🔹 4. Allow Ping (ICMP) Only from One Host
+## 🌐 Common Protocols & Port Numbers
+
+| Protocol | Service/Use Case     | Port(s)   | Transport | Direction (Typical) | Description                       |
+|----------|----------------------|-----------|-----------|---------------------|-----------------------------------|
+| TCP      | HTTP                 | 80        | TCP       | Outbound            | Web traffic                       |
+| TCP      | HTTPS                | 443       | TCP       | Outbound            | Secure web traffic                |
+| TCP      | SSH                  | 22        | TCP       | Inbound             | Secure remote access              |
+| TCP      | Telnet               | 23        | TCP       | Inbound             | Remote terminal access            |
+| TCP      | FTP (Control)        | 21        | TCP       | Inbound             | FTP command channel               |
+| TCP      | FTP (Data)           | 20        | TCP       | Outbound            | FTP data transfer                 |
+| UDP      | DNS                  | 53        | UDP       | Both                | Domain name resolution            |
+| TCP      | DNS                  | 53        | TCP       | Inbound             | Large DNS responses (zone xfer)  |
+| UDP      | DHCP (Server to Client) | 67     | UDP       | Inbound             | DHCP offer                        |
+| UDP      | DHCP (Client to Server) | 68     | UDP       | Outbound            | DHCP discover/request             |
+| ICMP     | Echo Request/Reply   | N/A       | ICMP      | Both                | Ping and network diagnostics      |
+| UDP      | SNMP (Monitoring)    | 161       | UDP       | Inbound             | Device monitoring & management    |
+| UDP      | SNMP Trap            | 162       | UDP       | Outbound            | Alert messages from devices       |
+| TCP      | SMTP                 | 25        | TCP       | Outbound            | Sending email                     |
+| TCP      | POP3                 | 110       | TCP       | Inbound             | Receiving email (older protocol)  |
+| TCP      | IMAP                 | 143       | TCP       | Inbound             | Receiving email (modern)          |
+| TCP      | RDP                  | 3389      | TCP       | Inbound             | Remote desktop                    |
+| UDP      | NTP                  | 123       | UDP       | Outbound            | Time synchronization              |
+| TCP      | MySQL                | 3306      | TCP       | Inbound             | MySQL database access             |
+| TCP      | MS SQL Server        | 1433      | TCP       | Inbound             | Microsoft SQL database            |
+| TCP      | LDAP                 | 389       | TCP       | Inbound             | Directory services                |
+| TCP      | LDAPS (Secure LDAP)  | 636       | TCP       | Inbound             | Secure directory services         |
+| TCP      | BGP                  | 179       | TCP       | Inbound/Outbound    | Routing protocol (between routers)|
+
+## ✅ How to Use in ACLs
+You can reference these port numbers in your extended ACLs like this:
 ```bash
-access-list 101 permit icmp host 192.168.5.5 any
-access-list 101 deny ip any any
-
-interface GigabitEthernet0/1
- ip access-group 101 in
+access-list 110 permit tcp any any eq 80   ! Allow HTTP
+access-list 110 deny tcp any any eq 23     ! Deny Telnet
+access-list 110 permit udp any any eq 53   ! Allow DNS
 ```
-
-### 🔹 5. Block Telnet (Port 23) from Any Source
-
-```bash
-access-list 110 deny tcp any any eq 23
-access-list 110 permit ip any any
-
-interface Serial0/1
- ip access-group 110 in
-```
-
-
-
-
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
