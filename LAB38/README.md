@@ -104,6 +104,14 @@ debug ip packet
 | TCP      | LDAPS (Secure LDAP)  | 636       | TCP       | Inbound             | Secure directory services         |
 | TCP      | BGP                  | 179       | TCP       | Inbound/Outbound    | Routing protocol (between routers)|
 
+## ✅ How to Use in ACLs
+You can reference these port numbers in your extended ACLs like this:
+```bash
+access-list 110 permit tcp any any eq 80   ! Allow HTTP
+access-list 110 deny tcp any any eq 23     ! Deny Telnet
+access-list 110 permit udp any any eq 53   ! Allow DNS
+```
+
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
 - **Website**: Visit the official Abblix OIDC Server page for more information: [ADN-SPACE](https://alpamis-adn.vercel.app).
