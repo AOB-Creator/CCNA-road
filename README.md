@@ -1,6 +1,6 @@
 <a name="top"></a>
 
-![Timeline2_shutterstock_668209624](<http://wp.widewallpapers.ru/2k/computers/servers/1920x1200/datacenter-servers-1920x1200-028.jpg>)
+![Timeline2_shutterstock_668209624](<https://svuonline.org/sites/default/files/default_images/networking/ccna-courses.png>)
 
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
