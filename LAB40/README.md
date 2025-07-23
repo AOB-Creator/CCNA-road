@@ -18,202 +18,126 @@
 
 ## ⚙️ Full Cisco Configuration Guide: VLAN Setup, Layer 3 Routing, VTP Modes, and Extended ACLs
 
-This guide provides a complete overview and step-by-step configuration of core Cisco switching and security topics:
+## 📘 What is DHCP?
+DHCP (Dynamic Host Configuration Protocol) is a network management protocol used to automatically assign IP addresses and other communication parameters (like subnet mask, gateway, DNS) to devices on a network. It greatly reduces the need for manual IP configuration.
 
-- 🔸 VLANs (Virtual LANs) for network segmentation  
-- 🔹 Inter-VLAN Routing using Layer 3 (Multilayer) Switches  
-- 🔄 VTP (VLAN Trunking Protocol) Server and Client Roles  
-- 🔐 Extended Access Control Lists for fine-grained traffic filtering  
+## 🔧 How DHCP Works: DORA Process
 
-Perfect for students, engineers, and network admins working on Cisco Packet Tracer or real Cisco gear.
+DHCP operates through a 4-step process known as **DORA**:
 
-## 🔐 VLAN ACL Rules – Access Matrix
+| Step | Name        | Description                                                                 |
+|------|-------------|-----------------------------------------------------------------------------|
+| 1️⃣   | **Discover**  | The client broadcasts a request to locate available DHCP servers.           |
+| 2️⃣   | **Offer**     | A DHCP server responds with an available IP address offer.                 |
+| 3️⃣   | **Request**   | The client sends a request to accept the offered IP address.               |
+| 4️⃣   | **Acknowledge** | The DHCP server acknowledges the request and leases the IP to the client. |
 
-This table defines the extended ACL rules applied in a multi-VLAN network environment to enforce role-based traffic control.
 
-## 📊 Access Control List (ACL) Table
+## 🛠️ DHCP Configuration Locations
 
-| VLAN | Source IP Range             | Destination IP       | Protocol | Port(s)     | Action | Description                            |
-|------|-----------------------------|----------------------|----------|-------------|--------|----------------------------------------|
-| 10   | 192.168.10.1 - 192.168.10.30  | 192.168.100.2        | TCP      | 80, 443     | ✅ Permit | Admins access Web Server 1 (HTTP/HTTPS) |
-| 10   | 192.168.10.96 - 192.168.10.126 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Admins access Web Server 2 (HTTP/HTTPS) |
-| 20   | 192.168.20.0 - 192.168.20.7   | 192.168.100.5        | TCP      | 21          | ✅ Permit | Developers access FTP Server            |
-| 20   | 192.168.20.0 - 192.168.20.7   | 192.168.100.3        | TCP      | 80, 443     | ❌ Deny  | Dev subnet blocked from Web Server 2    |
-| 20   | 192.168.20.0 - 192.168.20.127 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Remaining Devs access Web Server 2      |
-| 30   | 192.168.30.0 - 192.168.30.3   | 192.168.100.6        | TCP      | 25, 110     | ✅ Permit | Email Dept access SMTP & POP3 Server    |
-| 30   | 192.168.30.64 - 192.168.30.95 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Email Dept access Web Server 2          |
-| 77   | 192.168.77.0 - 192.168.77.15  | 192.168.100.2        | TCP      | 80, 443     | ✅ Permit | Guests access Web Server 1              |
-| All  | Any                          | 192.168.100.4        | UDP      | 53 (DNS)    | ✅ Permit | All VLANs can resolve DNS               |
-| All  | Any                          | Any                  | ICMP     | —           | ✅ Permit | ICMP (Ping) allowed between all VLANs   |
+| Method                  | Description with Configuration Commands                                                                                                                       | Suitable For             |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
+| **Router DHCP Pool**    | Configure DHCP directly on the router:<br><br>`ip dhcp excluded-address 192.168.1.1 192.168.1.10`<br>`ip dhcp pool LAN_POOL`<br>`network 192.168.1.0 255.255.255.0`<br>`default-router 192.168.1.1`<br>`dns-server 8.8.8.8` | Small to medium networks |
+| **Dedicated DHCP Server** | DHCP runs on Windows/Linux server:<br><br>Router must forward requests using:<br>`interface G0/1`<br>`ip helper-address 192.168.2.254`<br>Configure scope on server (e.g. 192.168.2.100–200) | Large enterprise setups  |
+| **Multilayer Switch (MLS)** | For each VLAN, create an SVI and DHCP pool:<br><br>`interface vlan 10`<br>`ip address 192.168.10.1 255.255.255.0`<br>`no shutdown`<br><br>`ip dhcp pool VLAN10`<br>`network 192.168.10.0 255.255.255.0`<br>`default-router 192.168.10.1`<br>`dns-server 8.8.8.8`<br>`ip dhcp excluded-address 192.168.10.1 192.168.10.10` | VLAN-segmented networks  |
+| **DHCP Relay (Helper Address)** | When the DHCP server is on another network:<br><br>`interface Fa0/1`<br>`ip address 192.168.3.1 255.255.255.0`<br>`ip helper-address 192.168.2.254`<br><br>Make sure routing exists between networks. | Centralized DHCP setup   |
+
+
+
+## 🔹 1. Only DHCP Server Configured (No DHCP Service in Use Yet)
+- Devices: Server, Switch, 3 PCs
+- Status: Only the DHCP server is connected but not yet serving IPs.
+- Purpose: Just shows server readiness. No configuration on the switch or clients
+
+## 🔹 2. DHCP Pool on Router
+- Devices: Router1, Switch, 3 PCs
+- DHCP configuration is done on the router using these commands:
+
+```bash
+Router(config)# ip dhcp pool lan_dhcp
+Router(dhcp-config)# network 192.168.1.0 255.255.255.0
+Router(dhcp-config)# dns-server 8.8.8.8
+Router(dhcp-config)# default-router 192.168.1.1
+Router(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.10
+```
+
+Result: Router assigns IPs from .11 to .254.
+
+## 🔹 3. DHCP Server + IP Helper-Address
+- Devices: Server (192.168.2.254), Router2 (interface Fa0/0: 192.168.2.1), Switch, 4 PCs
+- The DHCP server is on a different network, so ip helper-address is used on the router interface:
+
+```bash
+interface Fa0/1
+ip helper-address 192.168.2.254
+```
+Result: Router forwards DHCP requests to the external DHCP server.
+
+## 🔹 4. DHCP Relay Between Two Routers
+- Router3 has DHCP pool
+- Router4 has no DHCP pool but forwards DHCP using:
+
+```bash
+ip helper-address [Router3's DHCP IP]
+```
+
+- PCs connected to Router4’s network get IPs from Router3
+- Routing is configured between routers to ensure DHCP communication.
+
+## 🔹 5. Multilayer Switch with VLANs + Multiple DHCP Pools
+- Devices: MLS (Layer 3 switch), 4 VLANs (10, 20, 30, 40), 4 PCs
+- Each VLAN interface (SVI) has a unique IP and acts as the default gateway.
+- 4 DHCP pools configured for each VLAN.
+
+Example for VLAN 10:
+
+```bash
+interface vlan 10
+ip address 192.168.10.1 255.255.255.0
+ip dhcp pool VLAN10
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+```
+# 📘 DHCP Configuration Summary
+
+This project demonstrates 5 different DHCP configuration scenarios using Cisco Packet Tracer.
+
+## ✅ Summary Table
+
+| # | Setup Description         | DHCP Location         | Key Configuration / Notes                                                                 |
+|---|---------------------------|-----------------------|--------------------------------------------------------------------------------------------|
+| 1 | Server Only               | DHCP Server           | Only the server is configured. No IP assignments yet.                                     |
+| 2 | Router DHCP Pool          | On Router             | Uses `ip dhcp pool`, `default-router`, `dns-server`, and `excluded-address`.              |
+| 3 | DHCP Server with Relay    | External DHCP Server  | Router uses `ip helper-address` to forward requests to the DHCP server.                   |
+| 4 | Inter-Router DHCP Relay   | First Router Only     | One router has the DHCP pool. Second uses `ip helper-address` to forward DHCP messages.   |
+| 5 | VLAN-Based DHCP (MLS)     | Multilayer Switch     | Each VLAN has its own SVI, default gateway, and DHCP pool. Four separate VLANs are used.  |
 
 ---
 
-## 💡 Notes
+## 💡 Example Commands
 
-- **VLAN 100** is the Server Farm (DMZ zone)
-- Apply these rules using **Extended ACLs** near the source interface (recommended)
-- Use **wildcard masks** in Cisco configuration to match IP ranges
-- ACL name suggestion: `SECURITY-ACL`
-## Commands
-
+### 🧷 DHCP Pool on Router
 ```bash
-permit tcp 192.168.10.1 0.0.0.30 host 192.168.100.2 eq www
- permit tcp 192.168.10.1 0.0.0.30 host 192.168.100.2 eq 443
- permit udp any host 192.168.100.4 eq domain
- permit tcp 192.168.10.96 0.0.0.30 host 192.168.100.3 eq 443
- permit tcp 192.168.10.96 0.0.0.30 host 192.168.100.3 eq www
- permit tcp 192.168.20.0 0.0.0.7 host 192.168.100.5 eq ftp
- deny tcp 192.168.20.0 0.0.0.7 host 192.168.100.3 eq www
- deny tcp 192.168.20.0 0.0.0.7 host 192.168.100.3 eq 443
- permit tcp 192.168.20.0 0.0.0.127 host 192.168.100.3 eq 443
- permit tcp 192.168.20.0 0.0.0.127 host 192.168.100.3 eq www
- permit tcp 192.168.30.0 0.0.0.3 host 192.168.100.6 eq smtp
- permit tcp 192.168.30.0 0.0.0.3 host 192.168.100.6 eq pop3
- permit tcp 192.168.30.64 0.0.0.31 host 192.168.100.3 eq www
- permit tcp 192.168.30.64 0.0.0.31 host 192.168.100.3 eq 443
- permit icmp any any
- permit tcp 192.168.77.0 0.0.0.15 host 192.168.100.2 eq www
- permit tcp 192.168.77.0 0.0.0.15 host 192.168.100.2 eq 443
+ip dhcp pool LAN_DHCP
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ dns-server 8.8.8.8
 ```
 
 
 
-## ✅ Step-by-Step: Inter-VLAN Routing on L3 Switch
-📌 1. Configure VLANs on the L3 Switch
-```bash
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-Switch(config-vlan)# exit
 
-Switch(config)# vlan 20
-Switch(config-vlan)# name SALES
-Switch(config-vlan)# exit
-```
-📌 2. Assign VLANs to Access Ports
-```bash
-Switch(config)# interface FastEthernet0/1
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 10
-Switch(config-if)# exit
 
-Switch(config)# interface FastEthernet0/2
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 20
-Switch(config-if)# exit
-```
-📌 3. Enable Routing on the L3 Switch
-```bash
-Switch(config)# ip routing
-```
-📌 4. Create SVIs (Switch Virtual Interfaces)
-```bash
-Switch(config)# interface vlan 10
-Switch(config-if)# ip address 192.168.10.1 255.255.255.0
-Switch(config-if)# no shutdown
-Switch(config-if)# exit
 
-Switch(config)# interface vlan 20
-Switch(config-if)# ip address 192.168.20.1 255.255.255.0
-Switch(config-if)# no shutdown
-Switch(config-if)# exit
-```
-📌 6. (Optional) Trunk Link to Other Switches
-```bash
-Switch(config)# interface GigabitEthernet0/1
-Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allowed vlan 10,20
-Switch(config-if)# exit
-```
-## 🔄 What is VTP?
-VTP (VLAN Trunking Protocol) is a Cisco-proprietary Layer 2 protocol that manages VLANs across a switched network.
-- It propagates VLAN definitions (IDs, names, etc.) to switches in the same VTP domain.
-- Helps centralize VLAN management — create VLANs once on a VTP server, and all clients learn it automatically.
 
-### 🔹 On VTP Server (e.g., Switch-1):
-```bash
-Switch1(config)# vtp mode server
-Switch1(config)# vtp domain MYDOMAIN
-Switch1(config)# vtp password cisco
-Switch1(config)# vlan 10
-Switch1(config-vlan)# name HR
-Switch1(config-vlan)# exit
-```
-### 🔹 On VTP Client (e.g., Switch-2, Switch-3):
 
-```bash
-Switch2(config)# vtp mode client
-Switch2(config)# vtp domain MYDOMAIN
-Switch2(config)# vtp password cisco
-```
 
-### 🔹 Set Trunk Ports Between Switches
 
-```bash
-SwitchX(config)# interface FastEthernet0/1
-SwitchX(config-if)# switchport mode trunk
-SwitchX(config-if)# switchport trunk allowed vlan all
-```
 
-## 🔐 Extended Access Control Lists (Extended ACLs) - Cisco
 
-Extended Access Control Lists (ACLs) in Cisco are used to filter traffic based on **source/destination IP**, **protocols**, and **port numbers**. This makes them ideal for fine-grained traffic control on enterprise networks.
 
----
 
-## 🧠 What is an Extended ACL?
 
-An **Extended ACL** allows you to:
-
-- Filter traffic by:
-  - Source and Destination IP addresses
-  - Protocol types (TCP, UDP, ICMP, etc.)
-  - Port numbers (e.g., 80 for HTTP, 443 for HTTPS)
-- Permit or deny specific services or hosts
-
-| Criteria         | Example                     |
-|------------------|-----------------------------|
-| Source IP        | `192.168.1.1`               |
-| Destination IP   | `10.0.0.1`                  |
-| Protocol         | `tcp`, `udp`, `icmp`        |
-| Destination Port | `eq 80`, `eq 443`, etc.     |
-
----
-
-## 🧠 Placement of Extended ACLs
-
-> 🔺 **Rule of Thumb:**  
-> Place Extended ACLs **close to the source** of the traffic you want to **deny**.
-
-| ACL Type     | Placement Recommendation |
-|--------------|---------------------------|
-| Extended ACL | Close to source           |
-| Standard ACL | Close to destination      |
-
-**Why?**  
-Placing Extended ACLs near the source prevents unnecessary traffic from traveling across the network.
-
----
-
-## 🔧 Step-by-Step Configuration
-
-### 🎯 Example Goal:
-> Deny HTTP (port 80) from `192.168.1.0/24` to server `10.0.0.5`  
-> Allow everything else
-
-### 🧩 1. Define the ACL
-```bash
-access-list 100 deny tcp 192.168.1.0 0.0.0.255 host 10.0.0.5 eq 80
-access-list 100 permit ip any any
-```
-
-### 🌐 Block Social Media Access (Simplified)
-To block social media sites like Facebook and Instagram by their IP addresses:
-
-```bash
-access-list 130 deny tcp any host 157.240.229.35 eq 443   ! facebook.com
-access-list 130 deny tcp any host 157.240.201.35 eq 443   ! instagram.com
-access-list 130 permit ip any any
-```
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
