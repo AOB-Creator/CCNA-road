@@ -89,6 +89,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 37 | Lab 37 | 🔁 Limiting Network Access to Trusted Subnets with Standard ACLs | [LAB37](./LAB37) |
 | 38 | Lab 38 | 🔐 Extended Access Control Lists (ACLs) - Step-by-Step Guide | [LAB38](./LAB38) |
 | 39 | Lab 39 | ⚙️ Full Cisco Configuration Guide: VLAN Setup, Layer 3 Routing, VTP Modes, and Extended ACLs | [LAB39](./LAB39) |
+| 40 | Lab 40 | 🌐 Mastering DHCP: From Basics to Advanced Network Scenarios | [LAB40](./LAB40) |
 
 ---
 
