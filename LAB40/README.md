@@ -16,7 +16,7 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## ⚙️ Full Cisco Configuration Guide: VLAN Setup, Layer 3 Routing, VTP Modes, and Extended ACLs
+## 🌐 Mastering DHCP: From Basics to Advanced Network Scenarios
 
 ## 📘 What is DHCP?
 DHCP (Dynamic Host Configuration Protocol) is a network management protocol used to automatically assign IP addresses and other communication parameters (like subnet mask, gateway, DNS) to devices on a network. It greatly reduces the need for manual IP configuration.
