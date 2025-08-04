@@ -90,7 +90,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 38 | Lab 38 | 🔐 Extended Access Control Lists (ACLs) - Step-by-Step Guide | [LAB38](./LAB38) |
 | 39 | Lab 39 | ⚙️ Full Cisco Configuration Guide: VLAN Setup, Layer 3 Routing, VTP Modes, and Extended ACLs | [LAB39](./LAB39) |
 | 40 | Lab 40 | 🌐 Mastering DHCP: From Basics to Advanced Network Scenarios | [LAB40](./LAB40) |
-| 41 | Lab 41 | 🌐 Mastering DHCP: From Basics to Advanced Network Scenarios | [LAB41](./LAB41) |
+| 41 | Lab 41 | 🧠 Multi-Subnet Dynamic IP Network with Static Routing and Simulated Service Infrastructure (DNS, FTP, Mail, Instagram) | [LAB41](./LAB41) |
 | 42 | Lab 42 | ⭐ DHCP Server Configuration – Setup for dynamic IP address allocation| [LAB42](./LAB42) |
 
 
