@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB39/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB43/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,204 +16,117 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## ⚙️ Full Cisco Configuration Guide: VLAN Setup, Layer 3 Routing, VTP Modes, and Extended ACLs
+## 🧠 Spanning Tree Protocols (STP) – Technical Documentation
 
-This guide provides a complete overview and step-by-step configuration of core Cisco switching and security topics:
-
-- 🔸 VLANs (Virtual LANs) for network segmentation  
-- 🔹 Inter-VLAN Routing using Layer 3 (Multilayer) Switches  
-- 🔄 VTP (VLAN Trunking Protocol) Server and Client Roles  
-- 🔐 Extended Access Control Lists for fine-grained traffic filtering  
-
-Perfect for students, engineers, and network admins working on Cisco Packet Tracer or real Cisco gear.
-
-## 🔐 VLAN ACL Rules – Access Matrix
-
-This table defines the extended ACL rules applied in a multi-VLAN network environment to enforce role-based traffic control.
-
-## 📊 Access Control List (ACL) Table
-
-| VLAN | Source IP Range             | Destination IP       | Protocol | Port(s)     | Action | Description                            |
-|------|-----------------------------|----------------------|----------|-------------|--------|----------------------------------------|
-| 10   | 192.168.10.1 - 192.168.10.30  | 192.168.100.2        | TCP      | 80, 443     | ✅ Permit | Admins access Web Server 1 (HTTP/HTTPS) |
-| 10   | 192.168.10.96 - 192.168.10.126 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Admins access Web Server 2 (HTTP/HTTPS) |
-| 20   | 192.168.20.0 - 192.168.20.7   | 192.168.100.5        | TCP      | 21          | ✅ Permit | Developers access FTP Server            |
-| 20   | 192.168.20.0 - 192.168.20.7   | 192.168.100.3        | TCP      | 80, 443     | ❌ Deny  | Dev subnet blocked from Web Server 2    |
-| 20   | 192.168.20.0 - 192.168.20.127 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Remaining Devs access Web Server 2      |
-| 30   | 192.168.30.0 - 192.168.30.3   | 192.168.100.6        | TCP      | 25, 110     | ✅ Permit | Email Dept access SMTP & POP3 Server    |
-| 30   | 192.168.30.64 - 192.168.30.95 | 192.168.100.3        | TCP      | 80, 443     | ✅ Permit | Email Dept access Web Server 2          |
-| 77   | 192.168.77.0 - 192.168.77.15  | 192.168.100.2        | TCP      | 80, 443     | ✅ Permit | Guests access Web Server 1              |
-| All  | Any                          | 192.168.100.4        | UDP      | 53 (DNS)    | ✅ Permit | All VLANs can resolve DNS               |
-| All  | Any                          | Any                  | ICMP     | —           | ✅ Permit | ICMP (Ping) allowed between all VLANs   |
+Spanning Tree Protocol (STP) is a Layer 2 protocol defined by IEEE 802.1D that prevents loops in Ethernet networks by blocking redundant paths and ensuring a loop-free logical topology.
 
 ---
 
-## 💡 Notes
-
-- **VLAN 100** is the Server Farm (DMZ zone)
-- Apply these rules using **Extended ACLs** near the source interface (recommended)
-- Use **wildcard masks** in Cisco configuration to match IP ranges
-- ACL name suggestion: `SECURITY-ACL`
-## Commands
-
-```bash
-permit tcp 192.168.10.1 0.0.0.30 host 192.168.100.2 eq www
- permit tcp 192.168.10.1 0.0.0.30 host 192.168.100.2 eq 443
- permit udp any host 192.168.100.4 eq domain
- permit tcp 192.168.10.96 0.0.0.30 host 192.168.100.3 eq 443
- permit tcp 192.168.10.96 0.0.0.30 host 192.168.100.3 eq www
- permit tcp 192.168.20.0 0.0.0.7 host 192.168.100.5 eq ftp
- deny tcp 192.168.20.0 0.0.0.7 host 192.168.100.3 eq www
- deny tcp 192.168.20.0 0.0.0.7 host 192.168.100.3 eq 443
- permit tcp 192.168.20.0 0.0.0.127 host 192.168.100.3 eq 443
- permit tcp 192.168.20.0 0.0.0.127 host 192.168.100.3 eq www
- permit tcp 192.168.30.0 0.0.0.3 host 192.168.100.6 eq smtp
- permit tcp 192.168.30.0 0.0.0.3 host 192.168.100.6 eq pop3
- permit tcp 192.168.30.64 0.0.0.31 host 192.168.100.3 eq www
- permit tcp 192.168.30.64 0.0.0.31 host 192.168.100.3 eq 443
- permit icmp any any
- permit tcp 192.168.77.0 0.0.0.15 host 192.168.100.2 eq www
- permit tcp 192.168.77.0 0.0.0.15 host 192.168.100.2 eq 443
-```
-
-
-
-## ✅ Step-by-Step: Inter-VLAN Routing on L3 Switch
-📌 1. Configure VLANs on the L3 Switch
-```bash
-Switch(config)# vlan 10
-Switch(config-vlan)# name HR
-Switch(config-vlan)# exit
-
-Switch(config)# vlan 20
-Switch(config-vlan)# name SALES
-Switch(config-vlan)# exit
-```
-📌 2. Assign VLANs to Access Ports
-```bash
-Switch(config)# interface FastEthernet0/1
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 10
-Switch(config-if)# exit
-
-Switch(config)# interface FastEthernet0/2
-Switch(config-if)# switchport mode access
-Switch(config-if)# switchport access vlan 20
-Switch(config-if)# exit
-```
-📌 3. Enable Routing on the L3 Switch
-```bash
-Switch(config)# ip routing
-```
-📌 4. Create SVIs (Switch Virtual Interfaces)
-```bash
-Switch(config)# interface vlan 10
-Switch(config-if)# ip address 192.168.10.1 255.255.255.0
-Switch(config-if)# no shutdown
-Switch(config-if)# exit
-
-Switch(config)# interface vlan 20
-Switch(config-if)# ip address 192.168.20.1 255.255.255.0
-Switch(config-if)# no shutdown
-Switch(config-if)# exit
-```
-📌 6. (Optional) Trunk Link to Other Switches
-```bash
-Switch(config)# interface GigabitEthernet0/1
-Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allowed vlan 10,20
-Switch(config-if)# exit
-```
-## 🔄 What is VTP?
-VTP (VLAN Trunking Protocol) is a Cisco-proprietary Layer 2 protocol that manages VLANs across a switched network.
-- It propagates VLAN definitions (IDs, names, etc.) to switches in the same VTP domain.
-- Helps centralize VLAN management — create VLANs once on a VTP server, and all clients learn it automatically.
-
-### 🔹 On VTP Server (e.g., Switch-1):
-```bash
-Switch1(config)# vtp mode server
-Switch1(config)# vtp domain MYDOMAIN
-Switch1(config)# vtp password cisco
-Switch1(config)# vlan 10
-Switch1(config-vlan)# name HR
-Switch1(config-vlan)# exit
-```
-### 🔹 On VTP Client (e.g., Switch-2, Switch-3):
-
-```bash
-Switch2(config)# vtp mode client
-Switch2(config)# vtp domain MYDOMAIN
-Switch2(config)# vtp password cisco
-```
-
-### 🔹 Set Trunk Ports Between Switches
-
-```bash
-SwitchX(config)# interface FastEthernet0/1
-SwitchX(config-if)# switchport mode trunk
-SwitchX(config-if)# switchport trunk allowed vlan all
-```
-
-## 🔐 Extended Access Control Lists (Extended ACLs) - Cisco
-
-Extended Access Control Lists (ACLs) in Cisco are used to filter traffic based on **source/destination IP**, **protocols**, and **port numbers**. This makes them ideal for fine-grained traffic control on enterprise networks.
+## 📘 Table of Contents
+- [What is STP?](#what-is-stp)
+- [How STP Works](#how-stp-works)
+- [Types of STP Protocols](#types-of-stp-protocols)
+- [STP Port States](#stp-port-states)
+- [Spanning Tree Path Cost Table](#spanning-tree-path-cost-table)
+- [Common STP Configuration Commands (Cisco)](#common-stp-configuration-commands-cisco)
+- [Advanced STP Concepts](#advanced-stp-concepts)
 
 ---
 
-## 🧠 What is an Extended ACL?
+## 🔍 What is STP?
 
-An **Extended ACL** allows you to:
-
-- Filter traffic by:
-  - Source and Destination IP addresses
-  - Protocol types (TCP, UDP, ICMP, etc.)
-  - Port numbers (e.g., 80 for HTTP, 443 for HTTPS)
-- Permit or deny specific services or hosts
-
-| Criteria         | Example                     |
-|------------------|-----------------------------|
-| Source IP        | `192.168.1.1`               |
-| Destination IP   | `10.0.0.1`                  |
-| Protocol         | `tcp`, `udp`, `icmp`        |
-| Destination Port | `eq 80`, `eq 443`, etc.     |
+Spanning Tree Protocol (STP) is designed to:
+- **Prevent Layer 2 loops**
+- **Provide path redundancy**
+- **Elect a Root Bridge** to manage the network tree
 
 ---
 
-## 🧠 Placement of Extended ACLs
+## 🔁 How STP Works
 
-> 🔺 **Rule of Thumb:**  
-> Place Extended ACLs **close to the source** of the traffic you want to **deny**.
+1. **Root Bridge Election** – Switch with the lowest Bridge ID becomes the Root Bridge.
+2. **Path Cost Calculation** – STP calculates the lowest-cost path to the Root Bridge.
+3. **Port Roles**:
+   - **Root Port (RP)** – Best path to the root
+   - **Designated Port (DP)** – Best forwarding port on a segment
+   - **Blocked Port** – Backup path to prevent loops
 
-| ACL Type     | Placement Recommendation |
-|--------------|---------------------------|
-| Extended ACL | Close to source           |
-| Standard ACL | Close to destination      |
-
-**Why?**  
-Placing Extended ACLs near the source prevents unnecessary traffic from traveling across the network.
+4. **Port State Transitions**:
+   - `Blocking → Listening → Learning → Forwarding`
 
 ---
 
-## 🔧 Step-by-Step Configuration
+## 🌱 Types of STP Protocols
 
-### 🎯 Example Goal:
-> Deny HTTP (port 80) from `192.168.1.0/24` to server `10.0.0.5`  
-> Allow everything else
+| Protocol         | IEEE Standard | Features                              | Convergence Time | Scalability |
+|------------------|----------------|----------------------------------------|------------------|-------------|
+| **STP**          | 802.1D         | Original version                       | 30–50 seconds    | Low         |
+| **RSTP**         | 802.1w         | Rapid convergence                      | ~6 seconds       | Medium      |
+| **MSTP**         | 802.1s         | Multiple VLAN instances                | Moderate         | High        |
+| **PVST+**        | Cisco          | Per VLAN STP                           | Medium           | Medium      |
+| **RPVST+**       | Cisco          | RSTP per VLAN                          | Fast             | Medium      |
+| **BPDU Guard**   | -              | Protects edge ports from rogue BPDUs   | -                | -           |
 
-### 🧩 1. Define the ACL
+---
+
+## ⏱ STP Port States
+
+| State       | Description                                   |
+|-------------|-----------------------------------------------|
+| **Blocking**   | Receives BPDUs only, no data forwarding       |
+| **Listening**  | Prepares for STP convergence                  |
+| **Learning**   | Learns MAC addresses, no forwarding yet       |
+| **Forwarding** | Normal operation, forwarding frames           |
+| **Disabled**   | Port is administratively or logically down    |
+
+---
+
+## 📐 Spanning Tree Path Cost Table
+
+| Link Speed | STP Cost |
+|------------|----------|
+| 10 Mbps    | 100      |
+| 100 Mbps   | 19       |
+| 1 Gbps     | 4        |
+| 10 Gbps    | 2        |
+
+> ℹ️ Lower cost means a more preferred path.
+
+---
+
+## 🛠 Common STP Configuration Commands (Cisco)
+
 ```bash
-access-list 100 deny tcp 192.168.1.0 0.0.0.255 host 10.0.0.5 eq 80
-access-list 100 permit ip any any
+# Set STP priority to influence Root Bridge election
+spanning-tree vlan 10 priority 4096
+
+# Set switch as root bridge for VLAN 10
+spanning-tree vlan 10 root primary
+
+# Enable Rapid Spanning Tree Protocol
+spanning-tree mode rapid-pvst
+
+# Configure PortFast for edge ports (access ports)
+interface FastEthernet0/1
+ spanning-tree portfast
+
+# Enable BPDU Guard to protect edge ports
+ spanning-tree bpduguard enable
 ```
 
-### 🌐 Block Social Media Access (Simplified)
-To block social media sites like Facebook and Instagram by their IP addresses:
 
-```bash
-access-list 130 deny tcp any host 157.240.229.35 eq 443   ! facebook.com
-access-list 130 deny tcp any host 157.240.201.35 eq 443   ! instagram.com
-access-list 130 permit ip any any
-```
+## 5. STP Variants and Comparison
+
+| Protocol       | IEEE Standard | Vendor      | Characteristics                                        | Convergence Time | VLAN Support    |
+|----------------|---------------|-------------|--------------------------------------------------------|------------------|------------------|
+| **STP**        | 802.1D        | IEEE        | Classic protocol with long convergence times           | ~30–50 sec       | Single instance  |
+| **RSTP**       | 802.1w        | IEEE        | Rapid transitions, faster convergence                  | < 6 sec          | Single instance  |
+| **MSTP**       | 802.1s        | IEEE        | Multiple STP instances for VLAN groups (MSTI)          | Moderate         | Multi-VLAN       |
+| **PVST+**      | -             | Cisco       | One STP instance per VLAN                              | Medium           | Per VLAN         |
+| **Rapid PVST+**| -             | Cisco       | Rapid STP per VLAN                                     | Fast             | Per VLAN         |
+
+> MSTP is ideal for large-scale networks due to instance mapping of VLANs, reducing CPU overhead.
+
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).
