@@ -93,6 +93,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 41 | Lab 41 | 🧠 Multi-Subnet Dynamic IP Network with Static Routing and Simulated Service Infrastructure (DNS, FTP, Mail, Instagram) | [LAB41](./LAB41) |
 | 42 | Lab 42 | ⭐ DHCP Server Configuration – Setup for dynamic IP address allocation| [LAB42](./LAB42) |
 | 43 | Lab 43 | 🧠 Spanning Tree Protocols (STP) – Technical Documentation | [LAB43](./LAB43) |
+| 44 | Lab 44 | 🔌 Link Aggregation (EtherChannel) in Cisco Packet Tracer | [LAB44](./LAB44) |
 
 
 ⭐ DHCP Server Configuration – Setup for dynamic IP address allocation
