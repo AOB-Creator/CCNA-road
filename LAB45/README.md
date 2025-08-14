@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB43/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB45/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,116 +16,128 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🧠 Spanning Tree Protocols (STP) – Technical Documentation
+## 🛰️ Enhanced Interior Gateway Routing Protocol (EIGRP)
 
-Spanning Tree Protocol (STP) is a Layer 2 protocol defined by IEEE 802.1D that prevents loops in Ethernet networks by blocking redundant paths and ensuring a loop-free logical topology.
+## 📖 Overview
+**EIGRP** is a Cisco-proprietary **hybrid routing protocol** (combines features of distance-vector and link-state) used to efficiently route IP packets within an autonomous system (AS). It’s designed for **fast convergence, scalability, and low bandwidth usage**.
 
----
-
-## 📘 Table of Contents
-- [What is STP?](#what-is-stp)
-- [How STP Works](#how-stp-works)
-- [Types of STP Protocols](#types-of-stp-protocols)
-- [STP Port States](#stp-port-states)
-- [Spanning Tree Path Cost Table](#spanning-tree-path-cost-table)
-- [Common STP Configuration Commands (Cisco)](#common-stp-configuration-commands-cisco)
-- [Advanced STP Concepts](#advanced-stp-concepts)
+Introduced by Cisco in 1992, EIGRP uses the **Diffusing Update Algorithm (DUAL)** to ensure loop-free paths and rapid recovery from network topology changes.
 
 ---
 
-## 🔍 What is STP?
-
-Spanning Tree Protocol (STP) is designed to:
-- **Prevent Layer 2 loops**
-- **Provide path redundancy**
-- **Elect a Root Bridge** to manage the network tree
-
----
-
-## 🔁 How STP Works
-
-1. **Root Bridge Election** – Switch with the lowest Bridge ID becomes the Root Bridge.
-2. **Path Cost Calculation** – STP calculates the lowest-cost path to the Root Bridge.
-3. **Port Roles**:
-   - **Root Port (RP)** – Best path to the root
-   - **Designated Port (DP)** – Best forwarding port on a segment
-   - **Blocked Port** – Backup path to prevent loops
-
-4. **Port State Transitions**:
-   - `Blocking → Listening → Learning → Forwarding`
+## 🔑 Key Features
+- **Protocol Type:** Advanced Distance Vector (Hybrid)
+- **Administrative Distance:**
+  - **Internal routes:** 90
+  - **External routes:** 170
+- **Metric Calculation:** Composite metric using **Bandwidth, Delay, Reliability, Load, and MTU** (default uses only Bandwidth & Delay)
+- **Convergence:** Fast (DUAL ensures loop-free & backup routes)
+- **Transport:** Uses **RTP (Reliable Transport Protocol)** for guaranteed delivery of updates
+- **Routing Updates:** Incremental (partial) updates only to affected neighbors
+- **Classless Protocol:** Supports VLSM and CIDR
+- **Authentication:** Supports MD5 and SHA authentication
+- **Load Balancing:** Equal & Unequal cost (via `variance` command)
+- **Support for Multiple Protocols:** IPv4, IPv6, AppleTalk, IPX (legacy)
 
 ---
 
-## 🌱 Types of STP Protocols
+## ⚙️ EIGRP Packet Types
+EIGRP uses five packet types:
 
-| Protocol         | IEEE Standard | Features                              | Convergence Time | Scalability |
-|------------------|----------------|----------------------------------------|------------------|-------------|
-| **STP**          | 802.1D         | Original version                       | 30–50 seconds    | Low         |
-| **RSTP**         | 802.1w         | Rapid convergence                      | ~6 seconds       | Medium      |
-| **MSTP**         | 802.1s         | Multiple VLAN instances                | Moderate         | High        |
-| **PVST+**        | Cisco          | Per VLAN STP                           | Medium           | Medium      |
-| **RPVST+**       | Cisco          | RSTP per VLAN                          | Fast             | Medium      |
-| **BPDU Guard**   | -              | Protects edge ports from rogue BPDUs   | -                | -           |
-
----
-
-## ⏱ STP Port States
-
-| State       | Description                                   |
-|-------------|-----------------------------------------------|
-| **Blocking**   | Receives BPDUs only, no data forwarding       |
-| **Listening**  | Prepares for STP convergence                  |
-| **Learning**   | Learns MAC addresses, no forwarding yet       |
-| **Forwarding** | Normal operation, forwarding frames           |
-| **Disabled**   | Port is administratively or logically down    |
+| Packet Type | Purpose |
+|-------------|---------|
+| **Hello**   | Discover & maintain neighbor relationships |
+| **Update**  | Route changes sent reliably to neighbors |
+| **Query**   | Request information when no feasible successor exists |
+| **Reply**   | Response to a Query packet |
+| **ACK**     | Acknowledgement for Update, Query, and Reply packets |
 
 ---
 
-## 📐 Spanning Tree Path Cost Table
-
-| Link Speed | STP Cost |
-|------------|----------|
-| 10 Mbps    | 100      |
-| 100 Mbps   | 19       |
-| 1 Gbps     | 4        |
-| 10 Gbps    | 2        |
-
-> ℹ️ Lower cost means a more preferred path.
-
----
-
-## 🛠 Common STP Configuration Commands (Cisco)
-
+## 🧮 EIGRP Metric Formula
 ```bash
-# Set STP priority to influence Root Bridge election
-spanning-tree vlan 10 priority 4096
+Metric = [ (10^7 / Minimum Bandwidth) + (Sum of Delays / 10) ] * 256
+```
 
-# Set switch as root bridge for VLAN 10
-spanning-tree vlan 10 root primary
+- **Bandwidth** = Minimum bandwidth (kbps) along the path
+- **Delay** = Cumulative delay (microseconds) along the path
+- Reliability & Load can be included if explicitly configured
 
-# Enable Rapid Spanning Tree Protocol
-spanning-tree mode rapid-pvst
+---
 
-# Configure PortFast for edge ports (access ports)
-interface FastEthernet0/1
- spanning-tree portfast
+## 📡 Neighbor Relationships
+- Formed by exchanging **Hello packets** on interfaces
+- Default Hello & Hold Timers:
+  - Hello: 5 seconds (Ethernet, point-to-point) / 60 seconds (low-speed links)
+  - Hold: 15 seconds / 180 seconds (low-speed links)
+- Must match: **K-values**, AS number, subnet, authentication
 
-# Enable BPDU Guard to protect edge ports
- spanning-tree bpduguard enable
+---
+
+## 🛠️ Basic Configuration
+```cisco
+# Enable EIGRP
+router eigrp 100
+ network 192.168.1.0 0.0.0.255
+ no auto-summary
+
+# Optional tuning
+eigrp log-neighbor-changes
+
+```
+
+## 📋 Important Show Commands
+
+```shell
+show ip eigrp neighbors     # View neighbor relationships
+show ip eigrp topology      # View feasible successors & routes
+show ip route eigrp         # View EIGRP-learned routes
+```
+
+## 🔄 EIGRP Terminology
+
+EIGRP uses several key terms to describe its routing process:
+
+| Term | Definition | Example |
+|------|------------|---------|
+| **Successor** | The best (primary) route to reach a destination, stored in the routing table. | If Router A can reach Network X via Router B with the lowest metric, Router B is the successor. |
+| **Feasible Successor (FS)** | A backup route that meets the Feasibility Condition (RD < FD). Stored in the topology table, used immediately if the successor fails. | Router C has a backup link to Network X with RD lower than FD of the successor route. |
+| **Feasible Distance (FD)** | The lowest total metric from the local router to the destination via the successor. | FD to Network X = 2560 |
+| **Reported Distance (RD)** | The metric from a neighbor to the destination, as reported to the local router. | RD from Router B to Network X = 1500 |
+| **Feasibility Condition (FC)** | Rule to determine if a neighbor’s route is loop-free: **RD < FD**. | If RD from Router C to Network X is 1200 and FD via successor is 2000 → FC met. |
+| **DUAL (Diffusing Update Algorithm)** | The algorithm EIGRP uses to calculate loop-free paths and provide fast convergence. | DUAL maintains both successor and feasible successor routes. |
+| **Topology Table** | A database of all learned routes, including successors and feasible successors, with their metrics. | `show ip eigrp topology` command displays this. |
+| **Passive State** | Indicates a stable route with no ongoing recalculation. | `P` in topology output. |
+| **Active State** | Indicates that DUAL is recalculating a route because the successor failed and no FS exists. Queries are sent to neighbors. | `A` in topology output. |
+| **Stuck in Active (SIA)** | A condition when a router does not receive replies to its queries within the hold time, causing neighbor reset. | Common cause: Network congestion or misconfigured neighbors. |
+
+
+
+## 📦 EIGRP Packet Flow
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Hello Packet Sent]
+    B --> C{Neighbor Found?}
+    C -- No --> B
+    C -- Yes --> D[Exchange Update Packet]
+    D --> E[Receive ACK]
+    E --> F{Topology Change?}
+    F -- No --> B
+    F -- Yes --> G[Send Query Packet]
+    G --> H[Neighbor Sends Reply]
+    H --> I[Update Routing Table]
+    I --> B
 ```
 
 
-## 5. STP Variants and Comparison
 
-| Protocol       | IEEE Standard | Vendor      | Characteristics                                        | Convergence Time | VLAN Support    |
-|----------------|---------------|-------------|--------------------------------------------------------|------------------|------------------|
-| **STP**        | 802.1D        | IEEE        | Classic protocol with long convergence times           | ~30–50 sec       | Single instance  |
-| **RSTP**       | 802.1w        | IEEE        | Rapid transitions, faster convergence                  | < 6 sec          | Single instance  |
-| **MSTP**       | 802.1s        | IEEE        | Multiple STP instances for VLAN groups (MSTI)          | Moderate         | Multi-VLAN       |
-| **PVST+**      | -             | Cisco       | One STP instance per VLAN                              | Medium           | Per VLAN         |
-| **Rapid PVST+**| -             | Cisco       | Rapid STP per VLAN                                     | Fast             | Per VLAN         |
 
-> MSTP is ideal for large-scale networks due to instance mapping of VLANs, reducing CPU overhead.
+
+
+
+
+
 
 
 
