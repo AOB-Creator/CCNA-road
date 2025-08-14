@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB43/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB44/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,116 +16,137 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🧠 Spanning Tree Protocols (STP) – Technical Documentation
+##  🔌 Link Aggregation (EtherChannel) in Cisco Packet Tracer
 
-Spanning Tree Protocol (STP) is a Layer 2 protocol defined by IEEE 802.1D that prevents loops in Ethernet networks by blocking redundant paths and ensuring a loop-free logical topology.
+## 1. What is Link Aggregation?
+**Link Aggregation** (EtherChannel) is the process of combining multiple physical links between two network devices into a **single logical link**.
 
----
-
-## 📘 Table of Contents
-- [What is STP?](#what-is-stp)
-- [How STP Works](#how-stp-works)
-- [Types of STP Protocols](#types-of-stp-protocols)
-- [STP Port States](#stp-port-states)
-- [Spanning Tree Path Cost Table](#spanning-tree-path-cost-table)
-- [Common STP Configuration Commands (Cisco)](#common-stp-configuration-commands-cisco)
-- [Advanced STP Concepts](#advanced-stp-concepts)
+### Benefits
+- **Increased Bandwidth**: Multiple links act as one.
+- **Redundancy & Fault Tolerance**: If one link fails, traffic is redistributed over others.
+- **Load Balancing**: Traffic is shared across links.
+- **Simplified Management**: Manage one logical interface instead of several.
 
 ---
 
-## 🔍 What is STP?
+## 2. Cisco EtherChannel Protocols
 
-Spanning Tree Protocol (STP) is designed to:
-- **Prevent Layer 2 loops**
-- **Provide path redundancy**
-- **Elect a Root Bridge** to manage the network tree
-
----
-
-## 🔁 How STP Works
-
-1. **Root Bridge Election** – Switch with the lowest Bridge ID becomes the Root Bridge.
-2. **Path Cost Calculation** – STP calculates the lowest-cost path to the Root Bridge.
-3. **Port Roles**:
-   - **Root Port (RP)** – Best path to the root
-   - **Designated Port (DP)** – Best forwarding port on a segment
-   - **Blocked Port** – Backup path to prevent loops
-
-4. **Port State Transitions**:
-   - `Blocking → Listening → Learning → Forwarding`
+| Protocol | Description | Mode Options | Notes |
+|----------|-------------|--------------|-------|
+| **PAgP** (Port Aggregation Protocol) | Cisco proprietary, auto-negotiates. | `auto`, `desirable` | Works only on Cisco devices. |
+| **LACP** (Link Aggregation Control Protocol, IEEE 802.3ad) | Open standard for multi-vendor. | `active`, `passive` | Recommended for multi-vendor. |
+| **On** (Static) | No negotiation protocol. | `on` | Both sides must match exactly. |
 
 ---
 
-## 🌱 Types of STP Protocols
-
-| Protocol         | IEEE Standard | Features                              | Convergence Time | Scalability |
-|------------------|----------------|----------------------------------------|------------------|-------------|
-| **STP**          | 802.1D         | Original version                       | 30–50 seconds    | Low         |
-| **RSTP**         | 802.1w         | Rapid convergence                      | ~6 seconds       | Medium      |
-| **MSTP**         | 802.1s         | Multiple VLAN instances                | Moderate         | High        |
-| **PVST+**        | Cisco          | Per VLAN STP                           | Medium           | Medium      |
-| **RPVST+**       | Cisco          | RSTP per VLAN                          | Fast             | Medium      |
-| **BPDU Guard**   | -              | Protects edge ports from rogue BPDUs   | -                | -           |
+## 3. Requirements for Link Aggregation
+- Same **speed** and **duplex** on all member interfaces.
+- Same **VLAN configuration** (access or trunk).
+- Same **allowed VLANs** if trunking.
+- Same **Spanning Tree settings**.
+- Both ends must use the **same protocol and mode**.
 
 ---
 
-## ⏱ STP Port States
+## 4. Link Aggregation Configuration in Cisco Packet Tracer
 
-| State       | Description                                   |
-|-------------|-----------------------------------------------|
-| **Blocking**   | Receives BPDUs only, no data forwarding       |
-| **Listening**  | Prepares for STP convergence                  |
-| **Learning**   | Learns MAC addresses, no forwarding yet       |
-| **Forwarding** | Normal operation, forwarding frames           |
-| **Disabled**   | Port is administratively or logically down    |
+### Example: LACP Between Two Switches
+**Scenario:**
+- Switch1 ports **Fa0/1** and **Fa0/2**
+- Switch2 ports **Fa0/1** and **Fa0/2**
+- Group into **Port-Channel 1**
+- Trunk with VLANs 10, 20, 30
 
----
-
-## 📐 Spanning Tree Path Cost Table
-
-| Link Speed | STP Cost |
-|------------|----------|
-| 10 Mbps    | 100      |
-| 100 Mbps   | 19       |
-| 1 Gbps     | 4        |
-| 10 Gbps    | 2        |
-
-> ℹ️ Lower cost means a more preferred path.
-
----
-
-## 🛠 Common STP Configuration Commands (Cisco)
-
+## Switch1:
 ```bash
-# Set STP priority to influence Root Bridge election
-spanning-tree vlan 10 priority 4096
+enable
+configure terminal
 
-# Set switch as root bridge for VLAN 10
-spanning-tree vlan 10 root primary
+interface range fa0/1 - 2
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+ channel-group 1 mode active
+exit
 
-# Enable Rapid Spanning Tree Protocol
-spanning-tree mode rapid-pvst
-
-# Configure PortFast for edge ports (access ports)
-interface FastEthernet0/1
- spanning-tree portfast
-
-# Enable BPDU Guard to protect edge ports
- spanning-tree bpduguard enable
+interface port-channel 1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
 ```
 
+## Switch1:
+```bash
+enable
+configure terminal
 
-## 5. STP Variants and Comparison
+interface range fa0/1 - 2
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+ channel-group 1 mode passive
+exit
 
-| Protocol       | IEEE Standard | Vendor      | Characteristics                                        | Convergence Time | VLAN Support    |
-|----------------|---------------|-------------|--------------------------------------------------------|------------------|------------------|
-| **STP**        | 802.1D        | IEEE        | Classic protocol with long convergence times           | ~30–50 sec       | Single instance  |
-| **RSTP**       | 802.1w        | IEEE        | Rapid transitions, faster convergence                  | < 6 sec          | Single instance  |
-| **MSTP**       | 802.1s        | IEEE        | Multiple STP instances for VLAN groups (MSTI)          | Moderate         | Multi-VLAN       |
-| **PVST+**      | -             | Cisco       | One STP instance per VLAN                              | Medium           | Per VLAN         |
-| **Rapid PVST+**| -             | Cisco       | Rapid STP per VLAN                                     | Fast             | Per VLAN         |
+interface port-channel 1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
 
-> MSTP is ideal for large-scale networks due to instance mapping of VLANs, reducing CPU overhead.
+channel-group 1 mode desirable
+channel-group 1 mode auto
+channel-group 1 mode on
+```
+
+## Verification Commands
+
+```bash
+
+show etherchannel summary       # Check Port-Channel status
+show running-config             # Verify configuration
+show interfaces port-channel 1  # Detailed interface info
+
+```
+
+## Common Issues & Troubleshooting for Link Aggregation (EtherChannel)
+
+This section covers common problems when configuring **EtherChannel** in Cisco Packet Tracer or real Cisco devices, along with solutions.
+
+---
+
+## Table of Common Problems
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| **Ports not bundling** | Speed/duplex mismatch between member interfaces. | Configure all member interfaces with the same settings: `speed 1000`, `duplex full`. |
+| **VLAN mismatch** | Allowed VLAN list differs on each side of the channel. | Match VLAN lists using `switchport trunk allowed vlan` on both sides. |
+| **Spanning Tree Protocol (STP) blocking ports** | EtherChannel not configured before enabling STP; STP sees separate physical links. | Configure EtherChannel first, then enable STP. |
+| **Protocol mismatch** | One side uses **LACP**, the other uses **PAgP**, or modes don’t match (e.g., `active` vs. `desirable`). | Ensure both ends use the same protocol and matching mode. |
+| **Port-channel mode mismatch** | Static mode (`on`) used on one side and dynamic mode on the other. | Match modes exactly on both sides. |
+| **Interfaces in different VLAN modes** | One interface is in access mode, another is in trunk mode. | Ensure all member interfaces have the same VLAN mode (all access or all trunk). |
+| **Member ports in err-disabled state** | Misconfiguration or physical errors cause ports to be shut down by the switch. | Use `shutdown` and `no shutdown` after fixing the config, or run `errdisable recovery cause channel-misconfig`. |
+
+---
+
+## Quick Troubleshooting Steps
+
+1. **Check EtherChannel Summary**
+   ```bash
+   show etherchannel summary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
