@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB43/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB46/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,117 +16,73 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🧠 Spanning Tree Protocols (STP) – Technical Documentation
+## 📡🌐 Multi-Protocol Inter-VLAN Routing and Redistribution Topology
 
-Spanning Tree Protocol (STP) is a Layer 2 protocol defined by IEEE 802.1D that prevents loops in Ethernet networks by blocking redundant paths and ensuring a loop-free logical topology.
-
----
-
-## 📘 Table of Contents
-- [What is STP?](#what-is-stp)
-- [How STP Works](#how-stp-works)
-- [Types of STP Protocols](#types-of-stp-protocols)
-- [STP Port States](#stp-port-states)
-- [Spanning Tree Path Cost Table](#spanning-tree-path-cost-table)
-- [Common STP Configuration Commands (Cisco)](#common-stp-configuration-commands-cisco)
-- [Advanced STP Concepts](#advanced-stp-concepts)
+## Overview
+This project demonstrates the integration of OSPF, RIP v2, and EIGRP routing protocols with VLAN segmentation and inter-VLAN routing at multiple sites. It includes full route redistribution between protocols for end-to-end connectivity.
 
 ---
 
-## 🔍 What is STP?
+## 1. OSPF Configuration Example (Router in OSPF Domain)
 
-Spanning Tree Protocol (STP) is designed to:
-- **Prevent Layer 2 loops**
-- **Provide path redundancy**
-- **Elect a Root Bridge** to manage the network tree
+```cisco
+hostname Router1
+router ospf 1
+ router-id 1.1.1.1
+ network 192.168.0.0 0.0.255.255 area 0
+ redistribute rip subnets
+ redistribute eigrp 1 subnets
+```
+## 2. RIP v2 Configuration Example (Redistribution Hub)
 
----
+```cisco
+hostname Router9
+router rip
+ version 2
+ no auto-summary
+ network 192.168.1.0
+ redistribute ospf 1 metric 1
+ redistribute eigrp 1 metric 1
+```
+## 3. EIGRP Configuration Example (Right Campus)
 
-## 🔁 How STP Works
+```cisco
+hostname Router17
+router eigrp 1
+ network 192.168.1.0 0.0.0.255
+ redistribute rip metric 10000 100 255 1 1500
+ redistribute ospf 1 metric 10000 100 255 1 1500
+```
+## 4. VLAN and Inter-VLAN Routing Example
 
-1. **Root Bridge Election** – Switch with the lowest Bridge ID becomes the Root Bridge.
-2. **Path Cost Calculation** – STP calculates the lowest-cost path to the Root Bridge.
-3. **Port Roles**:
-   - **Root Port (RP)** – Best path to the root
-   - **Designated Port (DP)** – Best forwarding port on a segment
-   - **Blocked Port** – Backup path to prevent loops
+```cisco
+! Router-on-a-stick example for VLAN 10, 20, 30
+interface GigabitEthernet0/0
+ no shutdown
+!
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+!
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
 
-4. **Port State Transitions**:
-   - `Blocking → Listening → Learning → Forwarding`
-
----
-
-## 🌱 Types of STP Protocols
-
-| Protocol         | IEEE Standard | Features                              | Convergence Time | Scalability |
-|------------------|----------------|----------------------------------------|------------------|-------------|
-| **STP**          | 802.1D         | Original version                       | 30–50 seconds    | Low         |
-| **RSTP**         | 802.1w         | Rapid convergence                      | ~6 seconds       | Medium      |
-| **MSTP**         | 802.1s         | Multiple VLAN instances                | Moderate         | High        |
-| **PVST+**        | Cisco          | Per VLAN STP                           | Medium           | Medium      |
-| **RPVST+**       | Cisco          | RSTP per VLAN                          | Fast             | Medium      |
-| **BPDU Guard**   | -              | Protects edge ports from rogue BPDUs   | -                | -           |
-
----
-
-## ⏱ STP Port States
-
-| State       | Description                                   |
-|-------------|-----------------------------------------------|
-| **Blocking**   | Receives BPDUs only, no data forwarding       |
-| **Listening**  | Prepares for STP convergence                  |
-| **Learning**   | Learns MAC addresses, no forwarding yet       |
-| **Forwarding** | Normal operation, forwarding frames           |
-| **Disabled**   | Port is administratively or logically down    |
-
----
-
-## 📐 Spanning Tree Path Cost Table
-
-| Link Speed | STP Cost |
-|------------|----------|
-| 10 Mbps    | 100      |
-| 100 Mbps   | 19       |
-| 1 Gbps     | 4        |
-| 10 Gbps    | 2        |
-
-> ℹ️ Lower cost means a more preferred path.
-
----
-
-## 🛠 Common STP Configuration Commands (Cisco)
-
-```bash
-# Set STP priority to influence Root Bridge election
-spanning-tree vlan 10 priority 4096
-
-# Set switch as root bridge for VLAN 10
-spanning-tree vlan 10 root primary
-
-# Enable Rapid Spanning Tree Protocol
-spanning-tree mode rapid-pvst
-
-# Configure PortFast for edge ports (access ports)
-interface FastEthernet0/1
- spanning-tree portfast
-
-# Enable BPDU Guard to protect edge ports
- spanning-tree bpduguard enable
 ```
 
-
-## 5. STP Variants and Comparison
-
-| Protocol       | IEEE Standard | Vendor      | Characteristics                                        | Convergence Time | VLAN Support    |
-|----------------|---------------|-------------|--------------------------------------------------------|------------------|------------------|
-| **STP**        | 802.1D        | IEEE        | Classic protocol with long convergence times           | ~30–50 sec       | Single instance  |
-| **RSTP**       | 802.1w        | IEEE        | Rapid transitions, faster convergence                  | < 6 sec          | Single instance  |
-| **MSTP**       | 802.1s        | IEEE        | Multiple STP instances for VLAN groups (MSTI)          | Moderate         | Multi-VLAN       |
-| **PVST+**      | -             | Cisco       | One STP instance per VLAN                              | Medium           | Per VLAN         |
-| **Rapid PVST+**| -             | Cisco       | Rapid STP per VLAN                                     | Fast             | Per VLAN         |
-
-> MSTP is ideal for large-scale networks due to instance mapping of VLANs, reducing CPU overhead.
-
+## 5. Verification Commands
+```cisco
+show ip route
+show ip ospf neighbor
+show ip eigrp neighbors
+show ip rip database
+ping <destination_ip>
+traceroute <destination_ip>
+```
 
 
 - **Email**: Send us your inquiries or support requests at [business.alpamis@gmail.com](mailto:business.alpamis@gmail.com).

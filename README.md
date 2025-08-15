@@ -95,6 +95,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 43 | Lab 43 | 🧠 Spanning Tree Protocols (STP) – Technical Documentation | [LAB43](./LAB43) |
 | 44 | Lab 44 | 🔌 Link Aggregation (EtherChannel) in Cisco Packet Tracer | [LAB44](./LAB44) |
 | 45 | Lab 45 | 🛰️ Enhanced Interior Gateway Routing Protocol (EIGRP) | [LAB45](./LAB45) |
+| 46 | Lab 46 | 📡🌐 Multi-Protocol Inter-VLAN Routing and Redistribution Topology | [LAB46](./LAB46) |
 
 
 ⭐ DHCP Server Configuration – Setup for dynamic IP address allocation
@@ -118,7 +119,7 @@ Network engineers are in demand across diverse sectors, including
 
 
 
-
+## 🎯 Target / achievement focus - 💲10K
 
 
 
