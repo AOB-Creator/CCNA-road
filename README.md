@@ -119,7 +119,7 @@ Network engineers are in demand across diverse sectors, including
 
 
 
-
+## 🎯 Target / achievement focus - 💲10K
 
 
 
