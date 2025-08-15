@@ -94,6 +94,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 42 | Lab 42 | ⭐ DHCP Server Configuration – Setup for dynamic IP address allocation| [LAB42](./LAB42) |
 | 43 | Lab 43 | 🧠 Spanning Tree Protocols (STP) – Technical Documentation | [LAB43](./LAB43) |
 | 44 | Lab 44 | 🔌 Link Aggregation (EtherChannel) in Cisco Packet Tracer | [LAB44](./LAB44) |
+| 45 | Lab 45 | 🛰️ Enhanced Interior Gateway Routing Protocol (EIGRP) | [LAB45](./LAB45) |
 
 
 ⭐ DHCP Server Configuration – Setup for dynamic IP address allocation
