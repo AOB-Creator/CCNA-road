@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB45/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB47/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -16,119 +16,96 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-## 🛰️ Enhanced Interior Gateway Routing Protocol (EIGRP)
 
-## 📖 Overview
-**EIGRP** is a Cisco-proprietary **hybrid routing protocol** (combines features of distance-vector and link-state) used to efficiently route IP packets within an autonomous system (AS). It’s designed for **fast convergence, scalability, and low bandwidth usage**.
 
-Introduced by Cisco in 1992, EIGRP uses the **Diffusing Update Algorithm (DUAL)** to ensure loop-free paths and rapid recovery from network topology changes.
+## 🌐 IPv6 and Static Routing Configuration
 
----
+### 📖 Overview
 
-## 🔑 Key Features
-- **Protocol Type:** Advanced Distance Vector (Hybrid)
-- **Administrative Distance:**
-  - **Internal routes:** 90
-  - **External routes:** 170
-- **Metric Calculation:** Composite metric using **Bandwidth, Delay, Reliability, Load, and MTU** (default uses only Bandwidth & Delay)
-- **Convergence:** Fast (DUAL ensures loop-free & backup routes)
-- **Transport:** Uses **RTP (Reliable Transport Protocol)** for guaranteed delivery of updates
-- **Routing Updates:** Incremental (partial) updates only to affected neighbors
-- **Classless Protocol:** Supports VLSM and CIDR
-- **Authentication:** Supports MD5 and SHA authentication
-- **Load Balancing:** Equal & Unequal cost (via `variance` command)
-- **Support for Multiple Protocols:** IPv4, IPv6, AppleTalk, IPX (legacy)
+This guide provides an introduction to IPv6 addressing and how to
+configure static routes on Cisco routers and Layer 3 switches. Static
+routing is often used in small networks, lab environments, or as a
+fallback to dynamic routing protocols.
 
----
+------------------------------------------------------------------------
 
-## ⚙️ EIGRP Packet Types
-EIGRP uses five packet types:
+## 🔑 IPv6 Basics
 
-| Packet Type | Purpose |
-|-------------|---------|
-| **Hello**   | Discover & maintain neighbor relationships |
-| **Update**  | Route changes sent reliably to neighbors |
-| **Query**   | Request information when no feasible successor exists |
-| **Reply**   | Response to a Query packet |
-| **ACK**     | Acknowledgement for Update, Query, and Reply packets |
+-   Address length: 128 bits (hexadecimal format).
+-   Notation: 8 groups of 16-bit hexadecimal numbers, separated by
+    colons.
+    -   Example: 2001:0db8:acad:0001:0000:0000:0000:0001
+-   Shortening rules:
+    -   Remove leading zeros: 2001:db8:acad:1::1
+    -   Use :: once to replace consecutive zeros.
 
----
+## 📌 IPv6 Address Types
 
-## 🧮 EIGRP Metric Formula
-```bash
-Metric = [ (10^7 / Minimum Bandwidth) + (Sum of Delays / 10) ] * 256
-```
+-   Global Unicast (2000::/3) → Public routable addresses.
+-   Link-local (FE80::/10) → Required on every interface, not routable
+    beyond the link.
+-   Unique Local (FC00::/7) → Private IPv6 addressing.
+-   Multicast (FF00::/8) → One-to-many communication.
+-   Anycast → One-to-nearest communication.
 
-- **Bandwidth** = Minimum bandwidth (kbps) along the path
-- **Delay** = Cumulative delay (microseconds) along the path
-- Reliability & Load can be included if explicitly configured
+------------------------------------------------------------------------
 
----
+## ⚙️ IPv6 Interface Configuration
 
-## 📡 Neighbor Relationships
-- Formed by exchanging **Hello packets** on interfaces
-- Default Hello & Hold Timers:
-  - Hello: 5 seconds (Ethernet, point-to-point) / 60 seconds (low-speed links)
-  - Hold: 15 seconds / 180 seconds (low-speed links)
-- Must match: **K-values**, AS number, subnet, authentication
+    # Enter interface configuration
+    R1(config)# interface gigabitethernet 0/0
+    R1(config-if)# ipv6 address 2001:DB8:ACAD:1::1/64
+    R1(config-if)# ipv6 enable
+    R1(config-if)# no shutdown
 
----
+Verify with:
 
-## 🛠️ Basic Configuration
-```cisco
-# Enable EIGRP
-router eigrp 100
- network 192.168.1.0 0.0.0.255
- no auto-summary
+    R1# show ipv6 interface brief
 
-# Optional tuning
-eigrp log-neighbor-changes
+------------------------------------------------------------------------
 
-```
+## 🚦 Static Routing in IPv6
 
-## 📋 Important Show Commands
+1. Directly Connected Static Route
 
-```shell
-show ip eigrp neighbors     # View neighbor relationships
-show ip eigrp topology      # View feasible successors & routes
-show ip route eigrp         # View EIGRP-learned routes
-```
+    R1(config)# ipv6 route 2001:DB8:ACAD:2::/64 gigabitethernet 0/1
 
-## 🔄 EIGRP Terminology
+2. Recursive Static Route (via Next-Hop IPv6 Address)
 
-EIGRP uses several key terms to describe its routing process:
+    R1(config)# ipv6 route 2001:DB8:ACAD:3::/64 2001:DB8:ACAD:2::2
 
-| Term | Definition | Example |
-|------|------------|---------|
-| **Successor** | The best (primary) route to reach a destination, stored in the routing table. | If Router A can reach Network X via Router B with the lowest metric, Router B is the successor. |
-| **Feasible Successor (FS)** | A backup route that meets the Feasibility Condition (RD < FD). Stored in the topology table, used immediately if the successor fails. | Router C has a backup link to Network X with RD lower than FD of the successor route. |
-| **Feasible Distance (FD)** | The lowest total metric from the local router to the destination via the successor. | FD to Network X = 2560 |
-| **Reported Distance (RD)** | The metric from a neighbor to the destination, as reported to the local router. | RD from Router B to Network X = 1500 |
-| **Feasibility Condition (FC)** | Rule to determine if a neighbor’s route is loop-free: **RD < FD**. | If RD from Router C to Network X is 1200 and FD via successor is 2000 → FC met. |
-| **DUAL (Diffusing Update Algorithm)** | The algorithm EIGRP uses to calculate loop-free paths and provide fast convergence. | DUAL maintains both successor and feasible successor routes. |
-| **Topology Table** | A database of all learned routes, including successors and feasible successors, with their metrics. | `show ip eigrp topology` command displays this. |
-| **Passive State** | Indicates a stable route with no ongoing recalculation. | `P` in topology output. |
-| **Active State** | Indicates that DUAL is recalculating a route because the successor failed and no FS exists. Queries are sent to neighbors. | `A` in topology output. |
-| **Stuck in Active (SIA)** | A condition when a router does not receive replies to its queries within the hold time, causing neighbor reset. | Common cause: Network congestion or misconfigured neighbors. |
+3. Fully Specified Static Route (interface + next-hop)
+
+    R1(config)# ipv6 route 2001:DB8:ACAD:4::/64 gigabitethernet 0/1 2001:DB8:ACAD:2::2
+
+4. Default Static Route (Gateway of Last Resort)
+
+    R1(config)# ipv6 route ::/0 2001:DB8:ACAD:2::2
+
+------------------------------------------------------------------------
+
+## 🔍 Verification Commands
+
+    R1# show ipv6 route
+    R1# ping ipv6 2001:DB8:ACAD:3::1
+    R1# traceroute ipv6 2001:DB8:ACAD:4::1
+
+------------------------------------------------------------------------
+
+## 📝 Best Practices
+
+-   Always configure link-local addresses automatically (FE80::/10).
+-   Use a default static route (::/0) for internet access.
+-   Combine static routing with dynamic protocols for redundancy.
+-   Document IPv6 addressing plans to avoid overlap.
 
 
 
-## 📦 EIGRP Packet Flow
 
-```mermaid
-flowchart TD
-    A[Start] --> B[Hello Packet Sent]
-    B --> C{Neighbor Found?}
-    C -- No --> B
-    C -- Yes --> D[Exchange Update Packet]
-    D --> E[Receive ACK]
-    E --> F{Topology Change?}
-    F -- No --> B
-    F -- Yes --> G[Send Query Packet]
-    G --> H[Neighbor Sends Reply]
-    H --> I[Update Routing Table]
-    I --> B
-```
+
+
+
+
 
 
 
