@@ -1,5 +1,5 @@
 <a name="top"></a>
-![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB47/image.png)
+![Timeline2_shutterstock_668209624](https://github.com/AOB-Creator/CCNA-road/blob/first-project/LAB48/image.png)
 [![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)]()
 [![CPU](https://img.shields.io/badge/CPU-x86%2C%20x64%2C%20ARM%2C%20ARM64-FF8C00)]()
 [![security rating](https://sonarcloud.io/api/project_badges/measure?project=Abblix_Oidc.Server&metric=security_rating)]()
@@ -18,103 +18,99 @@
 
 
 
-## 🌐 IPv6 and Static Routing Configuration
+## 🌐 IPv6 + OSPFv3 Configurations
 
-### 📖 Overview
+## Step 1: Enable IPv6 Routing
+On **every router**:
+```bash
+R(config)# ipv6 unicast-routing
+```
 
-This guide provides an introduction to IPv6 addressing and how to
-configure static routes on Cisco routers and Layer 3 switches. Static
-routing is often used in small networks, lab environments, or as a
-fallback to dynamic routing protocols.
+---
 
-------------------------------------------------------------------------
+## Step 2: Assign IPv6 Addresses
 
-## 🔑 IPv6 Basics
+### Example Topology
+- **R1 ↔ R2 link** → `fd00:12::/64`
+- **R1 LAN** → `fd00:1::/64`
+- **R2 LAN** → `fd00:2::/64`
 
--   Address length: 128 bits (hexadecimal format).
--   Notation: 8 groups of 16-bit hexadecimal numbers, separated by
-    colons.
-    -   Example: 2001:0db8:acad:0001:0000:0000:0000:0001
--   Shortening rules:
-    -   Remove leading zeros: 2001:db8:acad:1::1
-    -   Use :: once to replace consecutive zeros.
+### R1
+```bash
+R1(config)# interface g0/0
+R1(config-if)# ipv6 address fd00:1::1/64
+R1(config-if)# ipv6 ospf 10 area 0
+no shutdown
 
-## 📌 IPv6 Address Types
+R1(config)# interface g0/1
+R1(config-if)# ipv6 address fd00:12::1/64
+R1(config-if)# ipv6 ospf 10 area 0
+no shutdown
+```
 
--   Global Unicast (2000::/3) → Public routable addresses.
--   Link-local (FE80::/10) → Required on every interface, not routable
-    beyond the link.
--   Unique Local (FC00::/7) → Private IPv6 addressing.
--   Multicast (FF00::/8) → One-to-many communication.
--   Anycast → One-to-nearest communication.
+### R2
+```bash
+R2(config)# interface g0/0
+R2(config-if)# ipv6 address fd00:2::1/64
+R2(config-if)# ipv6 ospf 10 area 0
+no shutdown
 
-------------------------------------------------------------------------
+R2(config)# interface g0/1
+R2(config-if)# ipv6 address fd00:12::2/64
+R2(config-if)# ipv6 ospf 10 area 0
+no shutdown
+```
 
-## ⚙️ IPv6 Interface Configuration
+---
 
-    # Enter interface configuration
-    R1(config)# interface gigabitethernet 0/0
-    R1(config-if)# ipv6 address 2001:DB8:ACAD:1::1/64
-    R1(config-if)# ipv6 enable
-    R1(config-if)# no shutdown
+## Step 3: Enable OSPFv3 Process
+OSPFv3 requires a **router ID** (IPv4-style, 32-bit).
 
-Verify with:
+### R1
+```bash
+R1(config)# ipv6 router ospf 10
+R1(config-rtr)# router-id 1.1.1.1
+```
 
-    R1# show ipv6 interface brief
+### R2
+```bash
+R2(config)# ipv6 router ospf 10
+R2(config-rtr)# router-id 2.2.2.2
+```
 
-------------------------------------------------------------------------
+---
 
-## 🚦 Static Routing in IPv6
+## Step 4: Verify
+Check neighbors:
+```bash
+show ipv6 ospf neighbor
+```
 
-1. Directly Connected Static Route
+Check learned routes:
+```bash
+show ipv6 route ospf
+```
 
-    R1(config)# ipv6 route 2001:DB8:ACAD:2::/64 gigabitethernet 0/1
+Test connectivity:
+```bash
+ping fd00:2::10    ! from a host in R1 LAN to host in R2 LAN
+```
 
-2. Recursive Static Route (via Next-Hop IPv6 Address)
+---
 
-    R1(config)# ipv6 route 2001:DB8:ACAD:3::/64 2001:DB8:ACAD:2::2
+## Step 5: Host Configuration (Packet Tracer PCs)
+- **PC1 in R1 LAN**
+  - IPv6: `fd00:1::10/64`
+  - Gateway: `fd00:1::1`
+- **PC2 in R2 LAN**
+  - IPv6: `fd00:2::10/64`
+  - Gateway: `fd00:2::1`
 
-3. Fully Specified Static Route (interface + next-hop)
+Now both PCs can ping each other via OSPFv3-learned routes. ✅  
 
-    R1(config)# ipv6 route 2001:DB8:ACAD:4::/64 gigabitethernet 0/1 2001:DB8:ACAD:2::2
+---
 
-4. Default Static Route (Gateway of Last Resort)
-
-    R1(config)# ipv6 route ::/0 2001:DB8:ACAD:2::2
-
-------------------------------------------------------------------------
-
-## 🔍 Verification Commands
-
-    R1# show ipv6 route
-    R1# ping ipv6 2001:DB8:ACAD:3::1
-    R1# traceroute ipv6 2001:DB8:ACAD:4::1
-
-------------------------------------------------------------------------
-
-## 📝 Best Practices
-
--   Always configure link-local addresses automatically (FE80::/10).
--   Use a default static route (::/0) for internet access.
--   Combine static routing with dynamic protocols for redundancy.
--   Document IPv6 addressing plans to avoid overlap.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+⚡ Bonus: You can extend this to multiple routers — just keep assigning unique `/64` subnets and enable `ipv6 ospf <pid> area 0` on each interface.
 
 
 
