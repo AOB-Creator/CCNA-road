@@ -96,6 +96,8 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 44 | Lab 44 | 🔌 Link Aggregation (EtherChannel) in Cisco Packet Tracer | [LAB44](./LAB44) |
 | 45 | Lab 45 | 🛰️ Enhanced Interior Gateway Routing Protocol (EIGRP) | [LAB45](./LAB45) |
 | 46 | Lab 46 | 📡🌐 Multi-Protocol Inter-VLAN Routing and Redistribution Topology | [LAB46](./LAB46) |
+| 47 | Lab 47 | 🌐 IPv6 and Static Routing Configuration | [LAB47](./LAB47) |
+| 48 | Lab 48 | 🌐 IPv6 + OSPFv3 Configurations | [LAB48](./LAB48) |
 
 
 ⭐ DHCP Server Configuration – Setup for dynamic IP address allocation
