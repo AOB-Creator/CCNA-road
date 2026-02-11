@@ -16,8 +16,9 @@
 [![Share](https://img.shields.io/badge/share-0A66C2?logo=linkedin&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
+## 🛠️ Multi-VLAN Access + Trunk + L3 Routing Setup
 
-# 💡 Network Topology
+## 💡 Network Topology
  - 2 Multilayer (L3) Switches
  - 1 Router
  - 1 Layer 2 Switch behind the router
@@ -26,10 +27,10 @@
  - Each device uses different VLANs
  - Goal: End-to-end inter-VLAN communication (ping between networks
 ---
-# ✅ Objective
+## ✅ Objective
 Ensure devices in different VLANs and across all switches (even behind the router) can ping each other.
 
-# 🧠 Key Concepts
+## 🧠 Key Concepts
 - L3 Switches handle VLAN routing (SVI)
 - Router used to reach external networks (inter-switch or access layer)
 - Trunk ports carry VLANs between switches/router
