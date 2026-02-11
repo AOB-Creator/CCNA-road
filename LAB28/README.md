@@ -21,7 +21,7 @@
 
 Summary routing (also called route summarization or supernetting) is the process of combining multiple IP routes into a single summarized (aggregate) route. It's used in large networks to simplify routing tables and improve efficiency.
 
-## ✅ Why use Summary Routing?
+## 🚦 Reducing Routing Table with /22 Summary
 
    - Reduces size of routing tables
    - Speeds up routing lookups
