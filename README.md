@@ -74,12 +74,12 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 22 | Lab 22 | 🔷 VTP – VLAN Trunking Protocol | [LAB22](./LAB22) |
 | 23 | Lab 23 | 📡 Interconnected VLANs over Bus Topology with VTP and Multilayer Switches | [LAB23](./LAB23) |
 | 24 | Lab 24 | 🧪 VLAN Routing Lab – Cisco Packet Tracer (3 Methods) | [LAB24](./LAB24) |
-| 25 | Lab 25 | *Add description here* | [LAB25](./LAB25) |
-| 26 | Lab 26 | *Add description here* | [LAB26](./LAB26) |
+| 25 | Lab 25 | 🛡️ Default / Data / Management / Native VLAN Concepts | [LAB25](./LAB25) |
+| 26 | Lab 26 | 🛠️ Multi-VLAN Access + Trunk + L3 Routing Setup | [LAB26](./LAB26) |
 | 27 | Lab 27 | *Add description here* | [LAB27](./LAB27) |
-| 28 | Lab 28 | *Add description here* | [LAB28](./LAB28) |
-| 29 | Lab 29 | *Add description here* | [LAB29](./LAB29) |
-| 30 | Lab 30 | *Add description here* | [LAB30](./LAB30) |
+| 28 | Lab 28 | 🚦 Reducing Routing Table with /22 Summary | [LAB28](./LAB28) |
+| 29 | Lab 29 | 📌 Route Summarization & CIDR Aggregation | [LAB29](./LAB29) |
+| 30 | Lab 30 | 🔹 Enabling Static Routing | [LAB30](./LAB30) |
 | 31 | Lab 31 | 🌐 RIP (Routing Information Protocol) – Overview | [LAB31](./LAB31) |
 | 32 | Lab 32 | 🔁 OSPF (Open Shortest Path First) Routing – Overview and Configuration Guide | [LAB32](./LAB32) |
 | 33 | Lab 33 | 🛰️ Mastering OSPF: ABR, ASBR, LSDB, SPF, and More | [LAB33](./LAB33) |
