@@ -19,7 +19,7 @@
 [![Share](https://img.shields.io/badge/share-FF4500?logo=reddit&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 [![Share](https://img.shields.io/badge/share-0088CC?logo=telegram&logoColor=white)](https://github.com/AOB-Creator/CCNA-road)
 
-# 🔹 Enabling Static Routing
+# 📌 Route Summarization & CIDR Aggregation
 
 At this point, we know what the routing function is all about. Routers will maintain intelligence of the network topology and forward packets based on destinations, selecting the best path across that topology. That intelligence of the topology and changes in the topology are maintained statically or dynamically.
 
