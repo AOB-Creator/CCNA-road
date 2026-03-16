@@ -50,7 +50,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 
 | Lab No. | Lab Name | Description | Folder Link |
 |--------:|----------|-------------|--------------|
-| 1  | Lab 01 | *References for all Labs* | [LAB01](./LAB01) |
+| 1  | Lab 01 | 🦎 References for all Labs | [LAB01](./LAB01) |
 | 2  | Lab 02 | 🧰 Foundational Switch Configuration Lab (Hostname, Passwords, VLAN Interface) | [LAB02](./LAB02) |
 | 3  | Lab 03 | 🔌 Layer 2 Networking Lab: Switches, Hubs & Hosts Configuration and TELNET | [LAB03](./LAB03) |
 | 4  | Lab 04 | 🧠 MAC Learning & ARP Resolution in a Multi-Switch Ethernet Lab | [LAB04](./LAB04) |
@@ -95,7 +95,7 @@ This repository contains 31 hands-on labs. Each lab focuses on a different conce
 | 43 | Lab 43 | 🧠 Spanning Tree Protocols (STP) – Technical Documentation | [LAB43](./LAB43) |
 | 44 | Lab 44 | 🔌 Link Aggregation (EtherChannel) in Cisco Packet Tracer | [LAB44](./LAB44) |
 | 45 | Lab 45 | 🛰️ Enhanced Interior Gateway Routing Protocol (EIGRP) | [LAB45](./LAB45) |
-| 46 | Lab 46 | 📡🌐 Multi-Protocol Inter-VLAN Routing and Redistribution Topology | [LAB46](./LAB46) |
+| 46 | Lab 46 | 📡 Multi-Protocol Inter-VLAN Routing and Redistribution Topology | [LAB46](./LAB46) |
 | 47 | Lab 47 | 🌐 IPv6 and Static Routing Configuration | [LAB47](./LAB47) |
 | 48 | Lab 48 | 🌐 IPv6 + OSPFv3 Configurations | [LAB48](./LAB48) |
 
